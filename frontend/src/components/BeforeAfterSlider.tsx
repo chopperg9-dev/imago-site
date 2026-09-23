@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { animate, motion, useMotionValue, useSpring, useTransform } from "motion/react";
 
 const HERO_BEFORE =
-  "https://static.prod-images.emergentagent.com/jobs/4ce74442-beb6-4a2a-a71b-521399fd659c/images/a0738a7e1b57180aae82488ddbf7f2c8b6d72444774a20e3d2981dbe0b14297b.jpeg";
+  "https://static.prod-images.emergentagent.com/jobs/4ce74442-beb6-4a2a-a71b-521399fd659c/images/aec5b7a3e4ce32fdab65bb47b4352ba3effd1f52422a0d78b56311e31281ae73.jpeg";
 const HERO_AFTER =
-  "https://static.prod-images.emergentagent.com/jobs/4ce74442-beb6-4a2a-a71b-521399fd659c/images/64c40c8c96367c0935af42c6b0b64b1c42559e95e694c1c48f5f075cad619dbc.jpeg";
+  "https://static.prod-images.emergentagent.com/jobs/4ce74442-beb6-4a2a-a71b-521399fd659c/images/d672d9ea803540f358674dfcc38d49970a87f7932571b56acfc4cac3cd0af2eb.jpeg";
 
 export default function BeforeAfterSlider() {
   const ref = useRef<HTMLDivElement>(null);
