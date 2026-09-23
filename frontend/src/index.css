@@ -1,0 +1,162 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+    --color-cream: #FAF7F2;
+    --color-sand: #F3EDE2;
+    --color-stage: #EDE4D6;
+    --color-clay: #2C221E;
+    --color-clay-soft: #73645C;
+    --color-terra: #C85A32;
+    --color-terra-dark: #B34A24;
+    --color-terra-deep: #9E3C1B;
+    --color-terra-soft: #FBEBE4;
+    --color-sage: #5E7A68;
+    --color-sage-deep: #3B5544;
+    --color-sage-soft: #EEF3EF;
+    --color-ink: #1E1815;
+    --color-mustard: #D9A441;
+    --font-heading: 'Frank Ruhl Libre', 'Heebo', serif;
+    --font-sans: 'Heebo', 'Arial', sans-serif;
+}
+
+@theme inline {
+    --color-sidebar-ring: var(--sidebar-ring);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar: var(--sidebar);
+    --color-chart-5: var(--chart-5);
+    --color-chart-4: var(--chart-4);
+    --color-chart-3: var(--chart-3);
+    --color-chart-2: var(--chart-2);
+    --color-chart-1: var(--chart-1);
+    --color-ring: var(--ring);
+    --color-input: var(--input);
+    --color-border: var(--border);
+    --color-destructive: var(--destructive);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-accent: var(--accent);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-muted: var(--muted);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-secondary: var(--secondary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-primary: var(--primary);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-popover: var(--popover);
+    --color-card-foreground: var(--card-foreground);
+    --color-card: var(--card);
+    --color-foreground: var(--foreground);
+    --color-background: var(--background);
+    --radius-sm: calc(var(--radius) * 0.6);
+    --radius-md: calc(var(--radius) * 0.8);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) * 1.4);
+    --radius-2xl: calc(var(--radius) * 1.8);
+    --radius-3xl: calc(var(--radius) * 2.2);
+    --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+    --background: #FAF7F2;
+    --foreground: #2C221E;
+    --card: #FFFFFF;
+    --card-foreground: #2C221E;
+    --popover: #FFFFFF;
+    --popover-foreground: #2C221E;
+    --primary: #C85A32;
+    --primary-foreground: #FFFFFF;
+    --secondary: #F3EDE2;
+    --secondary-foreground: #2C221E;
+    --muted: #F3EDE2;
+    --muted-foreground: #73645C;
+    --accent: #FBEBE4;
+    --accent-foreground: #9E3C1B;
+    --destructive: #B91C1C;
+    --border: rgba(44, 34, 30, 0.1);
+    --input: rgba(44, 34, 30, 0.16);
+    --ring: #C85A32;
+    --chart-1: #C85A32;
+    --chart-2: #5E7A68;
+    --chart-3: #D9A441;
+    --chart-4: #73645C;
+    --chart-5: #2C221E;
+    --radius: 0.875rem;
+    --sidebar: #F3EDE2;
+    --sidebar-foreground: #2C221E;
+    --sidebar-primary: #C85A32;
+    --sidebar-primary-foreground: #FFFFFF;
+    --sidebar-accent: #FBEBE4;
+    --sidebar-accent-foreground: #9E3C1B;
+    --sidebar-border: rgba(44, 34, 30, 0.1);
+    --sidebar-ring: #C85A32;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  html {
+    @apply font-sans;
+    scroll-behavior: auto;
+  }
+  ::selection {
+    background: #C85A32;
+    color: #FFFFFF;
+  }
+  h1, h2, h3, .font-heading {
+    font-family: var(--font-heading);
+  }
+}
+
+@layer utilities {
+  .grain::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to { transform: translateX(50%); }
+}
+
+@keyframes float-soft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-marquee {
+  animation: marquee-x 36s linear infinite;
+}
+
+.animate-float {
+  animation: float-soft 6s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 14s linear infinite;
+}

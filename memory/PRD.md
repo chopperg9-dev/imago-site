@@ -1,0 +1,34 @@
+# Buba 3D — PRD
+
+## Original problem statement
+Hebrew RTL e-commerce site for Buba 3D selling 3D-printed dolls kids paint at home: before/after hero story (white doll → painted), warm premium style (off-white, terracotta, elegant Hebrew type), shop with categories + product cards + detail pages, cart + checkout, About/FAQ/Contact/Shipping/Returns/Privacy/Terms, and a personalized superhero experience: parent uploads child photos → Meshy-style workflow → on-page preview before ordering, with upload guidance, processing states, preview approval and purchase path. Responsive, mobile-first, accessible, SEO-friendly, Meshy credentials wired securely via env.
+
+## User choices (ask_human skipped → defaults)
+- Meshy workflow: mocked pipeline stages, structured for real MESHY_API_KEY (backend/lib/meshy.py)
+- Preview image: REAL AI generation via Gemini Nano Banana (EMERGENT_LLM_KEY), fallback sample image
+- Checkout: simulated (orders saved, no real charge)
+- Language: Hebrew RTL, brand name in Latin
+- Uploads: server-side under backend/uploads, served via /api/uploads
+
+## Architecture
+- Backend `/app/backend/server.py`: /api/products, /api/products/{id}, /api/categories, /api/orders, /api/contact, /api/superhero/jobs (multipart upload, POST+GET+approve). Products seeded idempotently at lifespan. Superhero pipeline = asyncio background task with staged progress + Nano Banana image-edit preview saved to uploads/previews. `lib/meshy.py` = real Meshy client stub, enabled when MESHY_API_KEY set in backend/.env.
+- Frontend: React 19 + Tailwind v4 + motion + lenis. RTL (`dir="rtl"`, lang="he"), Frank Ruhl Libre + Heebo via Google Fonts link. Cart = localStorage context (`src/lib/cart.tsx`). Design tokens per /app/design_guidelines.json (cream #FAF7F2, terra #C85A32, clay #2C221E, sage).
+
+## Personas
+- Parent buying a creative screen-free gift
+- Parent creating a one-off personalized superhero from their child's photos
+
+## Implemented (2026-09-23)
+- Kinetic hero: masked line-by-line reveal, draggable before/after slider (auto-animates), 3D tilt, parallax, floating stat card
+- Slow editorial marquee, numbered manifesto chapters (01/02/03), testimonials, CTA bands
+- Shop: 9 products, 6 categories, sticky filter chips, quick-add
+- Product detail: difficulty badge, kit contents, qty stepper, related products
+- Cart + checkout: free-shipping meter (₪199), courier/pickup, order confirmation (B3D-XXXXXX), orders persisted
+- Superhero lab: 1–4 photo upload + guidance, cape color + pose pickers, staged processing UI, real AI preview, approve → add to cart (₪349)
+- About / FAQ (animated accordion) / Contact (API-backed) / Shipping / Returns / Privacy / Terms
+- Verified: curl smoke (all endpoints + 404 case), full superhero job e2e, yarn typecheck clean, screenshots home/shop
+
+## Backlog
+- P0: real Meshy image-to-3D once MESHY_API_KEY provided; real payments (Stripe)
+- P1: admin orders dashboard; email confirmations (Resend); auto-delete uploaded photos after 14 days (cron)
+- P2: bundle offer (3 dolls + free kit), promo codes, product reviews, Instagram feed
