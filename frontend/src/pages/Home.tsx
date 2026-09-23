@@ -1,13 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform } from "motion/react";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, Leaf, Palette, Shield, Sparkles, Star, Truck } from "lucide-react";
 import { apiGet } from "@/lib/api";
 import type { Product } from "@/lib/types";
 import BeforeAfterSlider from "@/components/BeforeAfterSlider";
+import MagneticButton from "@/components/MagneticButton";
 import Marquee from "@/components/Marquee";
+import PaintTrail from "@/components/PaintTrail";
 import ProductCard from "@/components/ProductCard";
+import SectionTitle from "@/components/SectionTitle";
+import SpinBadge from "@/components/SpinBadge";
 import { FadeIn, HeroLine, Reveal } from "@/components/Reveal";
 
 const SUPERHERO_SAMPLE =
@@ -51,99 +55,117 @@ export default function Home() {
     queryKey: ["products"],
     queryFn: () => apiGet<Product[]>("/products"),
   });
-  const featured = (products ?? []).filter((p) => p.featured).slice(0, 4);
+  const shelf = [...(products ?? [])].sort((a, b) => Number(b.featured) - Number(a.featured));
 
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const visualY = useTransform(scrollYProgress, [0, 1], [0, 90]);
   const textY = useTransform(scrollYProgress, [0, 1], [0, -50]);
+  const watermarkX = useTransform(scrollYProgress, [0, 1], [0, -280]);
 
   return (
     <div data-testid="home-page">
       <section ref={heroRef} className="relative overflow-hidden">
+        <motion.p
+          aria-hidden="true"
+          style={{ x: watermarkX }}
+          className="text-outline pointer-events-none absolute top-4 right-0 z-0 select-none whitespace-nowrap font-heading text-[24vw] leading-none"
+        >
+          IMAGO
+        </motion.p>
         <div className="pointer-events-none absolute -top-24 -left-24 h-96 w-96 rounded-full bg-terra-soft blur-3xl" />
         <div className="pointer-events-none absolute top-40 -right-32 h-80 w-80 rounded-full bg-sage-soft blur-3xl" />
 
-        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-14 px-4 pt-14 pb-20 sm:px-6 lg:grid-cols-12 lg:gap-10 lg:px-8 lg:pt-20 lg:pb-28">
-          <motion.div style={{ y: textY }} className="lg:col-span-6">
-            <FadeIn>
-              <span className="inline-flex items-center gap-2 rounded-full border border-terra/30 bg-terra-soft px-4 py-1.5 text-xs font-semibold text-terra-deep">
-                <Sparkles className="h-3.5 w-3.5" />
-                בובות הדפסה תלת־ממדית לצביעה בבית
+        <PaintTrail className="relative">
+          <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-14 px-4 pt-14 pb-24 sm:px-6 lg:grid-cols-12 lg:gap-10 lg:px-8 lg:pt-20 lg:pb-32">
+            <motion.div style={{ y: textY }} className="lg:col-span-6">
+              <FadeIn>
+                <span className="inline-flex -rotate-2 items-center gap-2 rounded-full border border-terra/30 bg-terra-soft px-4 py-1.5 text-xs font-semibold text-terra-deep shadow-sm">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  בובות הדפסה תלת־ממדית לצביעה בבית
+                </span>
+              </FadeIn>
+
+              <h1 className="mt-7 font-heading text-4xl font-black leading-[1.12] tracking-tight sm:text-5xl lg:text-6xl">
+                <HeroLine delay={0.15}>כל בובה לבנה</HeroLine>
+                <HeroLine delay={0.3}>היא סיפור קטן</HeroLine>
+                <HeroLine delay={0.45}>
+                  שמחכה <span className="text-terra">לצבע.</span>
+                </HeroLine>
+              </h1>
+
+              <FadeIn delay={0.7}>
+                <p className="mt-7 max-w-xl text-base leading-8 text-clay-soft sm:text-lg sm:leading-9">
+                  ב־IMAGO אנחנו מדפיסים בובות דמויות ויניל מ־PLA אקולוגי ושולחים אותן הביתה עם צבעי
+                  אקריליק בטוחים ומכחולים — והילדים הופכים אותן ליצירת אמנות שאין לאף אחד אחר.
+                </p>
+              </FadeIn>
+
+              <FadeIn delay={0.85}>
+                <div className="mt-9 flex flex-wrap items-center gap-5">
+                  <MagneticButton>
+                    <Link
+                      to="/shop"
+                      data-testid="hero-shop-cta"
+                      className="group inline-flex items-center gap-2 rounded-full bg-terra px-8 py-4 text-sm font-bold text-white transition-colors hover:bg-terra-dark active:scale-95"
+                    >
+                      לחנות הבובות
+                      <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+                    </Link>
+                  </MagneticButton>
+                  <MagneticButton>
+                    <Link
+                      to="/superhero"
+                      data-testid="hero-superhero-cta"
+                      className="inline-flex items-center gap-2 rounded-full border-2 border-clay px-8 py-[14px] text-sm font-bold transition-colors hover:border-terra hover:text-terra active:scale-95"
+                    >
+                      <Shield className="h-4 w-4" />
+                      גיבור־העל האישי
+                    </Link>
+                  </MagneticButton>
+                </div>
+              </FadeIn>
+
+              <FadeIn delay={1}>
+                <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-xs font-medium text-clay-soft">
+                  <span className="inline-flex items-center gap-1.5"><Leaf className="h-4 w-4 text-sage" /> PLA אקולוגי ובטוח</span>
+                  <span className="inline-flex items-center gap-1.5"><Palette className="h-4 w-4 text-terra" /> כולל ערכת צבעים</span>
+                  <span className="inline-flex items-center gap-1.5"><Truck className="h-4 w-4 text-mustard" /> משלוח חינם מעל ₪199</span>
+                </div>
+              </FadeIn>
+            </motion.div>
+
+            <motion.div
+              style={{ y: visualY }}
+              initial={{ opacity: 0, scale: 0.94, rotate: -3 }}
+              animate={{ opacity: 1, scale: 1, rotate: -1.5 }}
+              transition={{ duration: 1.1, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ rotate: 0 }}
+              className="relative lg:col-span-6"
+            >
+              <BeforeAfterSlider />
+              <SpinBadge className="absolute -top-7 -left-4 z-20 hidden sm:block" />
+              <span className="animate-float absolute -bottom-5 left-10 z-20 rotate-3 rounded-full bg-mustard px-4 py-2 text-xs font-bold text-ink shadow-lg">
+                זזו עם העכבר — הצבע עף
               </span>
-            </FadeIn>
-
-            <h1 className="mt-7 font-heading text-4xl font-black leading-[1.12] tracking-tight sm:text-5xl lg:text-6xl">
-              <HeroLine delay={0.15}>כל בובה לבנה</HeroLine>
-              <HeroLine delay={0.3}>היא סיפור קטן</HeroLine>
-              <HeroLine delay={0.45}>
-                שמחכה <span className="text-terra">לצבע.</span>
-              </HeroLine>
-            </h1>
-
-            <FadeIn delay={0.7}>
-              <p className="mt-7 max-w-xl text-base leading-8 text-clay-soft sm:text-lg sm:leading-9">
-                ב־IMAGO אנחנו מדפיסים בובות דמויות ויניל מ־PLA אקולוגי ושולחים אותן הביתה עם צבעי
-                אקריליק בטוחים ומכחולים — והילדים הופכים אותן ליצירת אמנות שאין לאף אחד אחר.
-              </p>
-            </FadeIn>
-
-            <FadeIn delay={0.85}>
-              <div className="mt-9 flex flex-wrap items-center gap-4">
-                <Link
-                  to="/shop"
-                  data-testid="hero-shop-cta"
-                  className="group inline-flex items-center gap-2 rounded-full bg-terra px-8 py-4 text-sm font-bold text-white transition-all hover:bg-terra-dark active:scale-95"
-                >
-                  לחנות הבובות
-                  <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
-                </Link>
-                <Link
-                  to="/superhero"
-                  data-testid="hero-superhero-cta"
-                  className="inline-flex items-center gap-2 rounded-full border-2 border-clay px-8 py-[14px] text-sm font-bold transition-all hover:border-terra hover:text-terra active:scale-95"
-                >
-                  <Shield className="h-4 w-4" />
-                  גיבור־העל האישי
-                </Link>
-              </div>
-            </FadeIn>
-
-            <FadeIn delay={1}>
-              <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-xs font-medium text-clay-soft">
-                <span className="inline-flex items-center gap-1.5"><Leaf className="h-4 w-4 text-sage" /> PLA אקולוגי ובטוח</span>
-                <span className="inline-flex items-center gap-1.5"><Palette className="h-4 w-4 text-terra" /> כולל ערכת צבעים</span>
-                <span className="inline-flex items-center gap-1.5"><Truck className="h-4 w-4 text-mustard" /> משלוח חינם מעל ₪199</span>
-              </div>
-            </FadeIn>
-          </motion.div>
-
-          <motion.div
-            style={{ y: visualY }}
-            initial={{ opacity: 0, scale: 0.94 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.1, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-6"
-          >
-            <BeforeAfterSlider />
-          </motion.div>
-        </div>
+            </motion.div>
+          </div>
+        </PaintTrail>
       </section>
 
       <Marquee />
 
       <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8 lg:py-32" aria-labelledby="how-title">
-        <Reveal>
-          <p className="text-xs font-bold tracking-[0.2em] text-terra">איך זה עובד</p>
-          <h2 id="how-title" className="mt-3 font-heading text-3xl font-black sm:text-4xl">
-            שלושה צעדים ליצירת מופת
-          </h2>
-        </Reveal>
+        <SectionTitle kicker="איך זה עובד" title={<span id="how-title">שלושה צעדים ליצירת מופת</span>} />
         <div className="mt-14 grid grid-cols-1 gap-8 md:grid-cols-3">
           {CHAPTERS.map((chapter, i) => (
             <Reveal key={chapter.num} delay={i * 0.15}>
-              <div className="group relative h-full rounded-3xl border border-clay/10 bg-white p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-                <p className="font-heading text-6xl font-black text-terra-soft transition-colors group-hover:text-terra/30">
+              <div
+                className={`group relative h-full rounded-3xl border border-clay/10 bg-white p-8 transition-all duration-300 hover:-translate-y-2 hover:rotate-0 hover:shadow-xl ${
+                  i % 2 === 0 ? "-rotate-1" : "rotate-1"
+                }`}
+              >
+                <p className="text-outline-terra font-heading text-7xl font-black transition-all duration-300 group-hover:scale-110">
                   {chapter.num}
                 </p>
                 <h3 className="mt-5 font-heading text-xl font-bold">{chapter.title}</h3>
@@ -154,35 +176,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8 lg:pb-32" aria-labelledby="featured-title">
-        <Reveal className="flex items-end justify-between gap-6">
-          <div>
-            <p className="text-xs font-bold tracking-[0.2em] text-terra">החנות</p>
-            <h2 id="featured-title" className="mt-3 font-heading text-3xl font-black sm:text-4xl">
-              הבובות האהובות על הילדים
-            </h2>
-          </div>
-          <Link
-            to="/shop"
-            data-testid="featured-all-products-link"
-            className="hidden shrink-0 items-center gap-2 text-sm font-bold text-terra transition-colors hover:text-terra-dark sm:inline-flex"
-          >
-            לכל הבובות <ArrowLeft className="h-4 w-4" />
-          </Link>
-        </Reveal>
-        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
-          {featured.map((product, i) => (
-            <Reveal key={product.id} delay={i * 0.1}>
-              <ProductCard product={product} />
-            </Reveal>
-          ))}
-        </div>
-        <div className="mt-10 text-center sm:hidden">
-          <Link to="/shop" className="text-sm font-bold text-terra">
-            לכל הבובות ←
-          </Link>
-        </div>
-      </section>
+      <ProductShelf products={shelf} />
 
       <section className="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8 lg:pb-32">
         <Reveal>
@@ -235,11 +229,7 @@ export default function Home() {
       </section>
 
       <section className="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8 lg:pb-32" aria-labelledby="testimonials-title">
-        <Reveal>
-          <h2 id="testimonials-title" className="text-center font-heading text-3xl font-black sm:text-4xl">
-            משפחות שכבר צבעו
-          </h2>
-        </Reveal>
+        <SectionTitle center title={<span id="testimonials-title">משפחות שכבר צבעו</span>} />
         <div className="mt-14 grid grid-cols-1 gap-8 md:grid-cols-3">
           {TESTIMONIALS.map((t, i) => (
             <Reveal key={t.name} delay={i * 0.12}>
@@ -275,5 +265,85 @@ export default function Home() {
         </div>
       </section>
     </div>
+  );
+}
+
+function ProductShelf({ products }: { products: Product[] }) {
+  const targetRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [isDesktop, setIsDesktop] = useState(false);
+  const [distance, setDistance] = useState(0);
+
+  useEffect(() => {
+    const measure = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+      if (trackRef.current) {
+        setDistance(Math.max(0, trackRef.current.scrollWidth - window.innerWidth + 96));
+      }
+    };
+    measure();
+    const timer = setTimeout(measure, 600);
+    window.addEventListener("resize", measure);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", measure);
+    };
+  }, [products]);
+
+  const { scrollYProgress } = useScroll({ target: targetRef, offset: ["start start", "end end"] });
+  const x = useTransform(scrollYProgress, [0, 1], [0, distance]);
+
+  const header = (
+    <div className="flex items-end justify-between gap-6 px-4 sm:px-6 lg:px-8">
+      <SectionTitle kicker="החנות" title="גללו — המדף זז" />
+      <Link
+        to="/shop"
+        data-testid="shelf-all-products-link"
+        className="hidden shrink-0 items-center gap-2 pb-2 text-sm font-bold text-terra transition-colors hover:text-terra-dark sm:inline-flex"
+      >
+        לכל הבובות <ArrowLeft className="h-4 w-4" />
+      </Link>
+    </div>
+  );
+
+  const row = (
+    <motion.div
+      ref={trackRef}
+      style={isDesktop ? { x } : undefined}
+      className="mt-12 flex w-full snap-x gap-6 overflow-x-auto px-4 pb-6 sm:px-6 lg:w-max lg:gap-8 lg:overflow-visible lg:px-8"
+    >
+      {products.map((product) => (
+        <div key={product.id} className="w-72 shrink-0 snap-start sm:w-80">
+          <ProductCard product={product} />
+        </div>
+      ))}
+      <Link
+        to="/shop"
+        className="flex w-56 shrink-0 snap-start flex-col items-center justify-center gap-4 rounded-3xl border-2 border-dashed border-terra/40 bg-terra-soft/50 text-center transition-all hover:-translate-y-2 hover:border-terra"
+      >
+        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-terra text-white">
+          <ArrowLeft className="h-6 w-6" />
+        </span>
+        <span className="font-heading text-xl font-bold text-terra-deep">לכל הבובות</span>
+      </Link>
+    </motion.div>
+  );
+
+  if (!isDesktop) {
+    return (
+      <section className="mx-auto max-w-7xl py-16" aria-label="מדף הבובות">
+        {header}
+        {row}
+      </section>
+    );
+  }
+
+  return (
+    <section ref={targetRef} className="relative h-[280vh]" aria-label="מדף הבובות">
+      <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden">
+        {header}
+        {row}
+      </div>
+    </section>
   );
 }

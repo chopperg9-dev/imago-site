@@ -19,8 +19,8 @@ export default function Marquee() {
     </>
   );
   return (
-    <div dir="ltr" className="overflow-hidden border-y border-clay/10 bg-sand py-4" aria-hidden="true">
-      <div className="animate-marquee flex w-max" style={{ direction: "ltr" }}>
+    <div dir="ltr" className="overflow-hidden border-y border-clay/10 bg-sand py-4 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]" aria-hidden="true">
+      <div className="animate-marquee flex w-max hover:[animation-play-state:paused]" style={{ direction: "ltr" }}>
         <div className="flex">{row}</div>
         <div className="flex">{row}</div>
       </div>

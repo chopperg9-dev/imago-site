@@ -21,7 +21,7 @@ export default function ProductCard({ product }: { product: Product }) {
   return (
     <article
       data-testid={`product-card-${product.id}`}
-      className="group relative flex flex-col overflow-hidden rounded-3xl border border-clay/10 bg-white transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_48px_-20px_rgba(44,34,30,0.3)]"
+      className="group relative flex flex-col overflow-hidden rounded-3xl border border-clay/10 bg-white transition-all duration-300 hover:-translate-y-2 hover:-rotate-1 hover:shadow-[0_24px_48px_-20px_rgba(44,34,30,0.3)]"
     >
       <Link to={`/product/${product.id}`} data-testid={`product-link-${product.id}`} className="block">
         <div className="relative aspect-square overflow-hidden bg-sand">
@@ -29,7 +29,7 @@ export default function ProductCard({ product }: { product: Product }) {
             src={product.image}
             alt={product.name}
             loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:rotate-1 group-hover:scale-110"
           />
           <span
             className={`absolute top-3 right-3 rounded-full px-2.5 py-1 text-[11px] font-semibold ${DIFFICULTY_STYLE[product.difficulty] ?? "bg-sand text-clay"}`}
@@ -47,7 +47,9 @@ export default function ProductCard({ product }: { product: Product }) {
         </h3>
         <p className="line-clamp-1 text-sm text-clay-soft">{product.tagline}</p>
         <div className="mt-auto flex items-center justify-between pt-3">
-          <p className="font-heading text-xl font-black">₪{product.price}</p>
+          <p className="-rotate-2 rounded-full bg-terra-soft px-3 py-1 font-heading text-lg font-black text-terra-deep shadow-sm transition-transform duration-300 group-hover:rotate-0">
+            ₪{product.price}
+          </p>
           <button
             type="button"
             onClick={quickAdd}

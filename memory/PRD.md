@@ -38,6 +38,8 @@ Hebrew RTL e-commerce site for Buba 3D selling 3D-printed dolls kids paint at ho
 
 - Fonts v2 (2026-09-23): headings → Suez One (wide, readable, warm trendy Hebrew); logo wordmark restored to Frank Ruhl Libre; body stays Assistant. Product swap: astro-noa replaced by "מלאני" (melanie) — the fox from the hero before/after, ₪119, animals category, featured
 
+- Interactive redesign (2026-09-23): custom paint-drop cursor (dot + spring ring, grows on interactive elements, pointer:fine only), hero paint trail (mouse leaves fading paint drops), giant outlined IMAGO watermark with scroll parallax, spinning circular badge on hero slider, magnetic CTA buttons, brush-stroke animated section titles (SectionTitle), rotated manifesto cards with outlined numbers, horizontal scroll-driven product shelf (sticky 280vh on desktop, snap-scroll on mobile), page transitions (AnimatePresence), product card sticker prices + tilt, marquee pause-on-hover + edge fade
+
 ## Backlog
 - P0: real Meshy image-to-3D once MESHY_API_KEY provided; real payments (Stripe)
 - P1: admin orders dashboard; email confirmations (Resend); auto-delete uploaded photos after 14 days (cron)
