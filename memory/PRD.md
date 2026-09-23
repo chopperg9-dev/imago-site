@@ -34,6 +34,8 @@ Hebrew RTL e-commerce site for Buba 3D selling 3D-printed dolls kids paint at ho
 
 - Bit payments (2026-09-23): checkout now uses Bit ONLY (user request, replaces Stripe in UI). Order created with status "awaiting_payment" + payment_method "bit"; success screen shows 3-step Bit instructions — pay ₪total to business number 050-333-1809 with order number in the payment note (copy button included). Stripe backend endpoints remain but unused. Verified e2e: order IMG-31E92C, ₪134
 
+- Fonts (2026-09-23): switched to Karantina (300/400, headings — trendy tall display) + Assistant (200–700, body) per user request for trendier/delicate Hebrew type; font-synthesis-weight:none keeps headings light
+
 ## Backlog
 - P0: real Meshy image-to-3D once MESHY_API_KEY provided; real payments (Stripe)
 - P1: admin orders dashboard; email confirmations (Resend); auto-delete uploaded photos after 14 days (cron)

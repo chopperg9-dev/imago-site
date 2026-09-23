@@ -19,8 +19,8 @@
     --color-sage-soft: #EEF3EF;
     --color-ink: #1E1815;
     --color-mustard: #D9A441;
-    --font-heading: 'Frank Ruhl Libre', 'Heebo', serif;
-    --font-sans: 'Heebo', 'Arial', sans-serif;
+    --font-heading: 'Karantina', 'Assistant', sans-serif;
+    --font-sans: 'Assistant', 'Arial', sans-serif;
 }
 
 @theme inline {
@@ -105,6 +105,7 @@
   }
   body {
     @apply bg-background text-foreground antialiased;
+    font-synthesis-weight: none;
   }
   html {
     @apply font-sans;
