@@ -23,7 +23,7 @@ export default function Header() {
             className="h-11 w-11 object-contain"
           />
           <span className="leading-none">
-            <span className="block font-heading text-xl font-black tracking-[0.2em]">IMAGO</span>
+            <span className="block text-xl font-black tracking-[0.2em]" style={{ fontFamily: "'Frank Ruhl Libre', serif" }}>IMAGO</span>
             <span className="mt-0.5 block text-[8px] font-semibold tracking-[0.32em] text-clay-soft">
               COLOR YOUR CHARACTER
             </span>

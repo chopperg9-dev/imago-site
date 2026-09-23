@@ -36,6 +36,8 @@ Hebrew RTL e-commerce site for Buba 3D selling 3D-printed dolls kids paint at ho
 
 - Fonts (2026-09-23): switched to Karantina (300/400, headings — trendy tall display) + Assistant (200–700, body) per user request for trendier/delicate Hebrew type; font-synthesis-weight:none keeps headings light
 
+- Fonts v2 (2026-09-23): headings → Suez One (wide, readable, warm trendy Hebrew); logo wordmark restored to Frank Ruhl Libre; body stays Assistant. Product swap: astro-noa replaced by "מלאני" (melanie) — the fox from the hero before/after, ₪119, animals category, featured
+
 ## Backlog
 - P0: real Meshy image-to-3D once MESHY_API_KEY provided; real payments (Stripe)
 - P1: admin orders dashboard; email confirmations (Resend); auto-delete uploaded photos after 14 days (cron)

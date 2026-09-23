@@ -45,10 +45,10 @@ CATEGORIES = [
 KIT_INCLUDES = ["בובה לבנה מ־PLA אקולוגי", "6 צבעי אקריליק ידידותיים לילדים", "2 מכחולים", "מדריך צביעה מצויר"]
 
 PRODUCTS = [
-    {"id": "astro-noa", "name": "נועה האסטרונאוטית", "tagline": "מסע בין כוכבים על מדף החדר", "category": "space",
-     "price": 119, "difficulty": "בינוני", "height_cm": 12, "featured": True, "in_stock": True,
-     "image": f"{IMG}/2c453b873fe309e2181dd939b6faf2518d068c45ef5a3e64cbf1557293dde33d.jpeg",
-     "description": "חליפת חלל עם קסדה עגולה וצמות — שטח ענק לצביעת כוכבים, פסים וגלקסיות אישיות.", "includes": KIT_INCLUDES},
+    {"id": "melanie", "name": "מלאני", "tagline": "אוזניים ענק, זנב מטושטש, לב זהב", "category": "animals",
+     "price": 119, "difficulty": "בינוני", "height_cm": 11, "featured": True, "in_stock": True,
+     "image": f"{IMG}/aec5b7a3e4ce32fdab65bb47b4352ba3effd1f52422a0d78b56311e31281ae73.jpeg",
+     "description": "השועלה מהסליידר בדף הבית! פרווה עם המון שטחי צביעה — כתום, שמנת וחום שוקולד, או כל צבע שהדמיון מכתיב.", "includes": KIT_INCLUDES},
     {"id": "dino-dani", "name": "דני הדינוזאור", "tagline": "טי־רקס קטן עם לב ענק", "category": "animals",
      "price": 109, "difficulty": "קל", "height_cm": 10, "featured": True, "in_stock": True,
      "image": f"{IMG}/f531b0c773e97b5c3916236d8df5d5060311c97101a65fb3250523173d1ea82c.jpeg",

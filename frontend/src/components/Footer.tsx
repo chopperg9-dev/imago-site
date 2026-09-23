@@ -29,7 +29,7 @@ export default function Footer() {
             <div className="flex items-center gap-3">
               <img src="/logo-character.png" alt="IMAGO" className="h-16 w-16 object-contain drop-shadow-lg" />
               <div>
-                <p className="font-heading text-2xl font-black tracking-[0.25em]">IMAGO</p>
+                <p className="text-2xl font-black tracking-[0.25em]" style={{ fontFamily: "'Frank Ruhl Libre', serif" }}>IMAGO</p>
                 <p className="mt-0.5 text-[10px] tracking-[0.3em] text-[#B5A79E]">COLOR YOUR CHARACTER</p>
               </div>
             </div>
