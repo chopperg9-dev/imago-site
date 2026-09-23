@@ -29,6 +29,8 @@ Hebrew RTL e-commerce site for Buba 3D selling 3D-printed dolls kids paint at ho
 - Verified: curl smoke (all endpoints + 404 case), full superhero job e2e, yarn typecheck clean, screenshots home/shop
 
 - Rebrand (2026-09-23): company renamed to IMAGO ("Color Your Character"), customer-supplied logo in header/footer, order numbers now IMG-XXXXXX, cart storage key imago-cart, emails shalom@imago-dolls.co.il; hero before/after now uses customer's fox character
+- Transparent logo (2026-09-23): logo character cut out to transparent PNG at frontend/public/logo-character.png (PIL flood-fill from dark bg), used in header + footer without badge
+- Stripe payments live in TEST mode (2026-09-23): Flow B (own-key style) with default sk_test_emergent; endpoints POST /api/payments/checkout, GET /api/payments/status/{session_id}, POST /api/webhook/stripe; payment_transactions collection; order created idempotently on paid; e2e verified with card 4242 (order IMG-CB1414, ₪238 ILS). NOTE: claimable sandbox (Flow A) failed — Stripe doesn't support IL; going live needs user's own Stripe keys in Manage → Secrets, or a local provider (PayPal/Cardcom)
 
 ## Backlog
 - P0: real Meshy image-to-3D once MESHY_API_KEY provided; real payments (Stripe)

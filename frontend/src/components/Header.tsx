@@ -3,9 +3,6 @@ import { Menu, ShoppingBag } from "lucide-react";
 import { useCart } from "@/lib/cart";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
-const LOGO_ICON =
-  "https://static.prod-images.emergentagent.com/jobs/4ce74442-beb6-4a2a-a71b-521399fd659c/images/08e18d40a5d500158047b43061584fcbe2e8901d551a2e825799fc197c2cb9a5.jpeg";
-
 const LINKS = [
   { to: "/shop", label: "החנות" },
   { to: "/superhero", label: "גיבור־העל שלי" },
@@ -21,9 +18,9 @@ export default function Header() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link to="/" className="flex items-center gap-2.5" data-testid="header-logo-link">
           <img
-            src={LOGO_ICON}
+            src="/logo-character.png"
             alt="IMAGO — Color Your Character"
-            className="h-10 w-10 rounded-full border border-clay/10 bg-white object-cover p-0.5"
+            className="h-11 w-11 object-contain"
           />
           <span className="leading-none">
             <span className="block font-heading text-xl font-black tracking-[0.2em]">IMAGO</span>

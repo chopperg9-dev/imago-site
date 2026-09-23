@@ -1,9 +1,6 @@
 import { Link } from "react-router-dom";
 import { Instagram, Mail, MapPin, Phone } from "lucide-react";
 
-const LOGO_ICON =
-  "https://static.prod-images.emergentagent.com/jobs/4ce74442-beb6-4a2a-a71b-521399fd659c/images/08e18d40a5d500158047b43061584fcbe2e8901d551a2e825799fc197c2cb9a5.jpeg";
-
 const SHOP_LINKS = [
   { to: "/shop", label: "כל הבובות" },
   { to: "/superhero", label: "גיבור־על אישי" },
@@ -30,7 +27,7 @@ export default function Footer() {
         <div className="grid grid-cols-2 gap-10 md:grid-cols-5">
           <div className="col-span-2">
             <div className="flex items-center gap-3">
-              <img src={LOGO_ICON} alt="IMAGO" className="h-14 w-14 rounded-2xl bg-white object-cover p-1" />
+              <img src="/logo-character.png" alt="IMAGO" className="h-16 w-16 object-contain drop-shadow-lg" />
               <div>
                 <p className="font-heading text-2xl font-black tracking-[0.25em]">IMAGO</p>
                 <p className="mt-0.5 text-[10px] tracking-[0.3em] text-[#B5A79E]">COLOR YOUR CHARACTER</p>

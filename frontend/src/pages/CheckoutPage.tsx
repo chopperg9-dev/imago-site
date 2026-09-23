@@ -1,21 +1,25 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, CheckCircle2, MapPin, Truck } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { ArrowLeft, MapPin, Truck } from "lucide-react";
 import { toast } from "sonner";
-import { apiPost, ApiError } from "@/lib/api";
+import { apiPost } from "@/lib/api";
 import { FREE_SHIPPING_THRESHOLD, SHIPPING_COST, useCart } from "@/lib/cart";
-import type { OrderResult } from "@/lib/types";
+import type { CheckoutResponse } from "@/lib/types";
 import { Reveal } from "@/components/Reveal";
 
 export default function CheckoutPage() {
-  const { items, subtotal, clear } = useCart();
+  const { items, subtotal } = useCart();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [method, setMethod] = useState<"courier" | "pickup">("courier");
   const [form, setForm] = useState({ name: "", email: "", phone: "", city: "", address: "", notes: "" });
   const [submitting, setSubmitting] = useState(false);
-  const [order, setOrder] = useState<OrderResult | null>(null);
 
   const shipping = method === "pickup" || subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
+
+  useEffect(() => {
+    if (searchParams.get("canceled")) toast.error("התשלום בוטל — אפשר לנסות שוב מתי שנוח");
+  }, [searchParams]);
 
   const set = (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [key]: e.target.value }));
@@ -29,50 +33,18 @@ export default function CheckoutPage() {
     }
     setSubmitting(true);
     try {
-      const result = await apiPost<OrderResult>("/orders", {
+      const res = await apiPost<CheckoutResponse>("/payments/checkout", {
         customer: { name: form.name, email: form.email, phone: form.phone },
         shipping: { address: form.address, city: form.city, method, notes: form.notes || undefined },
-        items,
+        items: items.map((i) => ({ key: i.key, qty: i.qty })),
+        origin_url: window.location.origin,
       });
-      setOrder(result);
-      clear();
-      window.scrollTo(0, 0);
-    } catch (err) {
-      toast.error(err instanceof ApiError ? "שמירת ההזמנה נכשלה — נסו שוב" : "שגיאה לא צפויה");
-    } finally {
+      window.location.href = res.checkout_url;
+    } catch {
+      toast.error("יצירת התשלום נכשלה — נסו שוב");
       setSubmitting(false);
     }
   };
-
-  if (order) {
-    return (
-      <div data-testid="order-success-page" className="mx-auto max-w-2xl px-4 py-24 text-center sm:px-6">
-        <Reveal>
-          <CheckCircle2 className="mx-auto h-16 w-16 text-sage" />
-          <h1 className="mt-6 font-heading text-4xl font-black">ההזמנה בדרך אליכם!</h1>
-          <p className="mt-4 text-sm leading-7 text-clay-soft">
-            תודה {form.name}! קיבלנו את ההזמנה ונשלח עדכון למייל {form.email}.
-            הבובות יצאו להדפסה, יארזו עם הצבעים, ויגיעו תוך 3–5 ימי עסקים.
-          </p>
-          <div className="mt-8 rounded-3xl border border-clay/10 bg-white p-8">
-            <p className="text-xs text-clay-soft">מספר הזמנה</p>
-            <p data-testid="order-number" className="mt-1 font-heading text-3xl font-black text-terra">{order.order_number}</p>
-            <p className="mt-4 text-sm">
-              סה״כ לתשלום: <span className="font-bold">₪{order.total}</span>
-            </p>
-            <p className="mt-2 text-[11px] text-clay-soft">שלב התשלום הוא הדגמה — לא בוצע חיוב בפועל</p>
-          </div>
-          <Link
-            to="/shop"
-            data-testid="order-success-continue-link"
-            className="mt-10 inline-flex items-center gap-2 rounded-full bg-clay px-8 py-3.5 text-sm font-bold text-cream transition-all hover:bg-terra active:scale-95"
-          >
-            ממשיכים לצבוע <ArrowLeft className="h-4 w-4" />
-          </Link>
-        </Reveal>
-      </div>
-    );
-  }
 
   return (
     <div data-testid="checkout-page" className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
@@ -169,10 +141,10 @@ export default function CheckoutPage() {
               data-testid="checkout-submit-button"
               className="mt-7 w-full rounded-full bg-terra py-4 text-sm font-bold text-white transition-all hover:bg-terra-dark active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {submitting ? "שולחים את ההזמנה…" : "מאשרים ומזמינים"}
+              {submitting ? "מעבירים לתשלום מאובטח…" : "מעבר לתשלום מאובטח"}
             </button>
             <p className="mt-4 text-center text-[11px] leading-5 text-clay-soft">
-              זהו תהליך הדגמה — לא מתבצע חיוב אמיתי בשלב זה
+              תשלום מאובטח דרך Stripe · מצב בדיקה: כרטיס 4242 4242 4242 4242, תוקף עתידי ו־CVC כלשהו
             </p>
           </div>
         </aside>

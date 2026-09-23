@@ -112,7 +112,7 @@ export default function CartPage() {
                 ממשיכים לתשלום <ArrowLeft className="h-4 w-4" />
               </Link>
               <p className="mt-4 text-center text-[11px] leading-5 text-clay-soft">
-                שלב התשלום הוא הדגמה — לא מתבצע חיוב אמיתי
+                תשלום מאובטח בכרטיס אשראי דרך Stripe
               </p>
             </div>
           </aside>

@@ -16,6 +16,7 @@ import FaqPage from "@/pages/FaqPage";
 import ContactPage from "@/pages/ContactPage";
 import InfoPage from "@/pages/InfoPage";
 import NotFound from "@/pages/NotFound";
+import PaymentSuccess from "@/pages/PaymentSuccess";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -47,6 +48,7 @@ export default function App() {
             <Route path="/returns" element={<InfoPage kind="returns" />} />
             <Route path="/privacy" element={<InfoPage kind="privacy" />} />
             <Route path="/terms" element={<InfoPage kind="terms" />} />
+            <Route path="/payment/success" element={<PaymentSuccess />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

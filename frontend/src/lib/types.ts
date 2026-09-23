@@ -39,3 +39,15 @@ export interface OrderResult {
   shipping_cost: number;
   total: number;
 }
+
+export interface CheckoutResponse {
+  checkout_url: string;
+  session_id: string;
+}
+
+export interface PaymentStatus {
+  session_id: string;
+  status: string;
+  payment_status: string;
+  order_number?: string;
+}

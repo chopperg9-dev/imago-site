@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import List, Optional
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, APIRouter, HTTPException, UploadFile, File, Form
+from fastapi import FastAPI, APIRouter, HTTPException, Request, UploadFile, File, Form
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from starlette.middleware.cors import CORSMiddleware
@@ -355,6 +355,150 @@ async def approve_superhero_job(job_id: str):
     if isinstance(created, datetime) and created.tzinfo is None:
         doc["created_at"] = created.replace(tzinfo=timezone.utc)
     return SuperheroJob(**doc)
+
+
+# --- Stripe payments (key from env; test mode until live keys are added) ---
+STRIPE_API_KEY = os.environ.get("STRIPE_API_KEY", "")
+
+
+class CheckoutItemIn(BaseModel):
+    key: str
+    qty: int = Field(1, ge=1, le=20)
+
+
+class CheckoutRequest(BaseModel):
+    customer: Customer
+    shipping: Shipping
+    items: List[CheckoutItemIn]
+    origin_url: str
+
+
+async def resolve_checkout_items(items: List[CheckoutItemIn]) -> List[OrderItem]:
+    resolved: List[OrderItem] = []
+    for item in items:
+        if item.key.startswith("superhero-"):
+            job = await db.superhero_jobs.find_one({"id": item.key.split("superhero-", 1)[1]})
+            if not job or not job.get("approved"):
+                raise HTTPException(status_code=400, detail="superhero figure not approved")
+            resolved.append(OrderItem(
+                key=item.key,
+                name=f"גיבור־העל של {job['child_name']}",
+                price=float(job["price"]),
+                qty=item.qty,
+                image=job.get("preview_url") or "",
+                meta="בובה אישית מהתמונות",
+            ))
+        else:
+            doc = await db.products.find_one({"id": item.key})
+            if not doc:
+                raise HTTPException(status_code=400, detail=f"unknown product: {item.key}")
+            resolved.append(OrderItem(
+                key=item.key,
+                name=doc["name"],
+                price=float(doc["price"]),
+                qty=item.qty,
+                image=doc["image"],
+            ))
+    return resolved
+
+
+async def mark_payment_paid(session_id: str) -> None:
+    res = await db.payment_transactions.update_one(
+        {"session_id": session_id, "payment_status": {"$ne": "paid"}},
+        {"$set": {"status": "completed", "payment_status": "paid", "updated_at": datetime.now(timezone.utc)}},
+    )
+    if res.modified_count:
+        tx = await db.payment_transactions.find_one({"session_id": session_id})
+        order = Order(
+            order_number=f"IMG-{uuid.uuid4().hex[:6].upper()}",
+            customer=Customer(**tx["customer"]),
+            shipping=Shipping(**tx["shipping"]),
+            items=[OrderItem(**i) for i in tx["items"]],
+            subtotal=tx["subtotal"],
+            shipping_cost=tx["shipping_cost"],
+            total=tx["amount"],
+        )
+        await db.orders.insert_one(order.model_dump())
+        await db.payment_transactions.update_one({"session_id": session_id}, {"$set": {"order_number": order.order_number}})
+
+
+@api_router.post("/payments/checkout")
+async def create_checkout_session(payload: CheckoutRequest, request: Request):
+    if not STRIPE_API_KEY:
+        raise HTTPException(status_code=500, detail="payments not configured")
+    if not payload.items:
+        raise HTTPException(status_code=400, detail="cart is empty")
+    items = await resolve_checkout_items(payload.items)
+    subtotal = sum(i.price * i.qty for i in items)
+    shipping_cost = 0.0 if payload.shipping.method == "pickup" or subtotal >= 199 else 25.0
+    total = subtotal + shipping_cost
+
+    from emergentintegrations.payments.stripe.checkout import StripeCheckout, CheckoutSessionRequest
+    host_url = str(request.base_url)
+    stripe_checkout = StripeCheckout(api_key=STRIPE_API_KEY, webhook_url=f"{host_url}api/webhook/stripe")
+    session = await stripe_checkout.create_checkout_session(CheckoutSessionRequest(
+        amount=float(total),
+        currency="ils",
+        success_url=f"{payload.origin_url}/payment/success?session_id={{CHECKOUT_SESSION_ID}}",
+        cancel_url=f"{payload.origin_url}/checkout?canceled=1",
+        metadata={"customer_email": payload.customer.email},
+    ))
+    await db.payment_transactions.insert_one({
+        "session_id": session.session_id,
+        "amount": total,
+        "currency": "ils",
+        "status": "initiated",
+        "payment_status": "pending",
+        "customer": payload.customer.model_dump(),
+        "shipping": payload.shipping.model_dump(),
+        "items": [i.model_dump() for i in items],
+        "subtotal": subtotal,
+        "shipping_cost": shipping_cost,
+        "created_at": datetime.now(timezone.utc),
+        "updated_at": datetime.now(timezone.utc),
+    })
+    return {"checkout_url": session.url, "session_id": session.session_id}
+
+
+@api_router.get("/payments/status/{session_id}")
+async def get_payment_status(session_id: str):
+    record = await db.payment_transactions.find_one({"session_id": session_id})
+    if not record:
+        raise HTTPException(status_code=404, detail="transaction not found")
+    if record.get("payment_status") != "paid":
+        try:
+            from emergentintegrations.payments.stripe.checkout import StripeCheckout
+            checker = StripeCheckout(api_key=STRIPE_API_KEY, webhook_url="")
+            status = await checker.get_checkout_status(session_id)
+            if status.payment_status == "paid":
+                await mark_payment_paid(session_id)
+                record = await db.payment_transactions.find_one({"session_id": session_id})
+        except Exception:
+            pass
+    result = {"session_id": session_id, "status": record["status"], "payment_status": record["payment_status"]}
+    if record.get("order_number"):
+        result["order_number"] = record["order_number"]
+    return result
+
+
+@api_router.post("/webhook/stripe")
+async def stripe_webhook(request: Request):
+    body = await request.body()
+    signature = request.headers.get("Stripe-Signature", "")
+    from emergentintegrations.payments.stripe.checkout import StripeCheckout
+    try:
+        stripe_checkout = StripeCheckout(api_key=STRIPE_API_KEY, webhook_url=str(request.base_url))
+        event = await stripe_checkout.handle_webhook(body, signature)
+    except Exception:
+        raise HTTPException(status_code=400, detail="webhook error")
+    if event.payment_status == "paid":
+        await mark_payment_paid(event.session_id)
+    elif event.event_type in ("checkout.session.expired", "checkout.session.async_payment_failed"):
+        await db.payment_transactions.update_one(
+            {"session_id": event.session_id},
+            {"$set": {"status": "failed", "payment_status": "failed", "updated_at": datetime.now(timezone.utc)}},
+        )
+    return {"status": "ok"}
 
 
 app.include_router(api_router)
