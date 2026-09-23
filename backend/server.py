@@ -142,6 +142,8 @@ class Order(BaseModel):
     subtotal: float
     shipping_cost: float
     total: float
+    payment_method: str = "bit"
+    status: str = "awaiting_payment"
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 

@@ -1,28 +1,36 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { ArrowLeft, MapPin, Truck } from "lucide-react";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { ArrowLeft, Check, CheckCircle2, Copy, MapPin, Smartphone, Truck } from "lucide-react";
 import { toast } from "sonner";
 import { apiPost } from "@/lib/api";
 import { FREE_SHIPPING_THRESHOLD, SHIPPING_COST, useCart } from "@/lib/cart";
-import type { CheckoutResponse } from "@/lib/types";
+import type { OrderResult } from "@/lib/types";
 import { Reveal } from "@/components/Reveal";
 
 export default function CheckoutPage() {
-  const { items, subtotal } = useCart();
+  const { items, subtotal, clear } = useCart();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
   const [method, setMethod] = useState<"courier" | "pickup">("courier");
   const [form, setForm] = useState({ name: "", email: "", phone: "", city: "", address: "", notes: "" });
   const [submitting, setSubmitting] = useState(false);
+  const [order, setOrder] = useState<OrderResult | null>(null);
+  const [copied, setCopied] = useState(false);
 
   const shipping = method === "pickup" || subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
 
-  useEffect(() => {
-    if (searchParams.get("canceled")) toast.error("התשלום בוטל — אפשר לנסות שוב מתי שנוח");
-  }, [searchParams]);
-
   const set = (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [key]: e.target.value }));
+
+  const copyPhone = async () => {
+    try {
+      await navigator.clipboard.writeText("0503331809");
+      setCopied(true);
+      toast.success("המספר הועתק");
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      toast.error("ההעתקה נכשלה — רשמו: 050-333-1809");
+    }
+  };
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,18 +41,78 @@ export default function CheckoutPage() {
     }
     setSubmitting(true);
     try {
-      const res = await apiPost<CheckoutResponse>("/payments/checkout", {
+      const result = await apiPost<OrderResult>("/orders", {
         customer: { name: form.name, email: form.email, phone: form.phone },
         shipping: { address: form.address, city: form.city, method, notes: form.notes || undefined },
-        items: items.map((i) => ({ key: i.key, qty: i.qty })),
-        origin_url: window.location.origin,
+        items,
       });
-      window.location.href = res.checkout_url;
+      setOrder(result);
+      clear();
+      window.scrollTo(0, 0);
     } catch {
-      toast.error("יצירת התשלום נכשלה — נסו שוב");
+      toast.error("שמירת ההזמנה נכשלה — נסו שוב");
+    } finally {
       setSubmitting(false);
     }
   };
+
+  if (order) {
+    return (
+      <div data-testid="order-success-page" className="mx-auto max-w-2xl px-4 py-24 text-center sm:px-6">
+        <Reveal>
+          <CheckCircle2 className="mx-auto h-16 w-16 text-sage" />
+          <h1 className="mt-6 font-heading text-4xl font-black">ההזמנה התקבלה!</h1>
+          <p className="mt-3 text-sm leading-7 text-clay-soft">נשאר רק לשלם בביט — והבובות יוצאות להדפסה.</p>
+
+          <div className="mt-8 rounded-3xl border border-clay/10 bg-white p-8 text-right">
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-clay-soft">מספר הזמנה</span>
+              <span data-testid="order-number" className="font-heading text-2xl font-black text-terra">{order.order_number}</span>
+            </div>
+            <div className="mt-3 flex items-center justify-between border-t border-clay/10 pt-3">
+              <span className="text-xs text-clay-soft">סכום לתשלום</span>
+              <span data-testid="order-total" className="font-heading text-2xl font-black">₪{order.total}</span>
+            </div>
+          </div>
+
+          <div className="mt-6 rounded-3xl border-2 border-terra/30 bg-terra-soft p-8 text-right">
+            <p className="flex items-center gap-2 font-heading text-lg font-black text-terra-deep">
+              <Smartphone className="h-5 w-5" /> משלמים בביט — שלושה צעדים
+            </p>
+            <ol className="mt-5 space-y-4 text-sm leading-8 text-clay">
+              <li>1 · פתחו את אפליקציית ביט בנייד</li>
+              <li>
+                2 · שלחו <b>₪{order.total}</b> למספר העסקי
+                <button
+                  type="button"
+                  onClick={copyPhone}
+                  data-testid="bit-copy-phone-button"
+                  className="mx-2 inline-flex items-center gap-2 rounded-full bg-clay px-4 py-1.5 font-heading text-base font-black text-cream transition-all hover:bg-terra active:scale-95"
+                >
+                  {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                  <span dir="ltr">050-333-1809</span>
+                </button>
+              </li>
+              <li>
+                3 · בהערת התשלום ציינו את מספר ההזמנה <b dir="ltr">{order.order_number}</b>
+              </li>
+            </ol>
+            <p className="mt-5 text-[11px] leading-5 text-terra-deep/80">
+              ההזמנה תאושר ותצא להדפסה מיד עם קבלת התשלום.
+            </p>
+          </div>
+
+          <Link
+            to="/shop"
+            data-testid="order-success-continue-link"
+            className="mt-10 inline-flex items-center gap-2 rounded-full bg-clay px-8 py-3.5 text-sm font-bold text-cream transition-all hover:bg-terra active:scale-95"
+          >
+            ממשיכים לצבוע <ArrowLeft className="h-4 w-4" />
+          </Link>
+        </Reveal>
+      </div>
+    );
+  }
 
   return (
     <div data-testid="checkout-page" className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
@@ -104,6 +172,22 @@ export default function CheckoutPage() {
               <textarea data-testid="checkout-notes-input" value={form.notes} onChange={set("notes")} rows={3} className={`${INPUT} resize-none`} placeholder="קוד לבניין, קומה, בקשות מיוחדות…" />
             </Field>
           </section>
+
+          <section className="rounded-3xl border border-clay/10 bg-white p-7">
+            <h2 className="font-heading text-xl font-black">אמצעי תשלום</h2>
+            <div
+              className="mt-6 flex items-start gap-4 rounded-2xl border-2 border-terra bg-terra-soft p-5"
+              data-testid="payment-method-bit"
+            >
+              <span className="mt-0.5 text-terra"><Smartphone className="h-5 w-5" /></span>
+              <span>
+                <span className="block text-sm font-bold text-terra-deep">ביט</span>
+                <span className="mt-1 block text-xs leading-5 text-clay-soft">
+                  תשלום מיידי מהנייד, בלי כרטיס אשראי — פרטי התשלום יוצגו מיד אחרי אישור ההזמנה
+                </span>
+              </span>
+            </div>
+          </section>
         </div>
 
         <aside className="lg:col-span-5">
@@ -141,10 +225,10 @@ export default function CheckoutPage() {
               data-testid="checkout-submit-button"
               className="mt-7 w-full rounded-full bg-terra py-4 text-sm font-bold text-white transition-all hover:bg-terra-dark active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {submitting ? "מעבירים לתשלום מאובטח…" : "מעבר לתשלום מאובטח"}
+              {submitting ? "רושמים את ההזמנה…" : "מסיימים ומקבלים פרטי תשלום"}
             </button>
             <p className="mt-4 text-center text-[11px] leading-5 text-clay-soft">
-              תשלום מאובטח דרך Stripe · מצב בדיקה: כרטיס 4242 4242 4242 4242, תוקף עתידי ו־CVC כלשהו
+              התשלום מתבצע בביט — פרטי התשלום יוצגו מיד אחרי אישור ההזמנה
             </p>
           </div>
         </aside>
