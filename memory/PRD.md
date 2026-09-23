@@ -28,6 +28,8 @@ Hebrew RTL e-commerce site for Buba 3D selling 3D-printed dolls kids paint at ho
 - About / FAQ (animated accordion) / Contact (API-backed) / Shipping / Returns / Privacy / Terms
 - Verified: curl smoke (all endpoints + 404 case), full superhero job e2e, yarn typecheck clean, screenshots home/shop
 
+- Rebrand (2026-09-23): company renamed to IMAGO ("Color Your Character"), customer-supplied logo in header/footer, order numbers now IMG-XXXXXX, cart storage key imago-cart, emails shalom@imago-dolls.co.il; hero before/after now uses customer's fox character
+
 ## Backlog
 - P0: real Meshy image-to-3D once MESHY_API_KEY provided; real payments (Stripe)
 - P1: admin orders dashboard; email confirmations (Resend); auto-delete uploaded photos after 14 days (cron)

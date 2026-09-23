@@ -83,7 +83,7 @@ export default function Home() {
 
             <FadeIn delay={0.7}>
               <p className="mt-7 max-w-xl text-base leading-8 text-clay-soft sm:text-lg sm:leading-9">
-                ב־Buba 3D אנחנו מדפיסים בובות דמויות ויניל מ־PLA אקולוגי ושולחים אותן הביתה עם צבעי
+                ב־IMAGO אנחנו מדפיסים בובות דמויות ויניל מ־PLA אקולוגי ושולחים אותן הביתה עם צבעי
                 אקריליק בטוחים ומכחולים — והילדים הופכים אותן ליצירת אמנות שאין לאף אחד אחר.
               </p>
             </FadeIn>

@@ -3,6 +3,9 @@ import { Menu, ShoppingBag } from "lucide-react";
 import { useCart } from "@/lib/cart";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
+const LOGO_ICON =
+  "https://static.prod-images.emergentagent.com/jobs/4ce74442-beb6-4a2a-a71b-521399fd659c/images/08e18d40a5d500158047b43061584fcbe2e8901d551a2e825799fc197c2cb9a5.jpeg";
+
 const LINKS = [
   { to: "/shop", label: "החנות" },
   { to: "/superhero", label: "גיבור־העל שלי" },
@@ -16,11 +19,18 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-clay/10 bg-cream/90 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link to="/" className="flex items-baseline gap-2" data-testid="header-logo-link">
-          <span className="font-heading text-2xl font-black tracking-tight">
-            Buba<span className="text-terra">3D</span>
+        <Link to="/" className="flex items-center gap-2.5" data-testid="header-logo-link">
+          <img
+            src={LOGO_ICON}
+            alt="IMAGO — Color Your Character"
+            className="h-10 w-10 rounded-full border border-clay/10 bg-white object-cover p-0.5"
+          />
+          <span className="leading-none">
+            <span className="block font-heading text-xl font-black tracking-[0.2em]">IMAGO</span>
+            <span className="mt-0.5 block text-[8px] font-semibold tracking-[0.32em] text-clay-soft">
+              COLOR YOUR CHARACTER
+            </span>
           </span>
-          <span className="hidden text-xs text-clay-soft sm:block">בובה תלת־ממד</span>
         </Link>
 
         <nav className="hidden items-center gap-7 lg:flex" aria-label="ניווט ראשי">
@@ -67,9 +77,7 @@ export default function Header() {
               <Menu className="h-4.5 w-4.5" />
             </SheetTrigger>
             <SheetContent side="left" className="bg-cream">
-              <SheetTitle className="font-heading text-xl font-black">
-                Buba<span className="text-terra">3D</span>
-              </SheetTitle>
+              <SheetTitle className="font-heading text-xl font-black tracking-[0.25em]">IMAGO</SheetTitle>
               <nav className="mt-8 flex flex-col gap-5" aria-label="תפריט נייד">
                 {LINKS.map((link) => (
                   <NavLink

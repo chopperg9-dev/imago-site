@@ -191,7 +191,7 @@ api_router = APIRouter(prefix="/api")
 
 @api_router.get("/")
 async def root():
-    return {"message": "Buba 3D API"}
+    return {"message": "IMAGO API"}
 
 
 @api_router.get("/categories", response_model=List[Category])
@@ -221,7 +221,7 @@ async def create_order(payload: OrderCreate):
     subtotal = sum(item.price * item.qty for item in payload.items)
     shipping_cost = 0.0 if payload.shipping.method == "pickup" or subtotal >= 199 else 25.0
     order = Order(
-        order_number=f"B3D-{uuid.uuid4().hex[:6].upper()}",
+        order_number=f"IMG-{uuid.uuid4().hex[:6].upper()}",
         customer=payload.customer,
         shipping=payload.shipping,
         items=payload.items,

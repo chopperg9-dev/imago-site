@@ -21,7 +21,7 @@ interface CartContextValue {
 }
 
 const CartContext = createContext<CartContextValue | null>(null);
-const STORAGE_KEY = "buba-cart";
+const STORAGE_KEY = "imago-cart";
 
 function loadCart(): CartItem[] {
   try {

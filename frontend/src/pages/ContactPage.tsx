@@ -69,7 +69,7 @@ export default function ContactPage() {
         <div className="space-y-4 lg:col-span-5">
           <InfoCard icon={<MapPin className="h-5 w-5" />} title="הסטודיו שלנו" lines={["רח׳ האומנים 12, תל־אביב", "איסוף עצמי בתיאום מראש"]} />
           <InfoCard icon={<Clock className="h-5 w-5" />} title="שעות מענה" lines={["א׳–ה׳ 09:00–18:00", "ו׳ 09:00–13:00"]} />
-          <InfoCard icon={<Mail className="h-5 w-5" />} title="מייל וטלפון" lines={["shalom@buba3d.co.il", "03-555-0134"]} />
+          <InfoCard icon={<Mail className="h-5 w-5" />} title="מייל וטלפון" lines={["shalom@imago-dolls.co.il", "03-555-0134"]} />
           <a
             href="https://wa.me/97235550134"
             target="_blank"
