@@ -13,7 +13,7 @@ export default function SectionTitle({
 }) {
   return (
     <Reveal className={center ? "text-center" : ""}>
-      {kicker && <p className="text-xs font-bold tracking-[0.25em] text-terra">{kicker}</p>}
+      {kicker && <p className="text-xs font-bold tracking-[0.25em] text-terra-deep">{kicker}</p>}
       <h2 className="mt-3 font-heading text-3xl font-black leading-tight sm:text-4xl lg:text-5xl">{title}</h2>
       <motion.svg
         viewBox="0 0 220 14"

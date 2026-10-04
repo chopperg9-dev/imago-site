@@ -21,7 +21,7 @@ export default function Shop() {
   return (
     <div data-testid="shop-page" className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
       <Reveal>
-        <p className="text-xs font-bold tracking-[0.2em] text-terra">החנות</p>
+        <p className="text-xs font-bold tracking-[0.2em] text-terra-deep">החנות</p>
         <h1 className="mt-3 font-heading text-4xl font-black sm:text-5xl">בוחרים בובה לצביעה</h1>
         <p className="mt-4 max-w-xl text-sm leading-7 text-clay-soft">
           כל בובה מגיעה לבנה, עם 6 צבעי אקריליק בטוחים, שני מכחולים ומדריך צביעה מצויר — הכול בקופסה אחת.

@@ -40,6 +40,9 @@ Hebrew RTL e-commerce site for Buba 3D selling 3D-printed dolls kids paint at ho
 
 - Interactive redesign (2026-09-23): custom paint-drop cursor (dot + spring ring, grows on interactive elements, pointer:fine only), hero paint trail (mouse leaves fading paint drops), giant outlined IMAGO watermark with scroll parallax, spinning circular badge on hero slider, magnetic CTA buttons, brush-stroke animated section titles (SectionTitle), rotated manifesto cards with outlined numbers, horizontal scroll-driven product shelf (sticky 280vh on desktop, snap-scroll on mobile), page transitions (AnimatePresence), product card sticker prices + tilt, marquee pause-on-hover + edge fade
 
+## Standing design guidance
+See /app/memory/DESIGN_PRINCIPLES.md — user-provided principles, apply to all future work.
+
 ## Backlog
 - P0: real Meshy image-to-3D once MESHY_API_KEY provided; real payments (Stripe)
 - P1: admin orders dashboard; email confirmations (Resend); auto-delete uploaded photos after 14 days (cron)

@@ -28,7 +28,7 @@ export default function ContactPage() {
   return (
     <div data-testid="contact-page" className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
       <Reveal className="max-w-xl">
-        <p className="text-xs font-bold tracking-[0.2em] text-terra">צור קשר</p>
+        <p className="text-xs font-bold tracking-[0.2em] text-terra-deep">צור קשר</p>
         <h1 className="mt-3 font-heading text-4xl font-black sm:text-5xl">נדבר?</h1>
         <p className="mt-4 text-sm leading-7 text-clay-soft">
           שאלה על הזמנה, רעיון לבובה חדשה או אירוע קבוצתי — אנחנו כאן.

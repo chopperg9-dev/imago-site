@@ -16,7 +16,7 @@ export default function AboutPage() {
     <div data-testid="about-page" className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
       <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
         <Reveal>
-          <p className="text-xs font-bold tracking-[0.2em] text-terra">הסיפור שלנו</p>
+          <p className="text-xs font-bold tracking-[0.2em] text-terra-deep">הסיפור שלנו</p>
           <h1 className="mt-3 font-heading text-4xl font-black leading-tight sm:text-5xl">
             התחלנו מבובה לבנה אחת על שולחן המטבח
           </h1>
