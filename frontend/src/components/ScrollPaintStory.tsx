@@ -24,7 +24,7 @@ export default function ScrollPaintStory() {
   const percent = useTransform(smooth, [0.08, 0.72], [0, 100]);
   const percentText = useTransform(percent, (v) => `${Math.round(v)}%`);
 
-  const bg = useTransform(smooth, [0, 0.5, 1], ["#07070A", "#120A12", "#1C0A16"]);
+  const bg = useTransform(smooth, [0, 0.5, 1], ["#06070C", "#0C1226", "#06070C"]);
   const imageScale = useTransform(smooth, [0, 1], [1, 1.06]);
 
   return (

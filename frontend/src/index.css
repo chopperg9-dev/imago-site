@@ -7,20 +7,20 @@
 /* Dark "neon markers" palette. Token names kept from the original warm theme so
    component markup stays unchanged: cream = page bg, sand = surface, clay = text. */
 @theme {
-    --color-cream: #07070A;
-    --color-sand: #121217;
-    --color-stage: #17171E;
+    --color-cream: #06070C;
+    --color-sand: #10131C;
+    --color-stage: #141826;
     --color-clay: #F3F2EE;
     --color-clay-soft: #A2A3AD;
-    --color-terra: #FF2E88;
-    --color-terra-dark: #E01A72;
-    --color-terra-deep: #FF7AB8;
-    --color-terra-soft: #2A0E1C;
-    --color-sage: #22E6FF;
-    --color-sage-deep: #8FF1FF;
-    --color-sage-soft: #0B2228;
-    --color-ink: #0D0D12;
-    --color-mustard: #C6FF3D;
+    --color-terra: #FF7A1A;
+    --color-terra-dark: #E8640A;
+    --color-terra-deep: #FFB27A;
+    --color-terra-soft: #2A170A;
+    --color-sage: #2FD8FF;
+    --color-sage-deep: #9BEBFF;
+    --color-sage-soft: #0A1F2A;
+    --color-ink: #0B0E16;
+    --color-mustard: #D4FF4A;
     --font-heading: 'Suez One', 'Assistant', serif;
     --font-sans: 'Assistant', 'Arial', sans-serif;
 }
@@ -67,38 +67,38 @@
 }
 
 :root {
-    --background: #07070A;
+    --background: #06070C;
     --foreground: #F3F2EE;
     --card: #121217;
     --card-foreground: #F3F2EE;
     --popover: #121217;
     --popover-foreground: #F3F2EE;
-    --primary: #FF2E88;
+    --primary: #FF7A1A;
     --primary-foreground: #FFFFFF;
     --secondary: #1A1A22;
     --secondary-foreground: #F3F2EE;
     --muted: #1A1A22;
     --muted-foreground: #A2A3AD;
-    --accent: #2A0E1C;
-    --accent-foreground: #FF7AB8;
+    --accent: #2A170A;
+    --accent-foreground: #FFB27A;
     --destructive: #FF4D4D;
     --border: rgba(255, 255, 255, 0.1);
     --input: rgba(255, 255, 255, 0.16);
-    --ring: #FF2E88;
-    --chart-1: #FF2E88;
-    --chart-2: #22E6FF;
-    --chart-3: #C6FF3D;
+    --ring: #FF7A1A;
+    --chart-1: #FF7A1A;
+    --chart-2: #2FD8FF;
+    --chart-3: #D4FF4A;
     --chart-4: #A2A3AD;
     --chart-5: #F3F2EE;
     --radius: 0.875rem;
     --sidebar: #121217;
     --sidebar-foreground: #F3F2EE;
-    --sidebar-primary: #FF2E88;
+    --sidebar-primary: #FF7A1A;
     --sidebar-primary-foreground: #FFFFFF;
-    --sidebar-accent: #2A0E1C;
-    --sidebar-accent-foreground: #FF7AB8;
+    --sidebar-accent: #2A170A;
+    --sidebar-accent-foreground: #FFB27A;
     --sidebar-border: rgba(255, 255, 255, 0.1);
-    --sidebar-ring: #FF2E88;
+    --sidebar-ring: #FF7A1A;
 }
 
 @layer base {
@@ -115,7 +115,7 @@
     scroll-behavior: auto;
   }
   ::selection {
-    background: #C6FF3D;
+    background: #FF7A1A;
     color: #07070A;
   }
   h1, h2, h3, .font-heading {
@@ -135,7 +135,7 @@
     color: transparent;
   }
   .text-outline-terra {
-    -webkit-text-stroke: 2px rgba(255, 46, 136, 0.55);
+    -webkit-text-stroke: 2px rgba(255, 122, 26, 0.55);
     color: transparent;
   }
   .perspective-1200 {

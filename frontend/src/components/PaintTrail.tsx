@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { motion } from "motion/react";
 import type { ReactNode } from "react";
 
-const COLORS = ["#FF2E88", "#22E6FF", "#C6FF3D", "#9B5CFF"];
+const COLORS = ["#FF7A1A", "#2FD8FF", "#3D7BFF", "#D4FF4A"];
 const MIN_DIST_SQ = 40 * 40;
 
 interface Drop {

@@ -138,7 +138,7 @@ export default function Home() {
 
       <ScrollPaintStory />
 
-      <section className="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8 lg:pb-32">
+      <section data-testid="superhero-band" className="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8 lg:pb-32">
         <Reveal>
           <div className="relative grid grid-cols-1 items-center gap-10 text-clay lg:grid-cols-2">
             <div>

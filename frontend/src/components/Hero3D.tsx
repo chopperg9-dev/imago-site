@@ -7,9 +7,9 @@ const FoxModel = lazy(() => import("@/components/FoxModel"));
 
 const MARKERS = [
   { id: "orange", hex: "#F2762C", name: "כתום שועל" },
-  { id: "pink", hex: "#FF2E88", name: "ורוד ניאון" },
-  { id: "cyan", hex: "#22E6FF", name: "ציאן" },
-  { id: "lime", hex: "#C6FF3D", name: "ליים" },
+  { id: "blue", hex: "#3D7BFF", name: "כחול חשמלי" },
+  { id: "cyan", hex: "#2FD8FF", name: "ציאן" },
+  { id: "lime", hex: "#D4FF4A", name: "ליים" },
   { id: "violet", hex: "#9B5CFF", name: "סגול" },
   { id: "cream", hex: "#FBE9D0", name: "שמנת" },
   { id: "brown", hex: "#4A2A1E", name: "שוקולד" },

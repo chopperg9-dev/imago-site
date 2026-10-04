@@ -182,12 +182,12 @@ export default function FoxModel({
       gl={{ antialias: true, alpha: true }}
       style={{ background: "transparent", touchAction: "pan-y" }}
     >
-      <hemisphereLight intensity={0.5} color="#ffffff" groundColor="#2a0e1c" />
+      <hemisphereLight intensity={0.5} color="#ffffff" groundColor="#0b1a3a" />
       <directionalLight position={[3, 5, 4]} intensity={2.4} castShadow shadow-mapSize={[1024, 1024]} />
       <directionalLight position={[-3, 2, -2]} intensity={0.6} color="#ffffff" />
-      <pointLight position={[-4, 1.5, -1]} intensity={30} color="#FF2E88" />
-      <pointLight position={[4, 0.5, -3]} intensity={26} color="#22E6FF" />
-      <pointLight position={[0, -1, 4]} intensity={6} color="#C6FF3D" />
+      <pointLight position={[-4, 1.5, -1]} intensity={30} color="#FF7A1A" />
+      <pointLight position={[4, 0.5, -3]} intensity={26} color="#3D7BFF" />
+      <pointLight position={[0, -1, 4]} intensity={6} color="#2FD8FF" />
       <Suspense fallback={null}>
         <Float speed={1.4} rotationIntensity={0.08} floatIntensity={0.35}>
           <MelanieMesh markerHex={markerHex} paintable={paintable} spinning={spinning} onProgress={onProgress} apiRef={apiRef} modelScale={modelScale} modelY={modelY} />
