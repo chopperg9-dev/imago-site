@@ -1,6 +1,6 @@
 import { Float } from "@react-three/drei";
 
-export const MARKER_COLORS = ["#F2762C", "#FF2E88", "#22E6FF", "#C6FF3D", "#9B5CFF", "#FBE9D0", "#4A2A1E", "#FFD23F"];
+const MARKER_COLORS = ["#F2762C", "#FF2E88", "#22E6FF", "#C6FF3D", "#9B5CFF", "#FBE9D0", "#4A2A1E", "#FFD23F"];
 
 interface MarkerProps {
   color: string;

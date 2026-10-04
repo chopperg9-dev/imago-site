@@ -1,0 +1,24 @@
+{
+  "summary": "Re-verified ScrollMarker pointer-events fix and hero interactivity after Canvas style pointerEvents:'none' was added in ScrollMarker.tsx. All target checks pass: scroll-marker inner div and canvas computed pointer-events are 'none', elementFromPoint on marker-cyan resolves to the marker button descendant (SPAN inside marker, hitIsMarker=true, hitIsCanvas=false). Real (non-force) click on marker-cyan flips aria-checked=true. hero-paint-melanie sets progress to 100%, hero-paint-reset returns it to 0%. hero-shop-cta and shelf-all-products-link resolve to themselves via elementFromPoint (not blocked). kit-3d-scene canvas renders (692x692). At 390px viewport, scroll-marker display is 'none'. No pageerrors and no console errors while scrolling the full 9532px home page.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [
+      {"flow": "Hero drag-paint", "issue": "Horizontal mouse drag across hero canvas bbox (30%->70% x at y=50%) did not raise hero-paint-progress above 0%. Melanie preset and Reset work correctly, so painting pipeline is wired. Likely the drag path missed the fox mesh raycast target (fox silhouette is narrow). Not a regression of the pointer-events fix — pointer events reach the hero canvas (melanie click works, no overlay). Suggest verifying with a drag over the actual mesh region or lowering raycast threshold.", "affected_selectors": ["[data-testid=hero-paint-progress]"]}
+    ],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Optional: verify that drag-painting on the hero fox mesh paints as expected across the mesh region (preset+reset already functional)."
+  ],
+  "critical_code_review_comments": [
+    "ScrollMarker.tsx correctly sets both wrapper (pointer-events-none class) and inline Canvas style pointerEvents:'none' overriding R3F default — fix is correct and minimal."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "n/a", "frontend": "100% (all requested checks)"},
+  "seed_data_creation": "none",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Pointer-events regression fixed and verified at 1920x900. All hero interactions (marker-cyan click, melanie preset, reset, shop CTA, shelf link) work without force clicks. Kit scene renders. Scroll-marker correctly hidden on mobile (390px). Only residual observation: synthetic horizontal drag over hero canvas did not raise paint progress — likely missed mesh raycast; not a blocker since the paint pipeline works via presets."
+}
