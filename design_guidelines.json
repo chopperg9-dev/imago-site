@@ -1,217 +1,44 @@
 {
-  "brand": {
-    "name": "Buba 3D",
-    "hebrew_name": "בוּבָּה תלת-ממד",
-    "tagline": "בובות תלת-ממד להדפסה וצביעה אישית בבית",
-    "tagline_en": "3D-printed DIY collectible dolls for kids to paint at home",
-    "currency": "ILS (₪)",
-    "direction": "rtl",
-    "locale": "he-IL",
-    "emotional_archetype": "ARCHETYPE 1: ORGANIC & EARTHY + CRAFT EDITORIAL (Warm Cream, Terracotta, Mediterranean Clay, Sage)"
-  },
+  "theme": "dark",
+  "archetype": "Interactive Awwwards-style on black — 'Neon Markers' palette with 3D depth",
+  "status": "ACTIVE (2026-10-04). Replaces both the warm/terracotta light theme and the rejected Swiss/high-contrast light redesign.",
   "typography": {
-    "primary_font": "Rubik, Assistant, Plus Jakarta Sans, sans-serif",
-    "editorial_heading_font": "Assistant, Lora, Playfair Display, serif",
-    "mono_font": "JetBrains Mono, monospace",
-    "scale_px": {
-      "display": 56,
-      "h1": 44,
-      "h2": 32,
-      "h3": 24,
-      "h4": 20,
-      "body": 16,
-      "caption": 14
-    },
-    "letter_spacing": {
-      "headlines": "tracking-tight",
-      "labels": "tracking-wider uppercase",
-      "body": "tracking-normal"
-    }
+    "headings": { "family": "'Suez One', 'Assistant', serif", "weight": "900" },
+    "body": { "family": "'Assistant', sans-serif", "weights": ["400", "500", "600", "700"] },
+    "logo_wordmark": "'Frank Ruhl Libre', serif"
   },
   "colors": {
-    "palette": {
-      "cream_canvas": "#FAF7F2",
-      "sand_panel": "#F3EDE2",
-      "terracotta_primary": "#C85A32",
-      "terracotta_hover": "#B34A24",
-      "terracotta_light": "#FBEBE4",
-      "deep_clay_text": "#2C221E",
-      "muted_clay_text": "#73645C",
-      "sage_accent": "#5E7A68",
-      "sage_light": "#EEF3EF",
-      "border_subtle": "rgba(44, 34, 30, 0.08)",
-      "border_strong": "rgba(44, 34, 30, 0.16)",
-      "dark_charcoal_footer": "#1E1815"
-    },
-    "surfaces": [
-      {
-        "name": "page",
-        "kind": "solid",
-        "bg": "#FAF7F2",
-        "on_bg": "#2C221E",
-        "on_bg_muted": "#73645C",
-        "roles": {
-          "link": "#C85A32",
-          "error": "#B91C1C",
-          "success": "#2D7A4D"
-        }
-      },
-      {
-        "name": "panel",
-        "kind": "solid",
-        "bg": "#F3EDE2",
-        "on_bg": "#2C221E",
-        "on_bg_muted": "#73645C",
-        "roles": {
-          "link": "#C85A32",
-          "error": "#B91C1C",
-          "success": "#2D7A4D"
-        }
-      },
-      {
-        "name": "card_white",
-        "kind": "solid",
-        "bg": "#FFFFFF",
-        "on_bg": "#2C221E",
-        "on_bg_muted": "#73645C",
-        "roles": {
-          "link": "#C85A32",
-          "error": "#B91C1C",
-          "success": "#2D7A4D"
-        }
-      },
-      {
-        "name": "terracotta_badge",
-        "kind": "solid",
-        "bg": "#FBEBE4",
-        "on_bg": "#9E3C1B",
-        "on_bg_muted": "#B34A24"
-      },
-      {
-        "name": "sage_badge",
-        "kind": "solid",
-        "bg": "#EEF3EF",
-        "on_bg": "#3B5544",
-        "on_bg_muted": "#5E7A68"
-      },
-      {
-        "name": "footer_inverse",
-        "kind": "solid",
-        "bg": "#1E1815",
-        "on_bg": "#F7F3EE",
-        "on_bg_muted": "#B5A79E",
-        "roles": {
-          "link": "#E48766",
-          "error": "#F87171",
-          "success": "#4ADE80"
-        }
-      },
-      {
-        "name": "hero_interactive_stage",
-        "kind": "solid",
-        "bg": "#EDE4D6",
-        "on_bg": "#2C221E",
-        "on_bg_muted": "#73645C"
-      },
-      {
-        "name": "sticky_header_glass",
-        "kind": "glass",
-        "contrast_against": "#FAF7F2",
-        "guarantee": "backdrop-blur-xl bg-[#FAF7F2]/90 border-b border-[#2C221E]/10",
-        "on_bg": "#2C221E",
-        "on_bg_muted": "#73645C",
-        "roles": {
-          "link": "#C85A32"
-        }
-      }
-    ],
-    "accent": "#C85A32",
-    "on_accent": "#FFFFFF"
+    "note": "Token names in index.css are kept from the original warm theme so markup is stable: cream = page bg, sand = surface, stage = image bg, clay = text, terra = primary accent, sage = secondary accent, mustard = tertiary accent.",
+    "cream (page background)": "#07070A",
+    "sand (card surface)": "#121217",
+    "stage (image background)": "#17171E",
+    "ink (footer / dark badges)": "#0D0D12",
+    "clay (text)": "#F3F2EE",
+    "clay-soft (muted text)": "#A2A3AD",
+    "terra (primary neon magenta)": "#FF2E88",
+    "terra-dark (hover)": "#E01A72",
+    "terra-deep (text on dark tints)": "#FF7AB8",
+    "terra-soft (dark magenta tint)": "#2A0E1C",
+    "sage (neon cyan)": "#22E6FF",
+    "sage-deep (cyan text)": "#8FF1FF",
+    "sage-soft (dark cyan tint)": "#0B2228",
+    "mustard (neon lime)": "#C6FF3D",
+    "borders": "rgba(255,255,255,0.10) — use border-white/10, never border-clay/10 semantics",
+    "forbidden": ["cream/terracotta light backgrounds", "pure white cards", "purple-on-white gradients"]
   },
-  "entry_surfaces": {
-    "/": "editorial split hero: kinetic interactive before-after slider on right, Hebrew brand manifesto + primary shop CTA left",
-    "/shop": "high-clarity craft catalog: sticky filter chips top, responsive product grid with live stock and paint kit options",
-    "/product/:id": "curated product stage: 3D photo carousel right, paint difficulty badge, kit contents selector, add-to-cart left",
-    "/superhero-customizer": "interactive photo-upload lab: multi-angle photo dropzone right, real-time 3D stylized preview & cape color picker left",
-    "/cart": "slide-over craft drawer or dedicated review page with bundle discount tier meter and expedited delivery timeline",
-    "/checkout": "focused two-column Hebrew checkout: shipping details and quick payment options left, physical order recap right",
-    "/about": "editorial craft manifesto: story of Israeli 3D printing makers, non-toxic eco PLA filaments, workshop photos",
-    "/faq": "accordion knowledge base with search for paint drying times, washing dolls, acrylic safety, and replacements",
-    "/contact": "warm studio inquiry form with WhatsApp direct chat button and Tel Aviv studio pickup info",
-    "/shipping": "shipping guide covering Israel Post, home courier (3-5 business days), and custom superhero production timeline",
-    "/returns": "clear policy for damaged kits, paint refills, and 100% happiness guarantee",
-    "/privacy": "privacy policy regarding uploaded child photos (auto-deleted within 14 days after 3D modeling)",
-    "/terms": "terms of service, safe non-toxic certification, parental supervision guidance"
+  "depth_and_3d": {
+    "depth-card": "utility class: subtle top highlight gradient + deep black drop shadow. Use for all cards.",
+    "glow-terra / glow-sage": "neon ring + glow for CTAs and highlighted elements",
+    "TiltCard": "components/TiltCard.tsx — perspective 1200px mouse tilt with moving light sheen; wrap cards/images in it (max 6–10 deg)",
+    "FoxModel": "components/FoxModel.tsx — procedural React Three Fiber chibi fox (Melanie) with paintable parts; Hero3D.tsx wraps it with an acrylic-marker palette (click part to paint, 'paint like Melanie', reset)",
+    "glows": "large blurred radial blobs (bg-terra/20, bg-sage/15, blur-[120px]) behind hero/sections",
+    "images": "all product/hero photography on pure black studio bg with magenta/cyan rim light (generated 2026-10-04)"
   },
-  "spacing_and_layout": {
-    "philosophy": "Generous Mediterranean Craft Studio Spacing (2-3x standard spacing, breathable off-white canvas)",
-    "container_max_width": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
-    "grid_modes": {
-      "hero_split": "grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center",
-      "product_catalog": "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8",
-      "manifesto_chapters": "grid grid-cols-1 md:grid-cols-3 gap-8",
-      "superhero_lab": "grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"
-    }
+  "copy_rules": {
+    "painting_tool": "ALWAYS 'טושים אקריליים' (acrylic markers). NEVER 'מכחולים' (brushes). Kit = white doll + 6 acrylic markers + illustrated guide.",
+    "language": "Hebrew RTL, brand IMAGO in Latin",
+    "superhero": "demo experience — Meshy not connected; do not promise production"
   },
-  "key_features_and_flows": {
-    "kinetic_before_after_hero": {
-      "description": "Interactive drag slider and auto-toggle showing the pure white unpainted 3D PLA doll transforming into a vibrant, hand-painted masterpiece with paintbrush strokes animation",
-      "badges": ["100% חומר אקולוגי בטוח לילדים", "תוצרת כחול-לבן", "כולל צבעים ומכחולים"]
-    },
-    "superhero_ai_photo_lab": {
-      "steps": [
-        {"num": 1, "title": "העלאת תמונות הילד/ה", "desc": "מעלים 1-3 תמונות פנים ברורות"},
-        {"num": 2, "title": "בחירת חליפת גיבור-על", "desc": "גלימה, סמל חזה, תנוחת תעופה או עמידת כוח"},
-        {"num": 3, "title": "עיבוד תלת-ממד מיידי", "desc": "תצוגה מקדימה חיה של הבובה הלבנה והצבועה"},
-        {"num": 4, "title": "הדפסה ושילוח עד הבית", "desc": "הדפסה בטכנולוגיית SLA/FDM באיכות פרימיום"}
-      ]
-    },
-    "shop_categories": [
-      {"id": "all", "name": "כל הבובות", "icon": "Sparkles"},
-      {"id": "animals", "name": "חיות היער והספארי", "icon": "PawPrint"},
-      {"id": "superheroes", "name": "גיבורי-על מותאמים אישית", "icon": "Shield"},
-      {"id": "fantasy", "name": "פיות ודרקונים", "icon": "Wand2"},
-      {"id": "space", "name": "אסטרונאוטים וחלל", "icon": "Rocket"},
-      {"id": "starter_kits", "name": "ערכות צבע ומכחולים מקצועיים", "icon": "Palette"}
-    ],
-    "cart_and_bundle_logic": {
-      "free_shipping_threshold": 199,
-      "bundle_offer": "קנו 3 בובות וקבלו ערכת 12 צבעי אקריליק פרימיום + 3 מכחולים במתנה (חיסכון של ₪49)"
-    }
-  },
-  "motion_and_interactions": {
-    "engine": "framer-motion + CSS micro-transitions",
-    "scrolling": "lenis smooth momentum scroll for editorial elegance",
-    "hero_reveal": "Masked line-by-line text slide up with staggered entrance",
-    "interactive_doll_reveal": "Split slider with draggable handle and tactile before/after comparison",
-    "photo_uploader": "Smooth dropzone animations with pulsating progress bar during 3D generation simulation",
-    "buttons": "Tactile scale down active state (scale-95), subtle border glow on focus, terracotta fill transition"
-  },
-  "accessibility_and_rtl": {
-    "html_dir": "rtl",
-    "lang": "he",
-    "test_ids": "MANDATORY data-testid on every interactive control (buttons, links, inputs, dialogs, sliders, tabs)",
-    "contrast_standards": "All text and badges strictly meet WCAG AA (4.5:1 ratio against #FAF7F2, #F3EDE2, #FFFFFF and #1E1815)",
-    "keyboard_nav": "Full focus-visible ring styles on tabs, sliders, and form controls"
-  },
-  "image_urls": {
-    "hero_white_doll": "https://images.unsplash.com/photo-1693786229415-8c4b2260a925?crop=entropy&cs=srgb&fm=jpg&w=900&q=85",
-    "hero_painted_doll": "https://images.unsplash.com/photo-1599853363665-81c88a796842?crop=entropy&cs=srgb&fm=jpg&w=900&q=85",
-    "child_painting_action": "https://images.unsplash.com/photo-1585775484045-0cafc65dc562?crop=entropy&cs=srgb&fm=jpg&w=900&q=85",
-    "kids_painting_together": "https://images.pexels.com/photos/38881740/pexels-photo-38881740.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-    "dolls_workshop_artisan": "https://images.pexels.com/photos/16075340/pexels-photo-16075340.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-    "superhero_3d_figure": "https://images.pexels.com/photos/15964919/pexels-photo-15964919.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-    "colorful_collection": "https://images.unsplash.com/photo-1711008009163-c47e96b648a9?crop=entropy&cs=srgb&fm=jpg&w=900&q=85",
-    "little_toddler_painting": "https://images.unsplash.com/photo-1662494605017-28f6422372ca?crop=entropy&cs=srgb&fm=jpg&w=900&q=85"
-  },
-  "instructions_to_main_agent": [
-    "Follow RTL Hebrew-first structure strictly: `dir=\"rtl\"` on root container, text aligned to right, icons appropriately mirrored where directional.",
-    "Implement the kinetic before-and-after doll story in the hero section: provide an interactive draggable/scrubbable split slider comparing the raw white 3D printed figurine with the fully painted, vibrant masterpiece.",
-    "Ensure all shop categories, doll products, and the customized superhero experience have robust mock data, realistic pricing in ₪ (ILS), paint difficulty levels (קל / בינוני / מתקדם), dimensions, and bundled paint options.",
-    "Build a complete multi-step Superhero Photo Customizer with photo upload simulation, live preview state with 3D turn/color toggles, child's name customization, and direct add-to-cart with personalized specifications.",
-    "Provide a sleek slide-over cart drawer and complete checkout flow with local Israeli delivery options (שליח עד הבית 3-5 ימי עסקים, איסוף עצמי מסטודיו תל אביב), promo code support, and order confirmation receipt.",
-    "Implement all informative pages: About (סיפור המותג והטכנולוגיה), FAQ (שאלות נפוצות על צבעי אקריליק ובטיחות), Contact (טופס יצירת קשר ו-WhatsApp), Shipping & Returns (משלוחים והחזרות), Privacy Policy (מדיניות פרטיות ומחיקת תמונות), and Terms (תנאי שימוש).",
-    "Ensure generous padding and crisp earthy design aesthetic (cream #FAF7F2, terracotta #C85A32, deep clay #2C221E) with subtle borders and 0 generic bootstrap layout feel.",
-    "Include `data-testid` attributes on all buttons, links, inputs, selectors, and interactive cards for automated testing."
-  ]
+  "interactions_kept_from_original": ["PaintCursor (dot+ring)", "PaintTrail neon drops in hero", "giant outlined IMAGO watermark with scroll parallax", "SpinBadge", "MagneticButton", "SectionTitle brush underline", "ScrollPaintStory pinned scroll-paint of Melanie (dark bg #07070A → #1C0A16)", "ProductShelf horizontal scroll-driven", "Marquee skew by scroll velocity", "page transitions"],
+  "testing": "All interactive elements have data-testid. Hero 3D: hero-3d-lab, marker-{id}, hero-paint-melanie, hero-paint-reset, hero-paint-progress."
 }

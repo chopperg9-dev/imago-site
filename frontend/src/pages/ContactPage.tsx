@@ -5,7 +5,7 @@ import { apiPost } from "@/lib/api";
 import { Reveal } from "@/components/Reveal";
 
 const INPUT =
-  "w-full rounded-2xl border border-clay/15 bg-white px-4 py-3 text-sm outline-none transition-all placeholder:text-clay/35 focus:border-terra focus:ring-2 focus:ring-terra/20";
+  "w-full rounded-2xl border border-clay/15 bg-sand px-4 py-3 text-sm outline-none transition-all placeholder:text-clay/35 focus:border-terra focus:ring-2 focus:ring-terra/20";
 
 export default function ContactPage() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
@@ -69,9 +69,9 @@ export default function ContactPage() {
         <div className="space-y-4 lg:col-span-5">
           <InfoCard icon={<MapPin className="h-5 w-5" />} title="הסטודיו שלנו" lines={["רח׳ האומנים 12, תל־אביב", "איסוף עצמי בתיאום מראש"]} />
           <InfoCard icon={<Clock className="h-5 w-5" />} title="שעות מענה" lines={["א׳–ה׳ 09:00–18:00", "ו׳ 09:00–13:00"]} />
-          <InfoCard icon={<Mail className="h-5 w-5" />} title="מייל וטלפון" lines={["shalom@imago-dolls.co.il", "03-555-0134"]} />
+          <InfoCard icon={<Mail className="h-5 w-5" />} title="מייל וטלפון" lines={["shalom@imago-dolls.co.il", "050-333-1809"]} />
           <a
-            href="https://wa.me/97235550134"
+            href="https://wa.me/972503331809"
             target="_blank"
             rel="noreferrer"
             data-testid="contact-whatsapp-button"
@@ -91,7 +91,7 @@ export default function ContactPage() {
 
 function InfoCard({ icon, title, lines }: { icon: React.ReactNode; title: string; lines: string[] }) {
   return (
-    <div className="flex items-start gap-4 rounded-3xl border border-clay/10 bg-white p-6">
+    <div className="flex items-start gap-4 rounded-3xl border border-clay/10 bg-sand p-6">
       <span className="mt-0.5 text-terra">{icon}</span>
       <div>
         <p className="text-sm font-bold">{title}</p>

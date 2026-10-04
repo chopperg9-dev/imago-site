@@ -4,21 +4,23 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Dark "neon markers" palette. Token names kept from the original warm theme so
+   component markup stays unchanged: cream = page bg, sand = surface, clay = text. */
 @theme {
-    --color-cream: #FAF7F2;
-    --color-sand: #F3EDE2;
-    --color-stage: #EDE4D6;
-    --color-clay: #2C221E;
-    --color-clay-soft: #73645C;
-    --color-terra: #C85A32;
-    --color-terra-dark: #B34A24;
-    --color-terra-deep: #9E3C1B;
-    --color-terra-soft: #FBEBE4;
-    --color-sage: #5E7A68;
-    --color-sage-deep: #3B5544;
-    --color-sage-soft: #EEF3EF;
-    --color-ink: #1E1815;
-    --color-mustard: #D9A441;
+    --color-cream: #07070A;
+    --color-sand: #121217;
+    --color-stage: #17171E;
+    --color-clay: #F3F2EE;
+    --color-clay-soft: #A2A3AD;
+    --color-terra: #FF2E88;
+    --color-terra-dark: #E01A72;
+    --color-terra-deep: #FF7AB8;
+    --color-terra-soft: #2A0E1C;
+    --color-sage: #22E6FF;
+    --color-sage-deep: #8FF1FF;
+    --color-sage-soft: #0B2228;
+    --color-ink: #0D0D12;
+    --color-mustard: #C6FF3D;
     --font-heading: 'Suez One', 'Assistant', serif;
     --font-sans: 'Assistant', 'Arial', sans-serif;
 }
@@ -65,38 +67,38 @@
 }
 
 :root {
-    --background: #FAF7F2;
-    --foreground: #2C221E;
-    --card: #FFFFFF;
-    --card-foreground: #2C221E;
-    --popover: #FFFFFF;
-    --popover-foreground: #2C221E;
-    --primary: #C85A32;
+    --background: #07070A;
+    --foreground: #F3F2EE;
+    --card: #121217;
+    --card-foreground: #F3F2EE;
+    --popover: #121217;
+    --popover-foreground: #F3F2EE;
+    --primary: #FF2E88;
     --primary-foreground: #FFFFFF;
-    --secondary: #F3EDE2;
-    --secondary-foreground: #2C221E;
-    --muted: #F3EDE2;
-    --muted-foreground: #73645C;
-    --accent: #FBEBE4;
-    --accent-foreground: #9E3C1B;
-    --destructive: #B91C1C;
-    --border: rgba(44, 34, 30, 0.1);
-    --input: rgba(44, 34, 30, 0.16);
-    --ring: #C85A32;
-    --chart-1: #C85A32;
-    --chart-2: #5E7A68;
-    --chart-3: #D9A441;
-    --chart-4: #73645C;
-    --chart-5: #2C221E;
+    --secondary: #1A1A22;
+    --secondary-foreground: #F3F2EE;
+    --muted: #1A1A22;
+    --muted-foreground: #A2A3AD;
+    --accent: #2A0E1C;
+    --accent-foreground: #FF7AB8;
+    --destructive: #FF4D4D;
+    --border: rgba(255, 255, 255, 0.1);
+    --input: rgba(255, 255, 255, 0.16);
+    --ring: #FF2E88;
+    --chart-1: #FF2E88;
+    --chart-2: #22E6FF;
+    --chart-3: #C6FF3D;
+    --chart-4: #A2A3AD;
+    --chart-5: #F3F2EE;
     --radius: 0.875rem;
-    --sidebar: #F3EDE2;
-    --sidebar-foreground: #2C221E;
-    --sidebar-primary: #C85A32;
+    --sidebar: #121217;
+    --sidebar-foreground: #F3F2EE;
+    --sidebar-primary: #FF2E88;
     --sidebar-primary-foreground: #FFFFFF;
-    --sidebar-accent: #FBEBE4;
-    --sidebar-accent-foreground: #9E3C1B;
-    --sidebar-border: rgba(44, 34, 30, 0.1);
-    --sidebar-ring: #C85A32;
+    --sidebar-accent: #2A0E1C;
+    --sidebar-accent-foreground: #FF7AB8;
+    --sidebar-border: rgba(255, 255, 255, 0.1);
+    --sidebar-ring: #FF2E88;
 }
 
 @layer base {
@@ -106,17 +108,21 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-synthesis-weight: none;
+    color-scheme: dark;
   }
   html {
     @apply font-sans;
     scroll-behavior: auto;
   }
   ::selection {
-    background: #C85A32;
-    color: #FFFFFF;
+    background: #C6FF3D;
+    color: #07070A;
   }
   h1, h2, h3, .font-heading {
     font-family: var(--font-heading);
+  }
+  input, textarea, select {
+    color-scheme: dark;
   }
 }
 
@@ -127,19 +133,35 @@
     inset: 0;
     z-index: 60;
     pointer-events: none;
-    opacity: 0.05;
+    opacity: 0.07;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
   .text-balance {
     text-wrap: balance;
   }
   .text-outline {
-    -webkit-text-stroke: 1.5px rgba(44, 34, 30, 0.13);
+    -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.14);
     color: transparent;
   }
   .text-outline-terra {
-    -webkit-text-stroke: 2px rgba(200, 90, 50, 0.4);
+    -webkit-text-stroke: 2px rgba(255, 46, 136, 0.55);
     color: transparent;
+  }
+  .glow-terra {
+    box-shadow: 0 0 0 1px rgba(255, 46, 136, 0.35), 0 10px 40px -10px rgba(255, 46, 136, 0.65);
+  }
+  .glow-sage {
+    box-shadow: 0 0 0 1px rgba(34, 230, 255, 0.35), 0 10px 40px -10px rgba(34, 230, 255, 0.6);
+  }
+  .depth-card {
+    background: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.015));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 30px 60px -30px rgba(0,0,0,0.9);
+  }
+  .perspective-1200 {
+    perspective: 1200px;
+  }
+  .preserve-3d {
+    transform-style: preserve-3d;
   }
 }
 

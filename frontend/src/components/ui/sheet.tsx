@@ -62,6 +62,7 @@ function SheetContent({
         {showCloseButton && (
           <SheetPrimitive.Close
             data-slot="sheet-close"
+            data-testid="mobile-menu-close-button"
             render={
               <Button
                 variant="ghost"
@@ -72,7 +73,7 @@ function SheetContent({
           >
             <XIcon
             />
-            <span className="sr-only">Close</span>
+            <span className="sr-only">סגירת תפריט</span>
           </SheetPrimitive.Close>
         )}
       </SheetPrimitive.Popup>

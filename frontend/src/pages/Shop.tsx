@@ -24,11 +24,11 @@ export default function Shop() {
         <p className="text-xs font-bold tracking-[0.2em] text-terra-deep">החנות</p>
         <h1 className="mt-3 font-heading text-4xl font-black sm:text-5xl">בוחרים בובה לצביעה</h1>
         <p className="mt-4 max-w-xl text-sm leading-7 text-clay-soft">
-          כל בובה מגיעה לבנה, עם 6 צבעי אקריליק בטוחים, שני מכחולים ומדריך צביעה מצויר — הכול בקופסה אחת.
+          כל בובה מגיעה לבנה, עם 6 טושים אקריליים ומדריך צביעה מצויר — הכול בקופסה אחת.
         </p>
       </Reveal>
 
-      <div className="sticky top-16 z-30 -mx-4 mt-10 overflow-x-auto bg-cream/90 px-4 py-3 backdrop-blur-xl sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+      <div className="sticky top-16 z-30 -mx-4 mt-10 overflow-x-auto bg-cream/85 px-4 py-3 backdrop-blur-xl sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
         <div className="flex gap-2" role="tablist" aria-label="קטגוריות">
           {(categories ?? [{ id: "all", name: "כל הבובות" }]).map((cat) => (
             <button
@@ -40,8 +40,8 @@ export default function Shop() {
               onClick={() => setParams(cat.id === "all" ? {} : { cat: cat.id })}
               className={`shrink-0 rounded-full border px-5 py-2 text-sm font-medium transition-all active:scale-95 ${
                 active === cat.id
-                  ? "border-terra bg-terra text-white"
-                  : "border-clay/15 bg-white text-clay hover:border-terra hover:text-terra"
+                  ? "border-terra bg-terra text-white shadow-[0_0_18px_rgba(255,46,136,0.5)]"
+                  : "border-white/15 bg-sand text-clay hover:border-terra hover:text-terra"
               }`}
             >
               {cat.name}

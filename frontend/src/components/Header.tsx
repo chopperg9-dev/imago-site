@@ -14,13 +14,14 @@ const LINKS = [
 export default function Header() {
   const { count } = useCart();
   return (
-    <header className="sticky top-0 z-50 border-b border-clay/10 bg-cream/90 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-cream/80 backdrop-blur-xl">
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-terra/60 to-transparent" />
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link to="/" className="flex items-center gap-2.5" data-testid="header-logo-link">
           <img
             src="/logo-character.png"
             alt="IMAGO — Color Your Character"
-            className="h-11 w-11 object-contain"
+            className="h-11 w-11 object-contain drop-shadow-[0_0_14px_rgba(255,46,136,0.55)]"
           />
           <span className="leading-none">
             <span className="block text-xl font-black tracking-[0.2em]" style={{ fontFamily: "'Frank Ruhl Libre', serif" }}>IMAGO</span>
@@ -51,7 +52,7 @@ export default function Header() {
           <Link
             to="/cart"
             data-testid="header-cart-button"
-            className="relative flex h-10 w-10 items-center justify-center rounded-full border border-clay/15 bg-white transition-all hover:border-terra hover:text-terra"
+            className="relative flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-sand transition-all hover:border-terra hover:text-terra hover:shadow-[0_0_16px_rgba(255,46,136,0.5)]"
             aria-label="סל קניות"
           >
             <ShoppingBag className="h-4.5 w-4.5" />
@@ -68,12 +69,12 @@ export default function Header() {
           <Sheet>
             <SheetTrigger
               data-testid="mobile-menu-button"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-clay/15 bg-white lg:hidden"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-sand lg:hidden"
               aria-label="תפריט"
             >
               <Menu className="h-4.5 w-4.5" />
             </SheetTrigger>
-            <SheetContent side="left" className="bg-cream">
+            <SheetContent side="left" className="border-white/10 bg-cream">
               <SheetTitle className="font-heading text-xl font-black tracking-[0.25em]">IMAGO</SheetTitle>
               <nav className="mt-8 flex flex-col gap-5" aria-label="תפריט נייד">
                 {LINKS.map((link) => (

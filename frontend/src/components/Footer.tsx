@@ -22,7 +22,7 @@ const LEGAL_LINKS = [
 
 export default function Footer() {
   return (
-    <footer className="bg-ink text-[#F7F3EE]">
+    <footer className="relative border-t border-white/10 bg-ink text-clay"><div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-sage/60 to-transparent" />
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-10 md:grid-cols-5">
           <div className="col-span-2">
@@ -30,18 +30,18 @@ export default function Footer() {
               <img src="/logo-character.png" alt="IMAGO" className="h-16 w-16 object-contain drop-shadow-lg" />
               <div>
                 <p className="text-2xl font-black tracking-[0.25em]" style={{ fontFamily: "'Frank Ruhl Libre', serif" }}>IMAGO</p>
-                <p className="mt-0.5 text-[10px] tracking-[0.3em] text-[#B5A79E]">COLOR YOUR CHARACTER</p>
+                <p className="mt-0.5 text-[10px] tracking-[0.3em] text-clay-soft">COLOR YOUR CHARACTER</p>
               </div>
             </div>
-            <p className="mt-4 max-w-xs text-sm leading-7 text-[#B5A79E]">
-              בובות הדפסה תלת־ממדית מ־PLA אקולוגי, מגיעות לבנות עם ערכת צבעים — כדי שהילדים יהפכו אותן ליצירת אמנות משלהן.
+            <p className="mt-4 max-w-xs text-sm leading-7 text-clay-soft">
+              בובות הדפסה תלת־ממדית מ־PLA אקולוגי, מגיעות לבנות עם ערכת טושים אקריליים — כדי שהילדים יהפכו אותן ליצירת אמנות משלהן.
             </p>
             <a
               href="https://instagram.com"
               target="_blank"
               rel="noreferrer"
               data-testid="footer-instagram-link"
-              className="mt-6 inline-flex items-center gap-2 text-sm text-[#E48766] transition-colors hover:text-white"
+              className="mt-6 inline-flex items-center gap-2 text-sm text-sage transition-colors hover:text-white"
             >
               <Instagram className="h-4 w-4" /> עקבו אחרינו
             </a>
@@ -52,11 +52,11 @@ export default function Footer() {
           <FooterCol title="משפטי" links={LEGAL_LINKS} />
         </div>
 
-        <div className="mt-12 flex flex-col gap-3 border-t border-white/10 pt-8 text-xs text-[#B5A79E] sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-12 flex flex-col gap-3 border-t border-white/10 pt-8 text-xs text-clay-soft sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 IMAGO · Color Your Character · כל הזכויות שמורות</p>
           <div className="flex flex-wrap gap-x-5 gap-y-2">
             <span className="inline-flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5" /> רח׳ האומנים 12, תל־אביב</span>
-            <span className="inline-flex items-center gap-1.5"><Phone className="h-3.5 w-3.5" /> 03-555-0134</span>
+            <span className="inline-flex items-center gap-1.5"><Phone className="h-3.5 w-3.5" /> 050-333-1809</span>
             <span className="inline-flex items-center gap-1.5"><Mail className="h-3.5 w-3.5" /> shalom@imago-dolls.co.il</span>
           </div>
         </div>
@@ -68,14 +68,14 @@ export default function Footer() {
 function FooterCol({ title, links }: { title: string; links: { to: string; label: string }[] }) {
   return (
     <div>
-      <p className="text-sm font-semibold tracking-wide text-white/90">{title}</p>
+      <p className="text-sm font-semibold tracking-wide text-clay/90">{title}</p>
       <ul className="mt-4 space-y-3">
         {links.map((link) => (
           <li key={link.to}>
             <Link
               to={link.to}
               data-testid={`footer-link-${link.to.slice(1)}`}
-              className="text-sm text-[#B5A79E] transition-colors hover:text-[#E48766]"
+              className="text-sm text-clay-soft transition-colors hover:text-sage"
             >
               {link.label}
             </Link>

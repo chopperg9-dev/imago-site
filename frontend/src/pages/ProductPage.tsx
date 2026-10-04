@@ -8,6 +8,7 @@ import { useCart } from "@/lib/cart";
 import type { Product } from "@/lib/types";
 import ProductCard from "@/components/ProductCard";
 import { Reveal } from "@/components/Reveal";
+import TiltCard from "@/components/TiltCard";
 
 const DIFFICULTY_STYLE: Record<string, string> = {
   "קל": "bg-sage-soft text-sage-deep",
@@ -64,9 +65,11 @@ export default function ProductPage() {
 
       <div className="mt-8 grid grid-cols-1 gap-12 lg:grid-cols-2">
         <Reveal>
-          <div className="overflow-hidden rounded-[2rem] border border-clay/10 bg-sand">
-            <img src={product.image} alt={product.name} className="aspect-square w-full object-cover" />
-          </div>
+          <TiltCard className="group" max={6}>
+            <div className="depth-card overflow-hidden rounded-[2rem] border border-white/10 shadow-[0_0_0_1px_rgba(255,46,136,0.15),0_50px_100px_-40px_rgba(255,46,136,0.35)]">
+              <img src={product.image} alt={product.name} className="aspect-square w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            </div>
+          </TiltCard>
         </Reveal>
 
         <Reveal delay={0.15}>
@@ -99,7 +102,7 @@ export default function ProductPage() {
             </p>
 
             <div className="mt-8 flex items-center gap-4">
-              <div className="flex items-center rounded-full border border-clay/15 bg-white">
+              <div className="flex items-center rounded-full border border-clay/15 bg-sand">
                 <button
                   type="button"
                   onClick={() => setQty((q) => Math.min(9, q + 1))}

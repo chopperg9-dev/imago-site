@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { animate, motion, useMotionValue, useSpring, useTransform } from "motion/react";
 
 const HERO_BEFORE =
-  "https://static.prod-images.emergentagent.com/jobs/4ce74442-beb6-4a2a-a71b-521399fd659c/images/aec5b7a3e4ce32fdab65bb47b4352ba3effd1f52422a0d78b56311e31281ae73.jpeg";
+  "https://static.prod-images.emergentagent.com/jobs/4ce74442-beb6-4a2a-a71b-521399fd659c/images/4ef63e567478ed3b2312943b98c2f2256715d375fa6b19ce1a55db0219e05db7.jpeg";
 const HERO_AFTER =
-  "https://static.prod-images.emergentagent.com/jobs/4ce74442-beb6-4a2a-a71b-521399fd659c/images/d672d9ea803540f358674dfcc38d49970a87f7932571b56acfc4cac3cd0af2eb.jpeg";
+  "https://static.prod-images.emergentagent.com/jobs/4ce74442-beb6-4a2a-a71b-521399fd659c/images/181cf0f8a44ea5f48676d5582a202354044ea811084cd01837cd22a00b420fbe.jpeg";
 
 export default function BeforeAfterSlider() {
   const ref = useRef<HTMLDivElement>(null);
@@ -71,7 +71,7 @@ export default function BeforeAfterSlider() {
         onPointerUp={() => {
           dragging.current = false;
         }}
-        className="relative aspect-[4/5] cursor-ew-resize touch-none select-none overflow-hidden rounded-[2rem] border border-clay/10 bg-stage shadow-[0_32px_80px_-24px_rgba(44,34,30,0.35)] outline-none focus-visible:ring-2 focus-visible:ring-terra"
+        className="relative aspect-[4/5] cursor-ew-resize touch-none select-none overflow-hidden rounded-[2rem] border border-clay/10 bg-stage shadow-[0_32px_80px_-24px_rgba(0,0,0,0.35)] outline-none focus-visible:ring-2 focus-visible:ring-terra"
       >
         <img
           src={HERO_BEFORE}
@@ -95,7 +95,7 @@ export default function BeforeAfterSlider() {
         </span>
 
         <div className="absolute inset-y-0" style={{ left: `${pos}%` }}>
-          <div className="absolute inset-y-0 -ml-px w-0.5 bg-white/90 shadow" />
+          <div className="absolute inset-y-0 -ml-px w-0.5 bg-ink/90 shadow" />
           <button
             type="button"
             data-testid="before-after-handle"
@@ -110,7 +110,7 @@ export default function BeforeAfterSlider() {
         </div>
       </div>
 
-      <div className="animate-float absolute -bottom-6 -right-4 rounded-2xl border border-clay/10 bg-white px-5 py-4 shadow-xl sm:-right-8">
+      <div className="animate-float absolute -bottom-6 -right-4 rounded-2xl border border-clay/10 bg-sand px-5 py-4 shadow-xl sm:-right-8">
         <p className="font-heading text-2xl font-black text-terra">+2,400</p>
         <p className="text-xs text-clay-soft">בובות נצבעו בבית השנה</p>
       </div>

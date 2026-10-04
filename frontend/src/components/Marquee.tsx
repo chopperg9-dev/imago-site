@@ -3,7 +3,7 @@ import { motion, useScroll, useSpring, useTransform, useVelocity } from "motion/
 const ITEMS = [
   "מודפס באהבה בתל־אביב",
   "PLA אקולוגי וידידותי",
-  "צבעים בטוחים לילדים",
+  "טושים אקריליים בטוחים לילדים",
   "משלוח חינם מעל ₪199",
   "גיבור־על אישי מהתמונה",
   "מתנה שלא שוכחים",
@@ -25,7 +25,7 @@ export default function Marquee() {
     </>
   );
   return (
-    <div dir="ltr" className="overflow-hidden border-y border-clay/10 bg-sand py-4 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]" aria-hidden="true">
+    <div dir="ltr" className="overflow-hidden border-y border-white/10 bg-sand py-4 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]" aria-hidden="true">
       <motion.div className="animate-marquee flex w-max hover:[animation-play-state:paused]" style={{ direction: "ltr", skewX }}>
         <div className="flex">{row}</div>
         <div className="flex">{row}</div>

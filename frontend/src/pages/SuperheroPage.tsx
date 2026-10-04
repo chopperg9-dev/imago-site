@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Camera, Check, ImagePlus, Loader2, RefreshCcw, Shield, Sparkles, X } from "lucide-react";
 import { toast } from "sonner";
 import { AnimatePresence, motion } from "motion/react";
-import { apiGet, apiPost } from "@/lib/api";
+import { API_BASE, apiGet, apiPost } from "@/lib/api";
 import { useCart } from "@/lib/cart";
 import type { SuperheroJob } from "@/lib/types";
 import { Reveal } from "@/components/Reveal";
@@ -40,16 +40,17 @@ export default function SuperheroPage() {
   const [job, setJob] = useState<SuperheroJob | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const jobId = job?.id;
 
   useEffect(() => {
     return () => previews.forEach((url) => URL.revokeObjectURL(url));
   }, [previews]);
 
   useEffect(() => {
-    if (!job || phase !== "processing") return;
+    if (!jobId || phase !== "processing") return;
     const timer = setInterval(async () => {
       try {
-        const updated = await apiGet<SuperheroJob>(`/superhero/jobs/${job.id}`);
+        const updated = await apiGet<SuperheroJob>(`/superhero/jobs/${jobId}`);
         setJob(updated);
         if (updated.status === "ready") {
           setPhase("ready");
@@ -65,11 +66,16 @@ export default function SuperheroPage() {
       }
     }, 2000);
     return () => clearInterval(timer);
-  }, [job?.id, phase]);
+  }, [jobId, phase]);
 
   const pickFiles = (list: FileList | null) => {
     if (!list) return;
-    const next = [...files, ...Array.from(list)].filter((f) => f.type.startsWith("image/")).slice(0, 4);
+    const selected = Array.from(list);
+    if (selected.some(f => !["image/jpeg", "image/png", "image/webp"].includes(f.type) || f.size > 8 * 1024 * 1024)) {
+      toast.error("אפשר להעלות תמונות JPG, PNG או WebP עד 8MB בלבד");
+      return;
+    }
+    const next = [...files, ...selected].slice(0, 4);
     setFiles(next);
     setPreviews(next.map((f) => URL.createObjectURL(f)));
   };
@@ -89,7 +95,7 @@ export default function SuperheroPage() {
       body.append("child_name", childName.trim());
       body.append("cape", cape);
       body.append("pose", pose);
-      const res = await fetch("/api/superhero/jobs", { method: "POST", body });
+      const res = await fetch(`${API_BASE}/superhero/jobs`, { method: "POST", body });
       if (!res.ok) throw new Error("upload failed");
       const created = (await res.json()) as SuperheroJob;
       setJob(created);
@@ -138,10 +144,11 @@ export default function SuperheroPage() {
           הילד שלכם הופך <span className="text-terra">לגיבור־על</span>
         </h1>
         <p className="mt-5 text-sm leading-8 text-clay-soft">
-          מעלים כמה תמונות פנים, בוחרים גלימה ותנוחה, ורואים על המסך איך הבובה האישית תיראה — רק אחרי
-          שאישרתם את התצוגה, אנחנו מדפיסים.
+          מעלים תמונה ובוחרים גלימה כדי לדמיין דמות אישית. התצוגה היא המחשה של הכיוון העיצובי, ולא מודל מוכן להדפסה.
         </p>
       </Reveal>
+
+      <div role="note" data-testid="superhero-demo-notice">מעבדת הדגמה: חיבור Meshy ליצירת מודל תלת־ממד אינו פעיל. שלבי הבנייה מדומים; תצוגת התמונה עשויה להיווצר בבינה מלאכותית או להיות דוגמה מוכנה. אין כאן אישור לייצור דמות אישית.</div>
 
       <AnimatePresence mode="wait">
         {phase === "form" && (
@@ -165,7 +172,7 @@ export default function SuperheroPage() {
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => e.key === "Enter" && inputRef.current?.click()}
-                className="flex cursor-pointer flex-col items-center justify-center rounded-3xl border-2 border-dashed border-clay/25 bg-white px-6 py-14 text-center transition-all hover:border-terra hover:bg-terra-soft/40"
+                className="flex cursor-pointer flex-col items-center justify-center rounded-3xl border-2 border-dashed border-clay/25 bg-sand px-6 py-14 text-center transition-all hover:border-terra hover:bg-terra-soft/40"
               >
                 <ImagePlus className="h-10 w-10 text-terra" />
                 <p className="mt-4 font-heading text-lg font-bold">גוררים לכאן תמונות או לוחצים לבחירה</p>
@@ -173,7 +180,7 @@ export default function SuperheroPage() {
                 <input
                   ref={inputRef}
                   type="file"
-                  accept="image/*"
+                  accept="image/jpeg,image/png,image/webp"
                   multiple
                   data-testid="superhero-upload-input"
                   className="hidden"
@@ -213,7 +220,7 @@ export default function SuperheroPage() {
             </div>
 
             <div className="space-y-6 lg:col-span-5">
-              <div className="rounded-3xl border border-clay/10 bg-white p-6">
+              <div className="rounded-3xl border border-clay/10 bg-sand p-6">
                 <label className="block">
                   <span className="mb-2 block text-xs font-semibold">שם הילד או הילדה</span>
                   <input
@@ -323,7 +330,7 @@ export default function SuperheroPage() {
                   <li
                     key={stage.id}
                     className={`flex items-center gap-3 rounded-2xl border px-4 py-3 text-sm transition-all ${
-                      currentStage ? "border-terra bg-terra-soft font-bold text-terra-deep" : done ? "border-sage/30 bg-sage-soft text-sage-deep" : "border-clay/10 bg-white text-clay-soft"
+                      currentStage ? "border-terra bg-terra-soft font-bold text-terra-deep" : done ? "border-sage/30 bg-sage-soft text-sage-deep" : "border-clay/10 bg-sand text-clay-soft"
                     }`}
                   >
                     <span className={`flex h-6 w-6 items-center justify-center rounded-full text-[11px] font-black ${done ? "bg-sage text-white" : currentStage ? "bg-terra text-white" : "bg-sand text-clay-soft"}`}>
@@ -364,8 +371,7 @@ export default function SuperheroPage() {
                   הכירו: גיבור־העל של {job.child_name}
                 </h2>
                 <p className="mt-4 text-sm leading-8 text-clay-soft">
-                  זו הדמיית כיוון עיצובי — הבובה הסופית מודפסת בלבן ומצוירת ביד בסטודיו בהשראת העיצוב
-                  שאישרתם. אהבתם? אשרו ונתחיל בהדפסה.
+                  זו הדמיה בלבד, ולא מודל תלת־ממד להדפסה. אפשר לשמור את הבחירה בסל להדגמה; ייצור של דמות אישית אינו פעיל עדיין.
                 </p>
                 <p className="mt-4 font-heading text-2xl font-black text-terra">₪{job.price}</p>
                 <div className="mt-7 flex flex-wrap gap-3">

@@ -33,7 +33,7 @@ export default function PaintCursor() {
   return (
     <>
       <motion.div aria-hidden="true" className="pointer-events-none fixed top-0 left-0 z-[100]" style={{ x: dotX, y: dotY }}>
-        <div className="h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-terra" />
+        <div className="h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-terra shadow-[0_0_10px_#FF2E88]" />
       </motion.div>
       <motion.div aria-hidden="true" className="pointer-events-none fixed top-0 left-0 z-[100]" style={{ x: ringX, y: ringY }}>
         <motion.div

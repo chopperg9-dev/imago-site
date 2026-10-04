@@ -64,7 +64,7 @@ export default function CheckoutPage() {
           <h1 className="mt-6 font-heading text-4xl font-black">ההזמנה התקבלה!</h1>
           <p className="mt-3 text-sm leading-7 text-clay-soft">נשאר רק לשלם בביט — והבובות יוצאות להדפסה.</p>
 
-          <div className="mt-8 rounded-3xl border border-clay/10 bg-white p-8 text-right">
+          <div className="mt-8 rounded-3xl border border-clay/10 bg-sand p-8 text-right">
             <div className="flex items-center justify-between">
               <span className="text-xs text-clay-soft">מספר הזמנה</span>
               <span data-testid="order-number" className="font-heading text-2xl font-black text-terra">{order.order_number}</span>
@@ -123,7 +123,7 @@ export default function CheckoutPage() {
 
       <form onSubmit={submit} className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-12">
         <div className="space-y-8 lg:col-span-7">
-          <section className="rounded-3xl border border-clay/10 bg-white p-7">
+          <section className="rounded-3xl border border-clay/10 bg-sand p-7">
             <h2 className="font-heading text-xl font-black">פרטי קשר</h2>
             <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
               <Field label="שם מלא" required>
@@ -138,7 +138,7 @@ export default function CheckoutPage() {
             </div>
           </section>
 
-          <section className="rounded-3xl border border-clay/10 bg-white p-7">
+          <section className="rounded-3xl border border-clay/10 bg-sand p-7">
             <h2 className="font-heading text-xl font-black">אופן קבלה</h2>
             <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
               <MethodCard
@@ -173,7 +173,7 @@ export default function CheckoutPage() {
             </Field>
           </section>
 
-          <section className="rounded-3xl border border-clay/10 bg-white p-7">
+          <section className="rounded-3xl border border-clay/10 bg-sand p-7">
             <h2 className="font-heading text-xl font-black">אמצעי תשלום</h2>
             <div
               className="mt-6 flex items-start gap-4 rounded-2xl border-2 border-terra bg-terra-soft p-5"
@@ -191,7 +191,7 @@ export default function CheckoutPage() {
         </div>
 
         <aside className="lg:col-span-5">
-          <div className="sticky top-24 rounded-3xl border border-clay/10 bg-white p-7">
+          <div className="sticky top-24 rounded-3xl border border-clay/10 bg-sand p-7">
             <h2 className="font-heading text-xl font-black">ההזמנה שלכם</h2>
             <ul className="mt-5 space-y-4" data-testid="checkout-items-list">
               {items.map((item) => (

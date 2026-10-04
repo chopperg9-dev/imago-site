@@ -62,7 +62,7 @@ export default function PaymentSuccess() {
           <p className="mt-4 text-sm leading-7 text-clay-soft">
             תודה! הבובות יצאו להדפסה, יארזו עם הצבעים, ויגיעו תוך 3–5 ימי עסקים.
           </p>
-          <div className="mt-8 rounded-3xl border border-clay/10 bg-white p-8">
+          <div className="mt-8 rounded-3xl border border-clay/10 bg-sand p-8">
             <p className="text-xs text-clay-soft">מספר הזמנה</p>
             <p data-testid="payment-order-number" className="mt-1 font-heading text-3xl font-black text-terra">
               {orderNumber}

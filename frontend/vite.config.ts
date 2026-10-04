@@ -1,5 +1,5 @@
 import path from "node:path";
-import { defineConfig, type UserConfig } from "vite";
+import { defineConfig, loadEnv, type UserConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { visualEdits } from "@emergentbase/visual-edits/vite";
@@ -34,9 +34,12 @@ if (!hotReloadDisabled) {
 }
 
 // https://vite.dev/config/
-export default defineConfig(async () => {
+export default defineConfig(async ({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), "");
+  if (!env.REACT_APP_BACKEND_URL) throw new Error("REACT_APP_BACKEND_URL is required");
   const emergentOverlay = await loadEmergentOverlay();
   return {
+    define: { "process.env.REACT_APP_BACKEND_URL": JSON.stringify(env.REACT_APP_BACKEND_URL) },
     plugins: [
       react(),
       tailwindcss(),

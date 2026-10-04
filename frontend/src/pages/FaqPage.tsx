@@ -53,7 +53,7 @@ export default function FaqPage() {
           const isOpen = open === i;
           return (
             <Reveal key={faq.q} delay={Math.min(i, 4) * 0.06}>
-              <div className={`rounded-3xl border transition-colors ${isOpen ? "border-terra/40 bg-white" : "border-clay/10 bg-white"}`}>
+              <div className={`rounded-3xl border transition-colors ${isOpen ? "border-terra/40 bg-sand" : "border-clay/10 bg-sand"}`}>
                 <button
                   type="button"
                   onClick={() => setOpen(isOpen ? null : i)}

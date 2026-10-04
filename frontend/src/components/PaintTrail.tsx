@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { motion } from "motion/react";
 import type { ReactNode } from "react";
 
-const COLORS = ["#C85A32", "#5E7A68", "#D9A441"];
+const COLORS = ["#FF2E88", "#22E6FF", "#C6FF3D", "#9B5CFF"];
 const MIN_DIST_SQ = 40 * 40;
 
 interface Drop {
@@ -40,7 +40,7 @@ export default function PaintTrail({ children, className }: { children: ReactNod
           <motion.span
             key={d.id}
             className="absolute rounded-full"
-            style={{ left: d.x, top: d.y, width: d.s, height: d.s, backgroundColor: d.c }}
+            style={{ left: d.x, top: d.y, width: d.s, height: d.s, backgroundColor: d.c, boxShadow: `0 0 ${d.s * 1.5}px ${d.c}` }}
             initial={{ scale: 0.3, opacity: 0.85 }}
             animate={{ scale: 1.7, opacity: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}

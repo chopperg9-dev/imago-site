@@ -16,7 +16,7 @@ export default function CartPage() {
 
       {items.length === 0 ? (
         <Reveal delay={0.1}>
-          <div className="mt-14 flex flex-col items-center rounded-3xl border border-dashed border-clay/20 bg-white/60 px-6 py-20 text-center">
+          <div className="mt-14 flex flex-col items-center rounded-3xl border border-dashed border-clay/20 bg-sand/60 px-6 py-20 text-center">
             <ShoppingBag className="h-10 w-10 text-clay/30" />
             <p className="mt-5 font-heading text-2xl font-bold">הסל עדיין לבן — בדיוק כמו הבובות שלנו</p>
             <p className="mt-2 text-sm text-clay-soft">זמן מושלם לבחור בובה ראשונה לצביעה.</p>
@@ -36,7 +36,7 @@ export default function CartPage() {
               <li
                 key={item.key}
                 data-testid={`cart-item-${item.key}`}
-                className="flex items-center gap-5 rounded-3xl border border-clay/10 bg-white p-4 sm:p-5"
+                className="flex items-center gap-5 rounded-3xl border border-clay/10 bg-sand p-4 sm:p-5"
               >
                 <img src={item.image} alt={item.name} className="h-20 w-20 shrink-0 rounded-2xl bg-sand object-cover sm:h-24 sm:w-24" />
                 <div className="min-w-0 flex-1">
@@ -79,7 +79,7 @@ export default function CartPage() {
           </ul>
 
           <aside className="lg:col-span-4">
-            <div className="sticky top-24 rounded-3xl border border-clay/10 bg-white p-7" data-testid="cart-summary">
+            <div className="sticky top-24 rounded-3xl border border-clay/10 bg-sand p-7" data-testid="cart-summary">
               <h2 className="font-heading text-xl font-black">סיכום הזמנה</h2>
               {remaining > 0 ? (
                 <p className="mt-4 rounded-2xl bg-terra-soft px-4 py-3 text-xs font-medium leading-5 text-terra-deep">

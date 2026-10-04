@@ -3,6 +3,7 @@ import base64
 import logging
 import os
 import uuid
+import io
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from pathlib import Path
@@ -10,7 +11,8 @@ from typing import List, Optional
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, APIRouter, HTTPException, Request, UploadFile, File, Form
-from fastapi.staticfiles import StaticFiles
+from fastapi.responses import Response
+from PIL import Image, UnidentifiedImageError
 from pydantic import BaseModel, Field
 from starlette.middleware.cors import CORSMiddleware
 
@@ -19,18 +21,13 @@ load_dotenv(ROOT_DIR / '.env')
 
 from lib.db import client, db, ensure_indexes
 from lib.meshy import meshy_client
+from lib.storage import init_storage, put_object, get_object
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-UPLOADS = ROOT_DIR / "uploads"
-PHOTOS_DIR = UPLOADS / "photos"
-PREVIEWS_DIR = UPLOADS / "previews"
-for _d in (PHOTOS_DIR, PREVIEWS_DIR):
-    _d.mkdir(parents=True, exist_ok=True)
-
 IMG = "https://static.prod-images.emergentagent.com/jobs/4ce74442-beb6-4a2a-a71b-521399fd659c/images"
-FALLBACK_PREVIEW = f"{IMG}/0a019b44080bff0b28e026f8bccf8901f0da59c3746aaa5f3f34ded03304d4c4.jpeg"
+FALLBACK_PREVIEW = f"{IMG}/d936f2e98a27acd331455e17d71e691ed48b3f925aad516d019a9344e562e99b.jpeg"
 SUPERHERO_PRICE = 349
 
 CATEGORIES = [
@@ -42,46 +39,46 @@ CATEGORIES = [
     {"id": "kits", "name": "ערכות צביעה"},
 ]
 
-KIT_INCLUDES = ["בובה לבנה מ־PLA אקולוגי", "6 צבעי אקריליק ידידותיים לילדים", "2 מכחולים", "מדריך צביעה מצויר"]
+KIT_INCLUDES = ["בובה לבנה מ־PLA אקולוגי", "6 טושים אקריליים ידידותיים לילדים", "מדריך צביעה מצויר"]
 
 PRODUCTS = [
     {"id": "melanie", "name": "מלאני", "tagline": "אוזניים ענק, זנב מטושטש, לב זהב", "category": "animals",
      "price": 119, "difficulty": "בינוני", "height_cm": 11, "featured": True, "in_stock": True,
-     "image": f"{IMG}/aec5b7a3e4ce32fdab65bb47b4352ba3effd1f52422a0d78b56311e31281ae73.jpeg",
+     "image": f"{IMG}/4ef63e567478ed3b2312943b98c2f2256715d375fa6b19ce1a55db0219e05db7.jpeg",
      "description": "השועלה מהסליידר בדף הבית! פרווה עם המון שטחי צביעה — כתום, שמנת וחום שוקולד, או כל צבע שהדמיון מכתיב.", "includes": KIT_INCLUDES},
     {"id": "dino-dani", "name": "דני הדינוזאור", "tagline": "טי־רקס קטן עם לב ענק", "category": "animals",
      "price": 109, "difficulty": "קל", "height_cm": 10, "featured": True, "in_stock": True,
-     "image": f"{IMG}/f531b0c773e97b5c3916236d8df5d5060311c97101a65fb3250523173d1ea82c.jpeg",
+     "image": f"{IMG}/3d3b345ac20d5f5bc12ae2d6f169d94d28d8f58a6b8f7a5bfec30b9ef53d4c82.jpeg",
      "description": "דינוזאור שמנמן עם ידיים קטנות וחיוך ענק — הבובה המושלמת לצביעה ראשונה.", "includes": KIT_INCLUDES},
     {"id": "unicorn-lily", "name": "לילי חד־הקרן", "tagline": "קסם אחד, צבעים אינסוף", "category": "fantasy",
      "price": 129, "difficulty": "בינוני", "height_cm": 13, "featured": True, "in_stock": True,
-     "image": f"{IMG}/9bbc491aa2df9d1a81dbb1c216bafc73afa2543282afe4716aaf7568de672d56.jpeg",
+     "image": f"{IMG}/81d3725c0309b3233fde7736c5ff3e29a88de2540e2f1404d0098a5f7d3eacaf.jpeg",
      "description": "קרן ספירלית, כנפיים קטנות ורעמה שמבקשת קשת של צבעים פסטליים.", "includes": KIT_INCLUDES},
     {"id": "robi-robot", "name": "רובי הרובוט", "tagline": "חבר מתכת עם נשמה", "category": "space",
      "price": 119, "difficulty": "קל", "height_cm": 11, "featured": False, "in_stock": True,
-     "image": f"{IMG}/c964ba073a9c9d446bd5ea15d105eb486c157862938c768bf5c521ee9040e6cd.jpeg",
+     "image": f"{IMG}/10979607086cdacd78fc6a3988f5ae47f5233f3522ed50a8f3bc66520f9a60ae.jpeg",
      "description": "רובוט רטרו עם אנטנה ועיניים עגולות — פאנלים, כפתורים ונוריות מחכים לצבע.", "includes": KIT_INCLUDES},
     {"id": "super-kfir", "name": "כפיר גיבור־העל", "tagline": "גלימה, מסכה, ותנוחת ניצחון", "category": "superheroes",
      "price": 139, "difficulty": "בינוני", "height_cm": 13, "featured": True, "in_stock": True,
-     "image": f"{IMG}/d25c110f8f349ede57fccab98a9449b6195bfd0b1dc78b06c37c252cadd36621.jpeg",
+     "image": f"{IMG}/ba15c69bfbb32e810ec21a7fc63ed68b9f02887fcb1bc82552e9340425a3cee9.jpeg",
      "description": "גיבור־על קלאסי עם גלימה ומסכה — כל ילד בוחר את צבעי החליפה והסמל.", "includes": KIT_INCLUDES},
     {"id": "princess-maya", "name": "הנסיכה מאיה", "tagline": "כתר קטן, דמיון גדול", "category": "fantasy",
      "price": 129, "difficulty": "מתקדם", "height_cm": 14, "featured": False, "in_stock": True,
-     "image": f"{IMG}/942c52058ab34df68f7ed0b367a8fd053cd401707acbc99aa3763ff2ad1ce163.jpeg",
+     "image": f"{IMG}/c166d90d2310fd4984d79d918435f6050f2e594493c03e946abf25bd08be6772.jpeg",
      "description": "שמלה נפוחה וכתר עדין — אתגר צביעה מתגמל לאומניות ואומנים צעירים.", "includes": KIT_INCLUDES},
     {"id": "bear-moosh", "name": "מושי הדובי", "tagline": "חיבוק שמחכה לצבע", "category": "animals",
      "price": 99, "difficulty": "קל", "height_cm": 9, "featured": False, "in_stock": True,
-     "image": f"{IMG}/aed25d445f39bbdbbcfde973970f215ce0d049aaedcd32c09fa38dbf2cb05a36.jpeg",
+     "image": f"{IMG}/a320c83e367562608ca565315dc1f8b18726356aef5fc85f766ab33540faa484.jpeg",
      "description": "דובי שמנמן בישיבה, קלאסיקה מתוקה שתמיד עובדת — מתנה מושלמת.", "includes": KIT_INCLUDES},
     {"id": "bunny-shoki", "name": "שוקי הארנב", "tagline": "אוזניים ארוכות, סבלנות קצרה לצבע", "category": "animals",
      "price": 99, "difficulty": "קל", "height_cm": 12, "featured": False, "in_stock": True,
-     "image": f"{IMG}/7288d5c5f129f95919420106d07bb27395d23b0b1ab2f35b2d2a7a78dc5a80ae.jpeg",
+     "image": f"{IMG}/60257671fe3258bb8f84306cb55f3e9dda1190c8984c3fa665dfb6c9f815ae0e.jpeg",
      "description": "ארנב זקוף עם אוזניים ארוכות — שטחי צביעה רחבים ונוחים לידיים קטנות.", "includes": KIT_INCLUDES},
-    {"id": "paint-kit", "name": "ערכת צביעה פרימיום", "tagline": "12 צבעי אקריליק + 3 מכחולים + פלטה", "category": "kits",
+    {"id": "paint-kit", "name": "ערכת צביעה פרימיום", "tagline": "12 טושים אקריליים + חוד עדין + מדריך", "category": "kits",
      "price": 69, "difficulty": "קל", "height_cm": 0, "featured": False, "in_stock": True,
-     "image": f"{IMG}/4fdebcc98e10e4ab54a5c49ce22a525891be459efd77b36789d87479bac008fe.jpeg",
-     "description": "השדרוג המושלם: 12 צבעי אקריליק לא רעילים בגווני טרקוטה, מרווה וחרדל, 3 מכחולי עץ ופלטת ערבוב.",
-     "includes": ["12 צבעי אקריליק בטוחים", "3 מכחולי עץ בגדלים שונים", "פלטת ערבוב", "מדריך ערבוב צבעים"]},
+     "image": f"{IMG}/010d625d33a558c192a5438c6f417d68ecdec9e82b079131adf36585b11235f4.jpeg",
+     "description": "השדרוג המושלם: 12 טושים אקריליים לא רעילים בגוונים עזים — ניאון, פסטל וקלאסי — עם חוד עדין לפרטים. בלי מים, בלי מכחולים, בלי בלגן.",
+     "includes": ["12 טושים אקריליים בטוחים", "2 טושים עם חוד עדין לפרטים", "טוש לבן לתיקונים", "מדריך שילובי צבעים"]},
 ]
 
 
@@ -181,6 +178,11 @@ class SuperheroJob(BaseModel):
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     app.state.index_task = asyncio.create_task(ensure_indexes())
+    try:
+        await init_storage()
+        logger.info("Object storage initialized")
+    except Exception:
+        logger.exception("Object storage unavailable; photo uploads will fail safely")
     for product in PRODUCTS:
         await db.products.update_one({"id": product["id"]}, {"$set": product}, upsert=True)
     yield
@@ -242,14 +244,15 @@ async def create_contact(payload: ContactCreate):
     return message
 
 
-async def generate_superhero_preview(job_id: str, photo_path: Path, child_name: str, cape: str) -> str:
+async def generate_superhero_preview(job_id: str, photo_path: str, child_name: str, cape: str) -> str:
     api_key = os.environ.get("EMERGENT_LLM_KEY", "")
     if not api_key:
         return FALLBACK_PREVIEW
     cape_he = {"terracotta": "terracotta red", "sage": "sage green", "mustard": "mustard yellow", "royal": "royal blue"}.get(cape, "terracotta red")
     try:
         from emergentintegrations.llm.chat import LlmChat, UserMessage, ImageContent
-        image_b64 = base64.b64encode(photo_path.read_bytes()).decode("utf-8")
+        photo_bytes, _ = await get_object(photo_path)
+        image_b64 = base64.b64encode(photo_bytes).decode("utf-8")
         chat = LlmChat(
             api_key=api_key,
             session_id=f"superhero-{job_id}",
@@ -267,15 +270,15 @@ async def generate_superhero_preview(job_id: str, photo_path: Path, child_name: 
         msg = UserMessage(text=prompt, file_contents=[ImageContent(image_b64)])
         _, images = await chat.send_message_multimodal_response(msg)
         if images:
-            out = PREVIEWS_DIR / f"{job_id}.png"
-            out.write_bytes(base64.b64decode(images[0]["data"]))
-            return f"/api/uploads/previews/{job_id}.png"
+            stored = await put_object(f"imago/previews/{job_id}.png", base64.b64decode(images[0]["data"]), "image/png")
+            await db.files.insert_one({"id": job_id, "kind": "preview", "storage_path": stored["path"], "content_type": "image/png", "is_deleted": False, "created_at": datetime.now(timezone.utc)})
+            return f"/api/superhero/jobs/{job_id}/preview"
     except Exception as exc:
         logger.warning("superhero preview generation fell back: %s", exc)
     return FALLBACK_PREVIEW
 
 
-async def run_superhero_pipeline(job_id: str, photo_path: Path, child_name: str, cape: str):
+async def run_superhero_pipeline(job_id: str, photo_path: str, child_name: str, cape: str):
     stages = [
         ("analyzing", f"מנתחים את התמונות של {child_name}", 25, 4),
         ("sculpting", "בונים את הדמות בתלת־ממד", 55, 5),
@@ -317,20 +320,44 @@ async def create_superhero_job(
     if len(photos) > MAX_PHOTOS:
         raise HTTPException(status_code=400, detail="up to 4 photos allowed")
     job = SuperheroJob(child_name=child_name.strip()[:40] or "גיבור קטן", cape=cape, pose=pose)
-    saved: List[Path] = []
+    validated = []
     for photo in photos:
-        if not (photo.content_type or "").startswith("image/"):
+        if photo.content_type not in {"image/jpeg", "image/png", "image/webp"}:
             raise HTTPException(status_code=400, detail="only image files are allowed")
-        data = await photo.read()
+        data = await photo.read(MAX_PHOTO_BYTES + 1)
         if len(data) > MAX_PHOTO_BYTES:
             raise HTTPException(status_code=400, detail="photo too large (max 8MB)")
-        ext = (photo.filename or "photo.jpg").rsplit(".", 1)[-1][:5]
-        path = PHOTOS_DIR / f"{job.id}-{len(saved)}.{ext}"
-        path.write_bytes(data)
-        saved.append(path)
-    await db.superhero_jobs.insert_one(job.model_dump())
+        try:
+            with Image.open(io.BytesIO(data)) as image:
+                if image.format not in {"JPEG", "PNG", "WEBP"} or image.width * image.height > 25_000_000:
+                    raise ValueError("unsupported image")
+                image.verify()
+        except (UnidentifiedImageError, OSError, ValueError, SyntaxError, Image.DecompressionBombError):
+            raise HTTPException(status_code=400, detail="invalid or oversized image")
+        validated.append((data, photo.content_type))
+    saved = []
+    try:
+        for data, content_type in validated:
+            ext = {"image/jpeg": "jpg", "image/png": "png", "image/webp": "webp"}[content_type]
+            file_id = str(uuid.uuid4())
+            stored = await put_object(f"imago/photos/{job.id}/{file_id}.{ext}", data, content_type)
+            saved.append(stored["path"])
+            await db.files.insert_one({"id": file_id, "job_id": job.id, "kind": "source", "storage_path": stored["path"], "content_type": content_type, "size": len(data), "is_deleted": False, "created_at": datetime.now(timezone.utc)})
+    except Exception:
+        logger.exception("Photo object storage upload failed")
+        raise HTTPException(status_code=503, detail="Photo storage unavailable, please try again")
+    await db.superhero_jobs.insert_one({**job.model_dump(), "photo_paths": saved})
     asyncio.create_task(run_superhero_pipeline(job.id, saved[0], job.child_name, cape))
     return job
+
+
+@api_router.get("/superhero/jobs/{job_id}/preview")
+async def get_superhero_preview(job_id: str):
+    record = await db.files.find_one({"id": job_id, "kind": "preview", "is_deleted": False}, {"_id": 0})
+    if not record:
+        raise HTTPException(status_code=404, detail="preview not found")
+    data, content_type = await get_object(record["storage_path"])
+    return Response(content=data, media_type=content_type, headers={"Cache-Control": "private, max-age=3600", "X-Content-Type-Options": "nosniff"})
 
 
 @api_router.get("/superhero/jobs/{job_id}", response_model=SuperheroJob)
@@ -504,7 +531,6 @@ async def stripe_webhook(request: Request):
 
 
 app.include_router(api_router)
-app.mount("/api/uploads", StaticFiles(directory=UPLOADS), name="uploads")
 
 app.add_middleware(
     CORSMiddleware,
