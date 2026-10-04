@@ -43,6 +43,8 @@ Hebrew RTL e-commerce site for Buba 3D selling 3D-printed dolls kids paint at ho
 ## Standing design guidance
 See /app/memory/DESIGN_PRINCIPLES.md — user-provided principles, apply to all future work.
 
+- Scroll-paint story (2026-10-04): pinned 360vh section (ScrollPaintStory) — scrolling literally paints Melanie white→colored via scroll-linked clip-path wipe with glowing edge line, spring-smoothed; 3 chapters fade/slide in-out; giant outlined % counter; bg shifts cream→terra-soft; image scales slightly. Marquee now skews with scroll velocity (useVelocity)
+
 ## Backlog
 - P0: real Meshy image-to-3D once MESHY_API_KEY provided; real payments (Stripe)
 - P1: admin orders dashboard; email confirmations (Resend); auto-delete uploaded photos after 14 days (cron)

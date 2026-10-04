@@ -1,3 +1,5 @@
+import { motion, useScroll, useSpring, useTransform, useVelocity } from "motion/react";
+
 const ITEMS = [
   "מודפס באהבה בתל־אביב",
   "PLA אקולוגי וידידותי",
@@ -8,6 +10,10 @@ const ITEMS = [
 ];
 
 export default function Marquee() {
+  const { scrollY } = useScroll();
+  const velocity = useVelocity(scrollY);
+  const skewX = useSpring(useTransform(velocity, [-1200, 1200], [4, -4]), { stiffness: 140, damping: 22 });
+
   const row = (
     <>
       {ITEMS.map((item) => (
@@ -20,10 +26,10 @@ export default function Marquee() {
   );
   return (
     <div dir="ltr" className="overflow-hidden border-y border-clay/10 bg-sand py-4 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]" aria-hidden="true">
-      <div className="animate-marquee flex w-max hover:[animation-play-state:paused]" style={{ direction: "ltr" }}>
+      <motion.div className="animate-marquee flex w-max hover:[animation-play-state:paused]" style={{ direction: "ltr", skewX }}>
         <div className="flex">{row}</div>
         <div className="flex">{row}</div>
-      </div>
+      </motion.div>
     </div>
   );
 }

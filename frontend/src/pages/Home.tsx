@@ -10,6 +10,7 @@ import MagneticButton from "@/components/MagneticButton";
 import Marquee from "@/components/Marquee";
 import PaintTrail from "@/components/PaintTrail";
 import ProductCard from "@/components/ProductCard";
+import ScrollPaintStory from "@/components/ScrollPaintStory";
 import SectionTitle from "@/components/SectionTitle";
 import SpinBadge from "@/components/SpinBadge";
 import { FadeIn, HeroLine, Reveal } from "@/components/Reveal";
@@ -177,6 +178,8 @@ export default function Home() {
       </section>
 
       <ProductShelf products={shelf} />
+
+      <ScrollPaintStory />
 
       <section className="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8 lg:pb-32">
         <Reveal>
