@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowDown } from "lucide-react";
-import { lockScroll } from "@/components/SmoothScroll";
+import { lockScroll } from "@/lib/scrollLock";
 
 const FoxModel = lazy(() => import("@/components/FoxModel"));
 const KEY = "imago_intro_seen";

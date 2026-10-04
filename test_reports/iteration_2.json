@@ -1,0 +1,27 @@
+{
+  "summary": "Regression after intro-gate + Melanie GLB + frameless redesign changes. Backend: all 11 pytest tests pass (products=9, product/melanie OK, orders, superhero, contact). Frontend: IntroGate overlay (data-testid=intro-gate) and START button render on home with document.documentElement.style.overflow='hidden' while open; sessionStorage 'imago_intro_seen'='1' after click; gate does not re-appear on return from /shop in same session. GLB /models/melanie.glb → 200 model/gltf-binary 866696 bytes (~0.87MB). No .grain element, no .depth-card element, no 24vw IMAGO watermark; DepthBackground fixed -z-10 aria-hidden layer present. Hero 3D lab canvas interactive: initial drag 0%→3%, after marker-cyan drag 3%→5%, hero-paint-melanie →100%, hero-paint-reset →0%. 9 product cards on home shelf and /shop grid, cards have no 'border'/'bg-sand' classes. quick-add-melanie increments header-cart-count to 1. /product/melanie shows ₪119. Mobile 390x844: intro gate fits (START button bbox y=663.5 within 844), mobile-menu-button present after dismiss. No pageerrors.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [
+      {"flow": "IntroGate scroll lock", "issue": "While gate is open, window.scrollY still updates when calling window.scrollTo(0,800) (observed scrollY=800). lockScroll sets documentElement.style.overflow='hidden' and stops Lenis, which prevents VISUAL scrolling, but window.scrollY value is still mutable programmatically. Spec required 'window.scrollY stays 0'. On a real user wheel event scrolling is correctly suppressed (overflow hidden + lenis.stop()). Low priority — user-visible behavior is correct.", "affected_selectors": ["[data-testid=intro-gate]"]}
+    ],
+    "design_issues": []
+  },
+  "test_report_links": ["/app/backend/tests/test_imago_public_api.py", "/app/test_reports/pytest/pytest_results.xml"],
+  "action_items": [
+    "(Optional) In IntroGate/lockScroll, also set document.body.style.position='fixed' + top=-scrollY to make window.scrollY truly stay at 0 (addresses spec wording; current behavior is already visually correct)."
+  ],
+  "critical_code_review_comments": [
+    "FoxModel/MelanieMesh vertex painting currently uses pointer events on the canvas — works but on very dense meshes picking can lag; consider throttling pointermove.",
+    "Three.js still logs THREE.Clock deprecation + PCFSoftShadowMap removed warnings (benign, carries over from previous iteration).",
+    "ScrollPaintStory and Home use text-outline/text-outline-terra decoratively — not a watermark; keeping as-is is fine."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "100%", "frontend": "100%"},
+  "test_credentials": "none — no auth",
+  "seed_data_creation": "No new seed; previous TEST_* records remain.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "IntroGate dismissal persists via sessionStorage key 'imago_intro_seen' — call sessionStorage.clear() before testing gate flows on each run. GLB served from /public/models/melanie.glb (866KB). Hero 3D lab canvas is interactive: drag starts painting; use marker-* data-testids to switch color, hero-paint-melanie/hero-paint-reset buttons for presets. Backend tests at /app/backend/tests/test_imago_public_api.py (pytest, 25s)."
+}

@@ -27,10 +27,10 @@
     "forbidden": ["cream/terracotta light backgrounds", "pure white cards", "purple-on-white gradients"]
   },
   "depth_and_3d": {
-    "depth-card": "utility class: subtle top highlight gradient + deep black drop shadow. Use for all cards.",
+    "NO BOXES": "User explicitly rejected translucent boxes/frames around objects and the grain texture. Objects (3D model, product dolls, images) float in space: black-bg photo + radial mask-image fade + elliptical neon glow underneath + animate-float. No depth-card, no grain, no giant watermark text.",
     "glow-terra / glow-sage": "neon ring + glow for CTAs and highlighted elements",
     "TiltCard": "components/TiltCard.tsx — perspective 1200px mouse tilt with moving light sheen; wrap cards/images in it (max 6–10 deg)",
-    "FoxModel": "components/FoxModel.tsx — procedural React Three Fiber chibi fox (Melanie) with paintable parts; Hero3D.tsx wraps it with an acrylic-marker palette (click part to paint, 'paint like Melanie', reset)",
+    "FoxModel": "components/FoxModel.tsx — REAL Melanie GLB (/models/melanie.glb, from user STL) in React Three Fiber with vertex painting (drag on model = marker stroke); Hero3D.tsx wraps it with a frameless acrylic-marker palette; IntroGate.tsx shows it on the landing gate",
     "glows": "large blurred radial blobs (bg-terra/20, bg-sage/15, blur-[120px]) behind hero/sections",
     "images": "all product/hero photography on pure black studio bg with magenta/cyan rim light (generated 2026-10-04)"
   },
