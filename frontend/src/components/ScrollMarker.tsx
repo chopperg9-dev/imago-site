@@ -47,7 +47,12 @@ export default function ScrollMarker() {
   const progress = useSpring(scrollYProgress, { stiffness: 55, damping: 18, mass: 0.6 });
   return (
     <div aria-hidden="true" data-testid="scroll-marker" className="pointer-events-none fixed inset-0 z-30 hidden md:block">
-      <Canvas dpr={[1, 1.5]} camera={{ position: [0, 0, 9], fov: 34 }} gl={{ antialias: true, alpha: true }} style={{ background: "transparent" }}>
+      <Canvas
+        dpr={[1, 1.5]}
+        camera={{ position: [0, 0, 9], fov: 34 }}
+        gl={{ antialias: true, alpha: true }}
+        style={{ background: "transparent", pointerEvents: "none" }}
+      >
         <ambientLight intensity={0.6} />
         <directionalLight position={[4, 6, 5]} intensity={2.2} />
         <pointLight position={[-5, 2, 2]} intensity={24} color="#FF2E88" />

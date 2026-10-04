@@ -1,0 +1,44 @@
+{
+  "summary": "Tested new 3D kit scene + scroll marker + hero painting regression + shop flow + backend /api/products. Kit 3D scene renders correctly (canvas + GLB + floating markers visible). ScrollMarker also renders a full-viewport canvas at 1920px and is correctly display:none at 390px. However, a CRITICAL regression was introduced: the R3F <Canvas> inside ScrollMarker inlines pointer-events: auto which overrides the parent div's pointer-events-none, causing the fixed z-30 scroll-marker canvas to intercept ALL pointer events on the hero and homepage. As a result marker swatches, hero paint drag, hero-paint-melanie, hero-paint-reset, and shelf-all-products-link are all un-clickable to real users. Backend GET /api/products returns 9 products OK. Removed-section regression (no 'איך זה עובד', no .animate-marquee) is clean. No three/R3F pageerrors in console across the whole page scroll.",
+  "backend_issues": { "critical": [], "minor": [] },
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "ScrollMarker (/app/frontend/src/components/ScrollMarker.tsx)",
+        "issue": "R3F <Canvas> renders with inline style pointer-events:auto, which overrides the parent div's `pointer-events-none` class. The full-viewport fixed canvas (z-30) intercepts all clicks and drags on the hero and page. Verified computed style: parent_pe=none, canvas_pe=auto. Real-user clicks on data-testid=marker-cyan, hero-paint-melanie, hero-paint-reset, shelf-all-products-link, and drag on hero 3D canvas are all blocked (Playwright reports: '<canvas data-engine=three.js r186> from <div data-testid=scroll-marker> subtree intercepts pointer events'). With force=true (bypass hit-test) the underlying handlers still don't fire for the hero canvas drag — the scroll-marker canvas truly covers it in the DOM.",
+        "selector": "[data-testid=scroll-marker] canvas",
+        "priority": "CRITICAL"
+      }
+    ],
+    "integration_issues": [
+      {
+        "flow": "Hero painting",
+        "issue": "Drag on hero model yields 0% (expected >0%); hero-paint-melanie click yields 0% (expected 100%); hero-paint-reset no-op. Root cause: ScrollMarker canvas overlay (same bug above).",
+        "affected_selectors": ["[data-testid=hero-paint-progress]","[data-testid=hero-paint-melanie]","[data-testid=hero-paint-reset]","[data-testid=marker-cyan]"]
+      },
+      {
+        "flow": "Shop navigation from shelf",
+        "issue": "Clicking data-testid=shelf-all-products-link does not navigate to /shop (page stays at /). Same overlay root cause.",
+        "affected_selectors": ["[data-testid=shelf-all-products-link]","[data-testid=header-cart-count]","[data-testid=quick-add-melanie]"]
+      }
+    ],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [
+    "FIX ScrollMarker.tsx: force the R3F Canvas to not intercept events. Simplest working fix is to pass style={{ pointerEvents: 'none' }} to <Canvas> (and also set eventSource to a non-interactive node or omit interactions). Example: <Canvas dpr={[1,1.5]} camera={...} gl={{...}} style={{ background:'transparent', pointerEvents:'none' }} eventPrefix=\"client\" >. Verify afterwards that marker-cyan toggles aria-checked=true via natural click, hero-paint-progress>0% after drag, hero-paint-melanie reaches 100%, and shelf-all-products-link navigates to /shop.",
+    "Minor: Testimonials section has no data-testid; add data-testid=\"testimonials\" to the <section aria-labelledby=\"testimonials-title\"> in Home.tsx for stable test coverage (non-blocking)."
+  ],
+  "critical_code_review_comments": [
+    "ScrollMarker uses full-viewport fixed z-30 R3F canvas but relies on CSS `pointer-events-none` on the wrapper only; R3F's Canvas always sets its own inline pointer-events, so the wrapper class is ineffective. Any future full-screen R3F overlay must set style.pointerEvents on the Canvas itself.",
+    "Home.tsx mounts three independent R3F Canvases (hero, kit-3d-scene, scroll-marker). Consider lazy-mounting the ScrollMarker only on md+ via a matchMedia hook to avoid WebGL context cost on tablets where hidden-md:block already hides it but Canvas still initializes."
+  ],
+  "updated_files": [],
+  "success_rate": { "backend": "100%", "frontend": "40%" },
+  "test_credentials": "n/a",
+  "seed_data_creation": "none",
+  "retest_needed": true,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "After main agent patches ScrollMarker to not intercept events, re-run: (1) click [data-testid=marker-cyan] (natural click, no force) expecting aria-checked=true; (2) drag on hero section canvas and expect [data-testid=hero-paint-progress] > 0%; (3) click [data-testid=hero-paint-melanie] -> 100%; (4) click [data-testid=hero-paint-reset] -> 0%; (5) click [data-testid=shelf-all-products-link] -> URL /shop with 9 product-card-* and quick-add-melanie incrementing header-cart-count. Keep passing checks already verified: kit-3d-scene has canvas; scroll-marker display=block @1920 and =none @390; removed sections absent; no three/R3F console errors; backend /api/products returns 9.",
+  "rca of the issue": "The ScrollMarker wrapper div has class `pointer-events-none`, but its child <canvas data-engine=three.js> is rendered by @react-three/fiber which sets inline style `pointer-events: auto` on the canvas. In CSS, if a descendant explicitly declares pointer-events other than `none`, hit-testing is re-enabled for that descendant even when an ancestor is `none`. Because ScrollMarker renders as `fixed inset-0 z-30` covering the viewport, the canvas becomes a transparent click shield over the entire page. Mitigation: pass style={{pointerEvents:'none'}} directly to <Canvas>."
+}
