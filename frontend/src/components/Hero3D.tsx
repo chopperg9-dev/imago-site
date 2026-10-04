@@ -1,7 +1,7 @@
 import { lazy, Suspense, useState } from "react";
 import { motion } from "motion/react";
 import { Eraser, Hand, RotateCcw, Sparkles } from "lucide-react";
-import { MELANIE, UNPAINTED, type FoxColors, type FoxPart } from "@/components/FoxModel";
+import { MELANIE, UNPAINTED, type FoxColors, type FoxPart } from "@/lib/foxColors";
 
 const FoxModel = lazy(() => import("@/components/FoxModel"));
 

@@ -42,10 +42,13 @@ Hebrew RTL e-commerce site for Buba 3D selling 3D-printed dolls kids paint at ho
 
 ## Standing design guidance
 See /app/memory/DESIGN_PRINCIPLES.md — user-provided principles, apply to all future work.
+See /app/design_guidelines.json — ACTIVE dark "neon markers" theme (2026-10-04).
 
 - Scroll-paint story (2026-10-04): pinned 360vh section (ScrollPaintStory) — scrolling literally paints Melanie white→colored via scroll-linked clip-path wipe with glowing edge line, spring-smoothed; 3 chapters fade/slide in-out; giant outlined % counter; bg shifts cream→terra-soft; image scales slightly. Marquee now skews with scroll velocity (useVelocity)
 
+- Dark 3D redesign (2026-10-04, user request after rejecting the Swiss/light redesign): restored the interactive design from commit 90bca14 (paint cursor, paint trail, watermark, spin badge, magnetic buttons, horizontal shelf, scroll-paint story, page transitions) and inverted it to black backgrounds with neon accents (magenta #FF2E88 primary, cyan #22E6FF, lime #C6FF3D) by redefining theme tokens in index.css (cream=bg, sand=surface, clay=text, terra=magenta, sage=cyan, mustard=lime). Added real 3D: `FoxModel.tsx` procedural React Three Fiber chibi fox (three/@react-three/fiber/@react-three/drei) with paintable parts, wrapped by `Hero3D.tsx` (acrylic-marker palette, click part to paint, "paint like Melanie", reset, progress x/7). `TiltCard.tsx` perspective tilt + light sheen on product cards, step cards, testimonials, product image. `depth-card`, `glow-terra`, `glow-sage` utilities. All product/hero images regenerated on black studio background with neon rim light. Copy: brushes (מכחולים) → acrylic markers (טושים אקריליים) everywhere incl. backend seed (kit = doll + 6 markers + guide; premium kit = 12 markers). Fixed: motion "target ref not hydrated" (ProductShelf ref on both branches); corrupted PNG upload returned 500 → now 400. Object storage for superhero photos (`lib/storage.py`) confirmed wired. Testing agent iteration_1: all backend (11 pytest) + frontend flows passed (desktop + mobile).
+
 ## Backlog
-- P0: real Meshy image-to-3D once MESHY_API_KEY provided; real payments (Stripe)
-- P1: admin orders dashboard; email confirmations (Resend); auto-delete uploaded photos after 14 days (cron)
-- P2: bundle offer (3 dolls + free kit), promo codes, product reviews, Instagram feed
+- P0: real Meshy image-to-3D once MESHY_API_KEY provided
+- P1: higher-fidelity Melanie 3D model (GLB sculpt instead of procedural primitives); admin orders dashboard; email confirmations (Resend); auto-delete uploaded photos after 14 days (cron)
+- P2: bundle offer (3 dolls + free kit), promo codes, product reviews, Instagram feed, 3D viewer on every product page
