@@ -1,6 +1,15 @@
-export type FoxPart = "head" | "ears" | "body" | "belly" | "legs" | "tail" | "tailTip";
-export type FoxColors = Record<FoxPart, string>;
-
 export const WHITE = "#F3F0EA";
-export const UNPAINTED: FoxColors = { head: WHITE, ears: WHITE, body: WHITE, belly: WHITE, legs: WHITE, tail: WHITE, tailTip: WHITE };
-export const MELANIE: FoxColors = { head: "#F2762C", ears: "#4A2A1E", body: "#F2762C", belly: "#FBE9D0", legs: "#4A2A1E", tail: "#F2762C", tailTip: "#FBE9D0" };
+
+export const ORANGE = "#F2762C";
+export const CREAM = "#FBE9D0";
+export const CHOCOLATE = "#4A2A1E";
+
+// Rough Melanie colouring by position on the normalised (height = 1, y-up, facing -z) model
+export function MELANIE_PRESET(x: number, y: number, z: number): string {
+  if (y < 0.09) return CHOCOLATE;
+  if (y > 0.82) return CHOCOLATE;
+  if (z < -0.06 && y > 0.16 && y < 0.5 && Math.abs(x) < 0.17) return CREAM;
+  if (z < -0.18 && y > 0.5 && y < 0.72 && Math.abs(x) < 0.15) return CREAM;
+  if (z > 0.2 && y > 0.28) return CREAM;
+  return ORANGE;
+}

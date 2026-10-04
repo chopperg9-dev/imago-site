@@ -60,7 +60,7 @@ export default function Shop() {
         <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           {(products ?? []).map((product, i) => (
             <Reveal key={product.id} delay={Math.min(i, 4) * 0.08}>
-              <ProductCard product={product} />
+              <ProductCard product={product} index={i} />
             </Reveal>
           ))}
         </div>

@@ -5,6 +5,7 @@ import { CartProvider } from "@/lib/cart";
 import { Toaster } from "@/components/ui/sonner";
 import SmoothScroll from "@/components/SmoothScroll";
 import PaintCursor from "@/components/PaintCursor";
+import DepthBackground from "@/components/DepthBackground";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Home from "@/pages/Home";
@@ -35,7 +36,8 @@ export default function App() {
       <SmoothScroll />
       <ScrollToTop />
       <PaintCursor />
-      <div className="grain min-h-screen bg-cream text-clay">
+      <DepthBackground />
+      <div className="relative min-h-screen text-clay">
         <Header />
         <AnimatePresence mode="wait">
           <motion.main

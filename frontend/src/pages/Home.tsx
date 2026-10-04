@@ -6,6 +6,7 @@ import { ArrowLeft, Highlighter, Leaf, Shield, Sparkles, Star, Truck } from "luc
 import { apiGet } from "@/lib/api";
 import type { Product } from "@/lib/types";
 import Hero3D from "@/components/Hero3D";
+import IntroGate from "@/components/IntroGate";
 import MagneticButton from "@/components/MagneticButton";
 import Marquee from "@/components/Marquee";
 import PaintTrail from "@/components/PaintTrail";
@@ -41,17 +42,11 @@ export default function Home() {
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const visualY = useTransform(scrollYProgress, [0, 1], [0, 90]);
   const textY = useTransform(scrollYProgress, [0, 1], [0, -50]);
-  const watermarkX = useTransform(scrollYProgress, [0, 1], [0, -280]);
 
   return (
     <div data-testid="home-page">
+      <IntroGate />
       <section ref={heroRef} className="relative overflow-hidden">
-        <motion.p aria-hidden="true" style={{ x: watermarkX }} className="text-outline pointer-events-none absolute top-4 right-0 z-0 select-none whitespace-nowrap font-heading text-[24vw] leading-none">
-          IMAGO
-        </motion.p>
-        <div className="pointer-events-none absolute -top-24 -left-24 h-[28rem] w-[28rem] rounded-full bg-terra/20 blur-[120px]" />
-        <div className="pointer-events-none absolute top-40 -right-32 h-96 w-96 rounded-full bg-sage/15 blur-[120px]" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(255,255,255,0.04),transparent_60%)]" />
 
         <PaintTrail className="relative">
           <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-14 px-4 pt-14 pb-24 sm:px-6 lg:grid-cols-12 lg:gap-10 lg:px-8 lg:pt-20 lg:pb-32">
@@ -113,9 +108,7 @@ export default function Home() {
             >
               <Hero3D />
               <SpinBadge className="absolute -top-7 -left-4 z-20 hidden sm:block" />
-              <span className="animate-float absolute -bottom-5 left-10 z-20 rotate-3 rounded-full bg-mustard px-4 py-2 text-xs font-bold text-ink shadow-[0_0_24px_rgba(198,255,61,0.5)]">
-                זזו עם העכבר — הצבע עף
-              </span>
+              
             </motion.div>
           </div>
         </PaintTrail>
@@ -129,13 +122,13 @@ export default function Home() {
           {CHAPTERS.map((chapter, i) => (
             <Reveal key={chapter.num} delay={i * 0.15}>
               <TiltCard className={`group h-full ${i % 2 === 0 ? "-rotate-1" : "rotate-1"}`}>
-                <div className="depth-card relative h-full overflow-hidden rounded-3xl border border-white/10 p-8 transition-colors duration-300 group-hover:border-white/20">
-                  <div className={`pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full blur-3xl ${chapter.glow}`} />
-                  <p className="text-outline-terra font-heading text-7xl font-black transition-transform duration-300 group-hover:scale-110" style={{ transform: "translateZ(40px)" }}>
+                <div className="relative h-full p-6 [transform-style:preserve-3d]">
+                  <div className={`pointer-events-none absolute right-4 top-0 h-40 w-40 rounded-full blur-3xl transition-transform duration-500 group-hover:scale-125 ${chapter.glow}`} />
+                  <p className="text-outline-terra relative font-heading text-8xl font-black drop-shadow-[0_0_30px_rgba(255,46,136,0.35)] transition-transform duration-300 group-hover:scale-110" style={{ transform: "translateZ(60px)" }}>
                     {chapter.num}
                   </p>
-                  <h3 className="mt-5 font-heading text-xl font-bold">{chapter.title}</h3>
-                  <p className="mt-3 text-sm leading-7 text-clay-soft">{chapter.text}</p>
+                  <h3 className="relative mt-5 font-heading text-2xl font-bold" style={{ transform: "translateZ(30px)" }}>{chapter.title}</h3>
+                  <p className="relative mt-3 text-sm leading-7 text-clay-soft" style={{ transform: "translateZ(16px)" }}>{chapter.text}</p>
                 </div>
               </TiltCard>
             </Reveal>
@@ -165,11 +158,11 @@ export default function Home() {
                 loading="lazy"
                 whileHover={{ rotateX: 4, rotateY: -6, scale: 1.02 }}
                 transition={{ type: "spring", stiffness: 120, damping: 16 }}
-                className="aspect-square w-full rounded-[2rem] border border-white/10 object-cover shadow-[0_50px_100px_-40px_rgba(0,0,0,0.9)]"
+                className="aspect-square w-full object-cover [mask-image:radial-gradient(ellipse_at_center,black_55%,transparent_80%)]"
               />
             </Reveal>
             <Reveal delay={0.2} className="absolute -bottom-8 -right-4 w-40 sm:w-56 lg:-right-10">
-              <img src={KID_MARKERS} alt="ילד צובע את מלאני בטוש אקרילי כתום" loading="lazy" className="glow-sage aspect-[4/5] w-full rotate-3 rounded-3xl border border-white/10 object-cover" />
+              <img src={KID_MARKERS} alt="ילד צובע את מלאני בטוש אקרילי כתום" loading="lazy" className="aspect-[4/5] w-full rotate-3 rounded-[2.5rem] object-cover shadow-[0_0_0_1px_rgba(34,230,255,0.35),0_30px_80px_-20px_rgba(34,230,255,0.45)]" />
             </Reveal>
           </div>
         </div>
@@ -181,7 +174,7 @@ export default function Home() {
 
       <section className="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8 lg:pb-32">
         <Reveal>
-          <div className="depth-card relative grid grid-cols-1 items-center gap-10 overflow-hidden rounded-[2.5rem] border border-white/10 p-8 text-clay sm:p-12 lg:grid-cols-2 lg:p-16">
+          <div className="relative grid grid-cols-1 items-center gap-10 text-clay lg:grid-cols-2">
             <div className="pointer-events-none absolute -top-32 -left-20 h-96 w-96 rounded-full bg-sage/15 blur-[100px]" />
             <div>
               <p className="text-xs font-bold tracking-[0.2em] text-sage">חוויית ההתאמה האישית</p>
@@ -206,9 +199,9 @@ export default function Home() {
               </Link>
             </div>
             <TiltCard className="group" max={7}>
-              <div className="pointer-events-none absolute inset-0 rounded-full bg-sage/10 blur-3xl" />
-              <img src={SUPERHERO_SAMPLE} alt="דוגמה להמחשה: בובת גיבור־על אישית" loading="lazy" className="relative mx-auto aspect-[4/5] w-full max-w-sm rounded-[2rem] border border-white/10 object-cover shadow-2xl" />
-              <span className="absolute bottom-5 right-5 rounded-full bg-ink/90 px-4 py-2 text-xs font-bold text-clay shadow-lg" data-testid="home-superhero-demo-notice">הדמיה להמחשה בלבד</span>
+              <div className="pointer-events-none absolute bottom-8 left-1/2 h-16 w-3/4 -translate-x-1/2 rounded-[100%] bg-sage/40 blur-3xl" />
+              <img src={SUPERHERO_SAMPLE} alt="דוגמה להמחשה: בובת גיבור־על אישית" loading="lazy" className="animate-float relative mx-auto aspect-[4/5] w-full max-w-sm object-cover [mask-image:radial-gradient(ellipse_at_center,black_50%,transparent_76%)]" style={{ transform: "translateZ(40px)" }} />
+              <span className="absolute bottom-5 right-5 rounded-full border border-white/15 px-4 py-2 text-xs font-bold text-clay" data-testid="home-superhero-demo-notice">הדמיה להמחשה בלבד</span>
             </TiltCard>
           </div>
         </Reveal>
@@ -220,11 +213,12 @@ export default function Home() {
           {TESTIMONIALS.map((t, i) => (
             <Reveal key={t.name} delay={i * 0.12}>
               <TiltCard className="group h-full" max={6}>
-                <figure className="depth-card flex h-full flex-col rounded-3xl border border-white/10 p-8">
-                  <div className="flex gap-1 text-mustard" aria-hidden="true">
+                <figure className="relative flex h-full flex-col p-6 [transform-style:preserve-3d]">
+                  <span aria-hidden="true" className="pointer-events-none absolute -top-6 right-2 font-heading text-8xl font-black text-terra/30 drop-shadow-[0_0_24px_rgba(255,46,136,0.5)]" style={{ transform: "translateZ(50px)" }}>”</span>
+                  <div className="relative flex gap-1 text-mustard" aria-hidden="true">
                     {Array.from({ length: 5 }).map((_, s) => <Star key={s} className="h-4 w-4 fill-current drop-shadow-[0_0_6px_rgba(198,255,61,0.7)]" />)}
                   </div>
-                  <blockquote className="mt-5 flex-1 text-sm leading-8 text-clay">{t.quote}</blockquote>
+                  <blockquote className="relative mt-5 flex-1 text-base leading-8 text-clay" style={{ transform: "translateZ(24px)" }}>{t.quote}</blockquote>
                   <figcaption className="mt-6 text-xs font-bold text-clay-soft">{t.name}</figcaption>
                 </figure>
               </TiltCard>
@@ -233,8 +227,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden border-t border-white/10 bg-sand">
-        <div className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-terra/15 blur-[110px]" />
+      <section className="relative overflow-hidden">
+        <div className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-terra/20 blur-[110px]" />
         <div className="relative mx-auto max-w-7xl px-4 py-20 text-center sm:px-6 lg:px-8">
           <Reveal>
             <h2 className="font-heading text-3xl font-black sm:text-4xl">מוכנים להוריד פקק?</h2>
@@ -283,12 +277,12 @@ function ProductShelf({ products }: { products: Product[] }) {
 
   const row = (
     <motion.div ref={trackRef} style={isDesktop ? { x } : undefined} className="mt-12 flex w-full snap-x gap-6 overflow-x-auto px-4 pb-6 sm:px-6 lg:w-max lg:gap-8 lg:overflow-visible lg:px-8">
-      {products.map((product) => (
+      {products.map((product, i) => (
         <div key={product.id} className="w-72 shrink-0 snap-start sm:w-80">
-          <ProductCard product={product} />
+          <ProductCard product={product} index={i} />
         </div>
       ))}
-      <Link to="/shop" className="flex w-56 shrink-0 snap-start flex-col items-center justify-center gap-4 rounded-3xl border-2 border-dashed border-terra/40 bg-terra-soft/50 text-center transition-all hover:-translate-y-2 hover:border-terra">
+      <Link to="/shop" className="flex w-56 shrink-0 snap-start flex-col items-center justify-center gap-4 text-center transition-all hover:-translate-y-2">
         <span className="glow-terra flex h-14 w-14 items-center justify-center rounded-full bg-terra text-white"><ArrowLeft className="h-6 w-6" /></span>
         <span className="font-heading text-xl font-bold text-terra-deep">לכל הבובות</span>
       </Link>

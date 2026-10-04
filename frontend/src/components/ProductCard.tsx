@@ -6,12 +6,12 @@ import type { Product } from "@/lib/types";
 import TiltCard from "@/components/TiltCard";
 
 const DIFFICULTY_STYLE: Record<string, string> = {
-  "קל": "bg-sage-soft text-sage-deep border-sage/30",
-  "בינוני": "bg-terra-soft text-terra-deep border-terra/30",
-  "מתקדם": "bg-clay text-cream border-clay",
+  "קל": "text-sage-deep border-sage/40",
+  "בינוני": "text-terra-deep border-terra/40",
+  "מתקדם": "text-mustard border-mustard/40",
 };
 
-export default function ProductCard({ product }: { product: Product }) {
+export default function ProductCard({ product, index = 0 }: { product: Product; index?: number }) {
   const { add } = useCart();
 
   const quickAdd = () => {
@@ -20,27 +20,25 @@ export default function ProductCard({ product }: { product: Product }) {
   };
 
   return (
-    <TiltCard className="group h-full" max={8}>
-      <article
-        data-testid={`product-card-${product.id}`}
-        className="depth-card relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 transition-[border-color,box-shadow] duration-300 group-hover:border-terra/40 group-hover:shadow-[0_0_0_1px_rgba(255,46,136,0.25),0_30px_60px_-20px_rgba(255,46,136,0.35)]"
-      >
+    <TiltCard className="group h-full" max={10}>
+      <article data-testid={`product-card-${product.id}`} className="relative flex h-full flex-col">
         <Link to={`/product/${product.id}`} data-testid={`product-link-${product.id}`} className="block">
-          <div className="relative aspect-square overflow-hidden bg-stage">
+          <div className="relative aspect-square [transform-style:preserve-3d]">
+            <div className="pointer-events-none absolute bottom-6 left-1/2 h-10 w-3/4 -translate-x-1/2 rounded-[100%] bg-terra/35 blur-2xl transition-all duration-500 group-hover:bg-sage/40 group-hover:blur-3xl" />
             <img
               src={product.image}
               alt={product.name}
               loading="lazy"
-              className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:rotate-1 group-hover:scale-110"
+              className="animate-float relative h-full w-full object-cover transition-transform duration-700 ease-out [mask-image:radial-gradient(ellipse_at_center,black_52%,transparent_74%)] group-hover:scale-110"
+              style={{ animationDelay: `${(index % 5) * -1.2}s`, transform: "translateZ(40px)" }}
             />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-sand/90 via-transparent to-transparent" />
-            <span className={`absolute top-3 right-3 rounded-full border px-2.5 py-1 text-[11px] font-semibold backdrop-blur ${DIFFICULTY_STYLE[product.difficulty] ?? "bg-sand text-clay border-white/10"}`}>
+            <span className={`absolute top-2 right-2 rounded-full border px-2.5 py-1 text-[11px] font-semibold ${DIFFICULTY_STYLE[product.difficulty] ?? "text-clay border-white/20"}`}>
               {product.difficulty}
             </span>
           </div>
         </Link>
 
-        <div className="flex flex-1 flex-col gap-1.5 p-5" style={{ transform: "translateZ(30px)" }}>
+        <div className="flex flex-1 flex-col gap-1.5 px-2 pt-1" style={{ transform: "translateZ(24px)" }}>
           <h3 className="font-heading text-lg font-bold leading-snug">
             <Link to={`/product/${product.id}`} className="transition-colors hover:text-terra">{product.name}</Link>
           </h3>

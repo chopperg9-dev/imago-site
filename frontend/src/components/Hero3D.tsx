@@ -1,7 +1,7 @@
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useCallback, useRef, useState } from "react";
 import { motion } from "motion/react";
-import { Eraser, Hand, RotateCcw, Sparkles } from "lucide-react";
-import { MELANIE, UNPAINTED, type FoxColors, type FoxPart } from "@/lib/foxColors";
+import { Eraser, Hand, Sparkles } from "lucide-react";
+import type { FoxApi } from "@/components/FoxModel";
 
 const FoxModel = lazy(() => import("@/components/FoxModel"));
 
@@ -16,77 +16,74 @@ const MARKERS = [
 ];
 
 export default function Hero3D() {
-  const [colors, setColors] = useState<FoxColors>(UNPAINTED);
   const [marker, setMarker] = useState(MARKERS[0]);
-  const [strokes, setStrokes] = useState(0);
-  const painted = Object.values(colors).filter((c) => c !== UNPAINTED.head).length;
-
-  const paint = (part: FoxPart) => {
-    setColors((c) => ({ ...c, [part]: marker.hex }));
-    setStrokes((s) => s + 1);
-  };
+  const [progress, setProgress] = useState(0);
+  const api = useRef<FoxApi | null>(null);
+  const onProgress = useCallback((r: number) => setProgress(r), []);
+  const percent = Math.round(progress * 100);
 
   return (
     <div className="relative" data-testid="hero-3d-lab">
-      <div className="depth-card relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-white/10 sm:aspect-[5/6]">
-        <div className="pointer-events-none absolute -top-20 -right-16 h-72 w-72 rounded-full bg-terra/25 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-24 -left-16 h-80 w-80 rounded-full bg-sage/20 blur-3xl" />
-        <Suspense fallback={<div className="absolute inset-0 animate-pulse bg-sand" />}>
-          <FoxModel colors={colors} onPaint={paint} spinning={strokes === 0} />
+      <div className="pointer-events-none absolute left-1/2 top-[40%] h-[26rem] w-[26rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-terra/25 blur-[110px]" />
+      <div className="pointer-events-none absolute left-[20%] top-[70%] h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-sage/20 blur-[90px]" />
+      <div className="pointer-events-none absolute bottom-[14%] left-1/2 h-10 w-2/3 -translate-x-1/2 rounded-[100%] bg-terra/40 blur-2xl" />
+
+      <div className="relative aspect-[4/5] sm:aspect-[5/6]">
+        <Suspense fallback={<div className="absolute inset-0 animate-pulse rounded-full bg-sand/40 blur-2xl" />}>
+          <FoxModel markerHex={marker.hex} paintable spinning={progress === 0} onProgress={onProgress} apiRef={api} modelScale={1.55} modelY={-0.6} targetY={0.2} />
         </Suspense>
+      </div>
 
-        <span className="pointer-events-none absolute top-4 right-4 inline-flex items-center gap-1.5 rounded-full bg-ink/80 px-3 py-1.5 text-xs font-semibold text-clay backdrop-blur">
-          <Hand className="h-3.5 w-3.5 text-sage" /> גררו לסיבוב · לחצו על חלק כדי לצבוע
-        </span>
-        <span className="pointer-events-none absolute top-4 left-4 rounded-full bg-terra px-3 py-1.5 text-xs font-bold text-white shadow-[0_0_24px_rgba(255,46,136,0.6)]">
-          מלאני · תלת־ממד חי
-        </span>
+      <p className="pointer-events-none absolute top-2 right-0 inline-flex items-center gap-1.5 text-xs font-semibold text-clay-soft">
+        <Hand className="h-3.5 w-3.5 text-sage" /> גררו מסביב לסיבוב · ציירו על מלאני עם הטוש
+      </p>
 
-        <div className="absolute inset-x-4 bottom-4 flex flex-col gap-3 rounded-2xl bg-ink/85 p-3 backdrop-blur-xl">
-          <div className="flex items-center justify-between gap-3">
-            <p className="text-xs font-semibold text-clay-soft">טוש אקרילי: <span className="text-clay">{marker.name}</span></p>
-            <p className="text-xs font-semibold text-clay-soft" data-testid="hero-paint-progress">{painted}/7 חלקים נצבעו</p>
-          </div>
-          <div className="flex items-center gap-2" role="radiogroup" aria-label="בחירת טוש אקרילי">
-            {MARKERS.map((m) => (
-              <motion.button
-                key={m.id}
-                type="button"
-                role="radio"
-                aria-checked={marker.id === m.id}
-                aria-label={m.name}
-                data-testid={`marker-${m.id}`}
-                onClick={() => setMarker(m)}
-                whileHover={{ y: -4 }}
-                whileTap={{ scale: 0.9 }}
-                className="relative flex h-10 w-7 items-end justify-center"
-              >
-                <span className="absolute inset-x-1.5 top-0 h-3 rounded-t-sm" style={{ background: m.hex, filter: "brightness(0.8)" }} />
-                <span
-                  className={`h-7 w-full rounded-b-md rounded-t-sm transition-shadow ${marker.id === m.id ? "ring-2 ring-white ring-offset-2 ring-offset-ink" : ""}`}
-                  style={{ background: m.hex, boxShadow: marker.id === m.id ? `0 0 18px ${m.hex}` : undefined }}
-                />
-              </motion.button>
-            ))}
-            <span className="mx-1 h-8 w-px bg-white/10" />
-            <button
+      <div className="absolute inset-x-0 bottom-0 flex flex-col items-center gap-3">
+        <p className="text-xs font-semibold text-clay-soft">
+          טוש אקרילי: <span className="text-clay">{marker.name}</span>
+          <span className="mx-2 text-white/20">|</span>
+          <span data-testid="hero-paint-progress" className="text-terra-deep">{percent}% מהבובה צבוע</span>
+        </p>
+        <div className="flex items-center gap-2" role="radiogroup" aria-label="בחירת טוש אקרילי">
+          {MARKERS.map((m) => (
+            <motion.button
+              key={m.id}
               type="button"
-              data-testid="hero-paint-melanie"
-              onClick={() => { setColors(MELANIE); setStrokes((s) => s + 1); }}
-              className="inline-flex h-9 items-center gap-1.5 rounded-full border border-sage/40 px-3 text-xs font-bold text-sage-deep transition-colors hover:bg-sage/10"
+              role="radio"
+              aria-checked={marker.id === m.id}
+              aria-label={m.name}
+              data-testid={`marker-${m.id}`}
+              onClick={() => setMarker(m)}
+              whileHover={{ y: -5, rotate: -6 }}
+              whileTap={{ scale: 0.9 }}
+              animate={{ y: marker.id === m.id ? -8 : 0 }}
+              className="relative flex h-12 w-7 flex-col items-center"
             >
-              <Sparkles className="h-3.5 w-3.5" /> צבעו כמו מלאני
-            </button>
-            <button
-              type="button"
-              data-testid="hero-paint-reset"
-              onClick={() => { setColors(UNPAINTED); setStrokes(0); }}
-              aria-label="נקו את הצבע"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-clay-soft transition-colors hover:border-terra hover:text-terra"
-            >
-              {painted > 0 ? <Eraser className="h-4 w-4" /> : <RotateCcw className="h-4 w-4" />}
-            </button>
-          </div>
+              <span className="h-3 w-3 rounded-t-full" style={{ background: m.hex, filter: "brightness(0.75)" }} />
+              <span
+                className="h-8 w-5 rounded-b-md"
+                style={{ background: m.hex, boxShadow: marker.id === m.id ? `0 0 22px ${m.hex}` : `0 6px 14px -6px ${m.hex}` }}
+              />
+            </motion.button>
+          ))}
+          <span className="mx-1 h-8 w-px bg-white/10" />
+          <button
+            type="button"
+            data-testid="hero-paint-melanie"
+            onClick={() => api.current?.preset()}
+            className="inline-flex h-9 items-center gap-1.5 rounded-full border border-sage/40 px-3 text-xs font-bold text-sage-deep transition-colors hover:bg-sage/10"
+          >
+            <Sparkles className="h-3.5 w-3.5" /> צבעו כמו מלאני
+          </button>
+          <button
+            type="button"
+            data-testid="hero-paint-reset"
+            onClick={() => api.current?.reset()}
+            aria-label="נקו את הצבע"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-clay-soft transition-colors hover:border-terra hover:text-terra"
+          >
+            <Eraser className="h-4 w-4" />
+          </button>
         </div>
       </div>
     </div>
