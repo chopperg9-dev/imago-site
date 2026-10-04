@@ -20,7 +20,7 @@ import { FadeIn, HeroLine, Reveal } from "@/components/Reveal";
 const IMG = "https://static.prod-images.emergentagent.com/jobs/4ce74442-beb6-4a2a-a71b-521399fd659c/images";
 const SUPERHERO_SAMPLE = `${IMG}/d936f2e98a27acd331455e17d71e691ed48b3f925aad516d019a9344e562e99b.jpeg`;
 const KIT_FLOAT = `${IMG}/450ca9ca5cfe3f0e88db0ba161549722ad65480ff21b93bbdd3914fcf93b6721.jpeg`;
-const KID_MARKERS = `${IMG}/134cee2121d327364ebef1db2ff1f5bfea807012f4bf6b20a87da8fdf2066183.jpeg`;
+const KID_MARKERS = `${IMG}/d45dc3bc2f12b602504796f2efa3732142652eca7c4c1f92eb84de175725abb5.jpeg`;
 
 const TESTIMONIALS = [
   { quote: "מאיה בת ה־6 לא הפסיקה לצבוע שעתיים. הבובה עומדת לה על המדף כמו גביע.", name: "דנה, תל־אביב" },
@@ -137,7 +137,7 @@ export default function Home() {
               </TiltCard>
             </Reveal>
             <Reveal delay={0.2} className="absolute -bottom-6 -left-2 w-36 sm:w-48 lg:-left-6">
-              <img src={KID_MARKERS} alt="ילד צובע את מלאני בטוש אקרילי כתום" loading="lazy" className="aspect-[4/5] w-full rotate-3 rounded-[2.5rem] object-cover shadow-[0_40px_80px_-30px_rgba(0,0,0,0.9)]" />
+              <img src={KID_MARKERS} alt="ילד צובע את דני הדינוזאור בטוש אקרילי ירוק" loading="lazy" data-testid="kit-kid-image" className="aspect-[4/5] w-full rotate-3 rounded-[2.5rem] object-cover shadow-[0_40px_80px_-30px_rgba(0,0,0,0.9)]" />
             </Reveal>
           </div>
         </div>
