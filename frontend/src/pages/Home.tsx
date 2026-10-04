@@ -7,7 +7,6 @@ import { apiGet } from "@/lib/api";
 import type { Product } from "@/lib/types";
 import Hero3D from "@/components/Hero3D";
 import IntroGate from "@/components/IntroGate";
-import KitScene from "@/components/KitScene";
 import ScrollMarker from "@/components/ScrollMarker";
 import MagneticButton from "@/components/MagneticButton";
 import PaintTrail from "@/components/PaintTrail";
@@ -20,6 +19,7 @@ import { FadeIn, HeroLine, Reveal } from "@/components/Reveal";
 
 const IMG = "https://static.prod-images.emergentagent.com/jobs/4ce74442-beb6-4a2a-a71b-521399fd659c/images";
 const SUPERHERO_SAMPLE = `${IMG}/d936f2e98a27acd331455e17d71e691ed48b3f925aad516d019a9344e562e99b.jpeg`;
+const KIT_FLOAT = `${IMG}/450ca9ca5cfe3f0e88db0ba161549722ad65480ff21b93bbdd3914fcf93b6721.jpeg`;
 const KID_MARKERS = `${IMG}/134cee2121d327364ebef1db2ff1f5bfea807012f4bf6b20a87da8fdf2066183.jpeg`;
 
 const TESTIMONIALS = [
@@ -125,7 +125,16 @@ export default function Home() {
           </Reveal>
           <div className="relative lg:col-span-7">
             <Reveal>
-              <KitScene />
+              <TiltCard className="group" max={8}>
+                <img
+                  src={KIT_FLOAT}
+                  alt="מלאני הלבנה מוקפת בטושים אקריליים מרחפים"
+                  loading="lazy"
+                  data-testid="kit-image"
+                  className="aspect-[4/5] w-full object-cover [mask-image:radial-gradient(ellipse_at_center,black_58%,transparent_82%)] transition-transform duration-700 group-hover:scale-105"
+                  style={{ transform: "translateZ(40px)" }}
+                />
+              </TiltCard>
             </Reveal>
             <Reveal delay={0.2} className="absolute -bottom-6 -left-2 w-36 sm:w-48 lg:-left-6">
               <img src={KID_MARKERS} alt="ילד צובע את מלאני בטוש אקרילי כתום" loading="lazy" className="aspect-[4/5] w-full rotate-3 rounded-[2.5rem] object-cover shadow-[0_40px_80px_-30px_rgba(0,0,0,0.9)]" />

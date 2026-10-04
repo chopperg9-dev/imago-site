@@ -8,7 +8,7 @@ const STOPS = [0, 0.18, 0.36, 0.55, 0.74, 0.9, 1];
 const X = [-0.86, -0.7, 0.72, -0.72, 0.62, -0.6, 0.0];
 const Y = [0.62, -0.1, -0.35, 0.3, -0.45, 0.2, -0.6];
 const SCALE = [0.7, 1.9, 0.75, 1.6, 0.9, 2.1, 1.1];
-const AVOID = ['[data-testid="superhero-band"]', '[data-testid="scroll-paint-story"]', "footer"];
+const AVOID = ['[data-testid="superhero-band"]', "footer"];
 
 function lerpPath(p: number, values: number[]) {
   for (let i = 1; i < STOPS.length; i++) {

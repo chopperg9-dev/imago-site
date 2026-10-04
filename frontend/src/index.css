@@ -21,8 +21,8 @@
     --color-sage-soft: #0A1F2A;
     --color-ink: #0B0E16;
     --color-mustard: #D4FF4A;
-    --font-heading: 'Suez One', 'Assistant', serif;
-    --font-sans: 'Assistant', 'Arial', sans-serif;
+    --font-heading: 'Secular One', 'IBM Plex Sans Hebrew', sans-serif;
+    --font-sans: 'IBM Plex Sans Hebrew', 'Arial', sans-serif;
 }
 
 @theme inline {
