@@ -7,6 +7,8 @@ import { apiGet } from "@/lib/api";
 import type { Product } from "@/lib/types";
 import Hero3D from "@/components/Hero3D";
 import IntroGate from "@/components/IntroGate";
+import KitScene from "@/components/KitScene";
+import ScrollMarker from "@/components/ScrollMarker";
 import MagneticButton from "@/components/MagneticButton";
 import PaintTrail from "@/components/PaintTrail";
 import ProductCard from "@/components/ProductCard";
@@ -19,7 +21,6 @@ import { FadeIn, HeroLine, Reveal } from "@/components/Reveal";
 const IMG = "https://static.prod-images.emergentagent.com/jobs/4ce74442-beb6-4a2a-a71b-521399fd659c/images";
 const SUPERHERO_SAMPLE = `${IMG}/d936f2e98a27acd331455e17d71e691ed48b3f925aad516d019a9344e562e99b.jpeg`;
 const KID_MARKERS = `${IMG}/134cee2121d327364ebef1db2ff1f5bfea807012f4bf6b20a87da8fdf2066183.jpeg`;
-const KIT_FLATLAY = `${IMG}/010d625d33a558c192a5438c6f417d68ecdec9e82b079131adf36585b11235f4.jpeg`;
 
 const TESTIMONIALS = [
   { quote: "מאיה בת ה־6 לא הפסיקה לצבוע שעתיים. הבובה עומדת לה על המדף כמו גביע.", name: "דנה, תל־אביב" },
@@ -39,6 +40,7 @@ export default function Home() {
   return (
     <div data-testid="home-page">
       <IntroGate />
+      <ScrollMarker />
       <section ref={heroRef} className="relative overflow-hidden">
 
         <PaintTrail className="relative">
@@ -122,17 +124,10 @@ export default function Home() {
             </ul>
           </Reveal>
           <div className="relative lg:col-span-7">
-            <Reveal className="perspective-1200">
-              <motion.img
-                src={KIT_FLATLAY}
-                alt="ערכת IMAGO: בובת שועל לבנה, 12 טושים אקריליים ומדריך צביעה"
-                loading="lazy"
-                whileHover={{ rotateX: 4, rotateY: -6, scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 120, damping: 16 }}
-                className="aspect-square w-full object-cover [mask-image:radial-gradient(ellipse_at_center,black_55%,transparent_80%)]"
-              />
+            <Reveal>
+              <KitScene />
             </Reveal>
-            <Reveal delay={0.2} className="absolute -bottom-8 -right-4 w-40 sm:w-56 lg:-right-10">
+            <Reveal delay={0.2} className="absolute -bottom-6 -left-2 w-36 sm:w-48 lg:-left-6">
               <img src={KID_MARKERS} alt="ילד צובע את מלאני בטוש אקרילי כתום" loading="lazy" className="aspect-[4/5] w-full rotate-3 rounded-[2.5rem] object-cover shadow-[0_40px_80px_-30px_rgba(0,0,0,0.9)]" />
             </Reveal>
           </div>

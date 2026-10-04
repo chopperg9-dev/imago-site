@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Canvas, useFrame, type ThreeEvent } from "@react-three/fiber";
 import { ContactShadows, Float, OrbitControls, useGLTF } from "@react-three/drei";
 import { BufferAttribute, BufferGeometry, Color, Mesh, Vector3, type Group } from "three";
@@ -127,7 +127,7 @@ function MelanieMesh({ markerHex, paintable, spinning, onProgress, apiRef, model
   });
 
   useFrame((_, dt) => {
-    if (group.current && spinning && !hovered && !painting.current) group.current.rotation.y += dt * 0.4;
+    if (group.current && spinning && !hovered && !painting.current) group.current.rotation.y += dt * 0.3;
   });
 
   const down = (e: ThreeEvent<PointerEvent>) => {
@@ -144,7 +144,7 @@ function MelanieMesh({ markerHex, paintable, spinning, onProgress, apiRef, model
   };
 
   return (
-    <group ref={group} position={[0, modelY, 0]} rotation={[0, Math.PI + 0.35, 0]} scale={modelScale}>
+    <group ref={group} position={[0, modelY, 0]} rotation={[0, 0.35, 0]} scale={modelScale}>
       <mesh
         ref={mesh}
         geometry={geometry}
@@ -171,7 +171,9 @@ export default function FoxModel({
   modelY,
   cameraZ = 4.6,
   targetY = 0.05,
-}: Partial<MelanieProps> & { cameraZ?: number; targetY?: number }) {
+  autoRotate = false,
+  children,
+}: Partial<MelanieProps> & { cameraZ?: number; targetY?: number; autoRotate?: boolean; children?: ReactNode }) {
   return (
     <Canvas
       shadows
@@ -190,9 +192,10 @@ export default function FoxModel({
         <Float speed={1.4} rotationIntensity={0.08} floatIntensity={0.35}>
           <MelanieMesh markerHex={markerHex} paintable={paintable} spinning={spinning} onProgress={onProgress} apiRef={apiRef} modelScale={modelScale} modelY={modelY} />
         </Float>
+        {children}
         <ContactShadows position={[0, (modelY ?? -0.95) - 0.03, 0]} opacity={0.6} scale={5} blur={2.4} far={2.5} color="#000" />
       </Suspense>
-      <OrbitControls enableZoom={false} enablePan={false} enableDamping dampingFactor={0.08} minPolarAngle={0.7} maxPolarAngle={1.8} target={[0, targetY, 0]} makeDefault />
+      <OrbitControls enableZoom={false} enablePan={false} enableDamping dampingFactor={0.08} autoRotate={autoRotate} autoRotateSpeed={1.2} minPolarAngle={0.7} maxPolarAngle={1.8} target={[0, targetY, 0]} makeDefault />
     </Canvas>
   );
 }
