@@ -54,6 +54,8 @@ See /app/design_guidelines.json — ACTIVE dark "neon markers" theme (2026-10-04
 
 - 3D kit scene + scroll marker (2026-10-04): `KitScene.tsx` replaces the flat-lay kit photo — Melanie GLB with a ring of 8 procedural floating acrylic markers (`Marker3D.tsx`: Marker3D, MarkerRing), camera auto-rotates; `ScrollMarker.tsx` fixed full-viewport R3F canvas (desktop only) with one large marker whose position/rotation/scale follow page scroll progress (zoom in/out at stops). FoxModel accepts children + autoRotate. Fix: R3F Canvas wrapper defaults to pointer-events:auto — ScrollMarker Canvas style sets pointerEvents:'none' (iteration_3 caught it, iteration_4 passed).
 
+- Palette v3 + depth + fonts (2026-10-04): user said too pink → tokens now fox-orange primary (#FF7A1A), electric blue (#3D7BFF) ambient, cyan (#2FD8FF), lime (#D4FF4A); bg navy-black (#06070C). DepthBackground: nebula orbs, 2 parallax star-dust SVG layers, perspective grid, vignette. ScrollMarker hides (fades scale) when superhero band or footer fills >30% viewport (data-marker-visible attr); stays visible over the scroll-paint story per user. Kit section back to a photo (Melanie + floating markers, generated) — KitScene.tsx removed. Fonts: Secular One (headings), IBM Plex Sans Hebrew (body), Space Grotesk (logo). iteration_5 all pass.
+
 ## Backlog
 - P0: real Meshy image-to-3D once MESHY_API_KEY provided
 - P1: 3D models for the other 8 dolls (user can upload STL/GLB per product) + paintable viewer on product pages; download/share painted Melanie snapshot; admin orders dashboard; email confirmations (Resend); auto-delete uploaded photos after 14 days (cron)
