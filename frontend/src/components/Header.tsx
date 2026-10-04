@@ -21,7 +21,7 @@ export default function Header() {
           <img
             src="/logo-character.png"
             alt="IMAGO — Color Your Character"
-            className="h-11 w-11 object-contain drop-shadow-[0_0_14px_rgba(255,46,136,0.55)]"
+            className="h-11 w-11 object-contain"
           />
           <span className="leading-none">
             <span className="block text-xl font-black tracking-[0.2em]" style={{ fontFamily: "'Frank Ruhl Libre', serif" }}>IMAGO</span>
@@ -52,7 +52,7 @@ export default function Header() {
           <Link
             to="/cart"
             data-testid="header-cart-button"
-            className="relative flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-sand transition-all hover:border-terra hover:text-terra hover:shadow-[0_0_16px_rgba(255,46,136,0.5)]"
+            className="relative flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-sand transition-all hover:border-terra hover:text-terra"
             aria-label="סל קניות"
           >
             <ShoppingBag className="h-4.5 w-4.5" />

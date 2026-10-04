@@ -12,7 +12,7 @@ export default function SpinBadge({ className }: { className?: string }) {
             <textPath href="#badge-circle">IMAGO · COLOR YOUR CHARACTER ·</textPath>
           </text>
         </svg>
-        <span className="flex h-11 w-11 items-center justify-center rounded-full bg-terra shadow-[0_0_18px_rgba(255,46,136,0.7)]">
+        <span className="flex h-11 w-11 items-center justify-center rounded-full bg-terra">
           <Sparkles className="h-5 w-5 text-white" />
         </span>
       </div>

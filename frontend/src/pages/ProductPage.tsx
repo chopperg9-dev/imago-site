@@ -67,7 +67,6 @@ export default function ProductPage() {
         <Reveal>
           <TiltCard className="group" max={6}>
             <div className="relative [transform-style:preserve-3d]">
-              <div className="pointer-events-none absolute bottom-10 left-1/2 h-20 w-3/4 -translate-x-1/2 rounded-[100%] bg-terra/40 blur-3xl" />
               <img src={product.image} alt={product.name} className="animate-float relative aspect-square w-full object-cover [mask-image:radial-gradient(ellipse_at_center,black_52%,transparent_76%)] transition-transform duration-700 group-hover:scale-105" style={{ transform: "translateZ(40px)" }} />
             </div>
           </TiltCard>

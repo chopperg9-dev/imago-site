@@ -40,7 +40,7 @@ export default function Shop() {
               onClick={() => setParams(cat.id === "all" ? {} : { cat: cat.id })}
               className={`shrink-0 rounded-full border px-5 py-2 text-sm font-medium transition-all active:scale-95 ${
                 active === cat.id
-                  ? "border-terra bg-terra text-white shadow-[0_0_18px_rgba(255,46,136,0.5)]"
+                  ? "border-terra bg-terra text-white"
                   : "border-white/15 bg-sand text-clay hover:border-terra hover:text-terra"
               }`}
             >

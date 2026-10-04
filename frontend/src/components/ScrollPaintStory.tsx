@@ -43,7 +43,7 @@ export default function ScrollPaintStory() {
           <div className="relative order-1 lg:order-2">
             <motion.div
               style={{ scale: imageScale }}
-              className="relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-[2rem] border border-white/10 shadow-[0_0_0_1px_rgba(255,46,136,0.25),0_40px_90px_-30px_rgba(255,46,136,0.45)]"
+              className="relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-[2rem] border border-white/10 shadow-[0_40px_90px_-30px_rgba(0,0,0,0.9)]"
             >
               <img src={BEFORE} alt="מלאני לפני צביעה" className="absolute inset-0 h-full w-full object-cover" draggable={false} />
               <motion.img

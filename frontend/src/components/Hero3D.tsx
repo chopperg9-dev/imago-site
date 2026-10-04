@@ -24,12 +24,9 @@ export default function Hero3D() {
 
   return (
     <div className="relative" data-testid="hero-3d-lab">
-      <div className="pointer-events-none absolute left-1/2 top-[40%] h-[26rem] w-[26rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-terra/25 blur-[110px]" />
-      <div className="pointer-events-none absolute left-[20%] top-[70%] h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-sage/20 blur-[90px]" />
-      <div className="pointer-events-none absolute bottom-[14%] left-1/2 h-10 w-2/3 -translate-x-1/2 rounded-[100%] bg-terra/40 blur-2xl" />
 
       <div className="relative aspect-[4/5] sm:aspect-[5/6]">
-        <Suspense fallback={<div className="absolute inset-0 animate-pulse rounded-full bg-sand/40 blur-2xl" />}>
+        <Suspense fallback={<div className="absolute inset-0" />}>
           <FoxModel markerHex={marker.hex} paintable spinning={progress === 0} onProgress={onProgress} apiRef={api} modelScale={1.55} modelY={-0.6} targetY={0.2} />
         </Suspense>
       </div>

@@ -31,9 +31,6 @@ export default function IntroGate() {
           exit={{ opacity: 0, scale: 1.08, filter: "blur(12px)" }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[34rem] w-[34rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-terra/25 blur-[140px]" />
-          <div className="pointer-events-none absolute left-[30%] top-[65%] h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-sage/20 blur-[110px]" />
-          <div className="pointer-events-none absolute left-[72%] top-[30%] h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-mustard/10 blur-[100px]" />
 
           <div className="relative flex items-center justify-between px-6 pt-6 sm:px-10">
             <motion.p initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="font-heading text-2xl font-black tracking-tight">
@@ -64,7 +61,7 @@ export default function IntroGate() {
             >
               היא מגיעה לבנה.
               <br />
-              <span className="text-terra drop-shadow-[0_0_28px_rgba(255,46,136,0.6)]">אתם נותנים לה צבע.</span>
+              <span className="text-terra">אתם נותנים לה צבע.</span>
             </motion.h1>
 
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9, duration: 0.8 }} className="mt-9 flex flex-col items-center gap-4">
@@ -74,9 +71,8 @@ export default function IntroGate() {
                 data-testid="intro-start-button"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="relative inline-flex items-center gap-3 rounded-full bg-terra px-12 py-5 font-heading text-lg font-black text-white shadow-[0_0_0_1px_rgba(255,46,136,0.5),0_20px_60px_-10px_rgba(255,46,136,0.8)]"
+                className="relative inline-flex items-center gap-3 rounded-full bg-terra px-12 py-5 font-heading text-lg font-black text-white shadow-[0_20px_50px_-15px_rgba(0,0,0,0.9)]"
               >
-                <span className="absolute inset-0 -z-10 animate-ping rounded-full bg-terra/40" style={{ animationDuration: "2.4s" }} />
                 START HERE
                 <ArrowDown className="h-5 w-5" />
               </motion.button>
