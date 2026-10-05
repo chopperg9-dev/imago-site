@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { useCart } from "@/lib/cart";
 import type { Product } from "@/lib/types";
 import TiltCard from "@/components/TiltCard";
+import ModelViewer from "@/components/ModelViewer";
 
 const DIFFICULTY_STYLE: Record<string, string> = {
   "קל": "text-sage-deep border-sage/40",
@@ -24,13 +25,17 @@ export default function ProductCard({ product, index = 0 }: { product: Product; 
       <article data-testid={`product-card-${product.id}`} className="relative flex h-full flex-col">
         <Link to={`/product/${product.id}`} data-testid={`product-link-${product.id}`} className="block">
           <div className="relative aspect-square [transform-style:preserve-3d]">
-            <img
-              src={product.image}
-              alt={product.name}
-              loading="lazy"
-              className="animate-float relative h-full w-full object-cover transition-transform duration-700 ease-out [mask-image:radial-gradient(ellipse_at_center,black_52%,transparent_74%)] group-hover:scale-110"
-              style={{ animationDelay: `${(index % 5) * -1.2}s`, transform: "translateZ(40px)" }}
-            />
+            {product.model ? (
+              <ModelViewer url={product.model} className="h-full w-full" testId={`product-model-${product.id}`} />
+            ) : (
+              <img
+                src={product.image}
+                alt={product.name}
+                loading="lazy"
+                className="animate-float relative h-full w-full object-cover transition-transform duration-700 ease-out [mask-image:radial-gradient(ellipse_at_center,black_52%,transparent_74%)] group-hover:scale-110"
+                style={{ animationDelay: `${(index % 5) * -1.2}s`, transform: "translateZ(40px)" }}
+              />
+            )}
             <span className={`absolute top-2 right-2 rounded-full border px-2.5 py-1 text-[11px] font-semibold ${DIFFICULTY_STYLE[product.difficulty] ?? "text-clay border-white/20"}`}>
               {product.difficulty}
             </span>

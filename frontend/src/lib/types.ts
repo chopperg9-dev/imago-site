@@ -16,6 +16,7 @@ export interface Product {
   featured: boolean;
   in_stock: boolean;
   includes: string[];
+  model?: string | null;
 }
 
 export interface SuperheroJob {

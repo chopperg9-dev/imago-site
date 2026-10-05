@@ -4,8 +4,8 @@ import { ContactShadows, Float, OrbitControls, useGLTF } from "@react-three/drei
 import { BufferAttribute, BufferGeometry, Color, Mesh, Vector3, type Group } from "three";
 import { MELANIE_PRESET, WHITE } from "@/lib/foxColors";
 
-const MODEL_URL = "/models/melanie.glb";
-useGLTF.preload(MODEL_URL);
+export const MELANIE_URL = "/models/melanie.glb";
+useGLTF.preload(MELANIE_URL);
 
 export interface FoxApi {
   reset: () => void;
@@ -20,13 +20,14 @@ interface MelanieProps {
   apiRef?: React.MutableRefObject<FoxApi | null>;
   modelScale?: number;
   modelY?: number;
+  url?: string;
 }
 
 const BRUSH = 0.055;
 const white = new Color(WHITE);
 
-function MelanieMesh({ markerHex, paintable, spinning, onProgress, apiRef, modelScale = 1.9, modelY = -0.95 }: MelanieProps) {
-  const { scene } = useGLTF(MODEL_URL);
+function MelanieMesh({ markerHex, paintable, spinning, onProgress, apiRef, modelScale = 1.9, modelY = -0.95, url = MELANIE_URL }: MelanieProps) {
+  const { scene } = useGLTF(url);
   const group = useRef<Group>(null);
   const mesh = useRef<Mesh>(null);
   const painting = useRef(false);
@@ -172,15 +173,17 @@ export default function FoxModel({
   cameraZ = 4.6,
   targetY = 0.05,
   autoRotate = false,
+  interactive = true,
+  url,
   children,
-}: Partial<MelanieProps> & { cameraZ?: number; targetY?: number; autoRotate?: boolean; children?: ReactNode }) {
+}: Partial<MelanieProps> & { cameraZ?: number; targetY?: number; autoRotate?: boolean; interactive?: boolean; children?: ReactNode }) {
   return (
     <Canvas
       shadows
       dpr={[1, 1.75]}
       camera={{ position: [1.6, 0.7, cameraZ], fov: 32 }}
       gl={{ antialias: true, alpha: true }}
-      style={{ background: "transparent", touchAction: "pan-y" }}
+      style={{ background: "transparent", touchAction: "pan-y", pointerEvents: interactive ? "auto" : "none" }}
     >
       <hemisphereLight intensity={0.5} color="#ffffff" groundColor="#0b1a3a" />
       <directionalLight position={[3, 5, 4]} intensity={2.4} castShadow shadow-mapSize={[1024, 1024]} />
@@ -190,12 +193,12 @@ export default function FoxModel({
       <pointLight position={[0, -1, 4]} intensity={6} color="#2FD8FF" />
       <Suspense fallback={null}>
         <Float speed={1.4} rotationIntensity={0.08} floatIntensity={0.35}>
-          <MelanieMesh markerHex={markerHex} paintable={paintable} spinning={spinning} onProgress={onProgress} apiRef={apiRef} modelScale={modelScale} modelY={modelY} />
+          <MelanieMesh markerHex={markerHex} paintable={paintable} spinning={spinning} onProgress={onProgress} apiRef={apiRef} modelScale={modelScale} modelY={modelY} url={url} />
         </Float>
         {children}
         <ContactShadows position={[0, (modelY ?? -0.95) - 0.03, 0]} opacity={0.6} scale={5} blur={2.4} far={2.5} color="#000" />
       </Suspense>
-      <OrbitControls enableZoom={false} enablePan={false} enableDamping dampingFactor={0.08} autoRotate={autoRotate} autoRotateSpeed={1.2} minPolarAngle={0.7} maxPolarAngle={1.8} target={[0, targetY, 0]} makeDefault />
+      <OrbitControls enabled={interactive} enableZoom={false} enablePan={false} enableDamping dampingFactor={0.08} autoRotate={autoRotate} autoRotateSpeed={1.2} minPolarAngle={0.7} maxPolarAngle={1.8} target={[0, targetY, 0]} makeDefault />
     </Canvas>
   );
 }

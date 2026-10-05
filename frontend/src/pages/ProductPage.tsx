@@ -9,6 +9,7 @@ import type { Product } from "@/lib/types";
 import ProductCard from "@/components/ProductCard";
 import { Reveal } from "@/components/Reveal";
 import TiltCard from "@/components/TiltCard";
+import ModelViewer from "@/components/ModelViewer";
 
 const DIFFICULTY_STYLE: Record<string, string> = {
   "קל": "bg-sage-soft text-sage-deep",
@@ -67,7 +68,14 @@ export default function ProductPage() {
         <Reveal>
           <TiltCard className="group" max={6}>
             <div className="relative [transform-style:preserve-3d]">
-              <img src={product.image} alt={product.name} className="animate-float relative aspect-square w-full object-cover [mask-image:radial-gradient(ellipse_at_center,black_52%,transparent_76%)] transition-transform duration-700 group-hover:scale-105" style={{ transform: "translateZ(40px)" }} />
+              {product.model ? (
+                <>
+                  <ModelViewer url={product.model} interactive className="aspect-square w-full" testId="product-model-viewer" />
+                  <p className="pointer-events-none absolute bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs text-clay-soft">גררו כדי לסובב את הבובה</p>
+                </>
+              ) : (
+                <img src={product.image} alt={product.name} className="animate-float relative aspect-square w-full object-cover [mask-image:radial-gradient(ellipse_at_center,black_52%,transparent_76%)] transition-transform duration-700 group-hover:scale-105" style={{ transform: "translateZ(40px)" }} />
+              )}
             </div>
           </TiltCard>
         </Reveal>

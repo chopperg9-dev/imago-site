@@ -44,7 +44,7 @@ KIT_INCLUDES = ["בובה לבנה מ־PLA אקולוגי", "6 טושים אקר
 PRODUCTS = [
     {"id": "melanie", "name": "מלאני", "tagline": "אוזניים ענק, זנב מטושטש, לב זהב", "category": "animals",
      "price": 119, "difficulty": "בינוני", "height_cm": 11, "featured": True, "in_stock": True,
-     "image": f"{IMG}/4ef63e567478ed3b2312943b98c2f2256715d375fa6b19ce1a55db0219e05db7.jpeg",
+     "image": f"{IMG}/4ef63e567478ed3b2312943b98c2f2256715d375fa6b19ce1a55db0219e05db7.jpeg", "model": "/models/melanie.glb",
      "description": "השועלה מהסליידר בדף הבית! פרווה עם המון שטחי צביעה — כתום, שמנת וחום שוקולד, או כל צבע שהדמיון מכתיב.", "includes": KIT_INCLUDES},
     {"id": "dino-dani", "name": "דני הדינוזאור", "tagline": "טי־רקס קטן עם לב ענק", "category": "animals",
      "price": 109, "difficulty": "קל", "height_cm": 10, "featured": True, "in_stock": True,
@@ -100,6 +100,7 @@ class Product(BaseModel):
     featured: bool
     in_stock: bool
     includes: List[str]
+    model: Optional[str] = None
 
 
 class OrderItem(BaseModel):

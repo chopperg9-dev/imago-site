@@ -19,7 +19,7 @@ import { FadeIn, HeroLine, Reveal } from "@/components/Reveal";
 
 const IMG = "https://static.prod-images.emergentagent.com/jobs/4ce74442-beb6-4a2a-a71b-521399fd659c/images";
 const SUPERHERO_SAMPLE = `${IMG}/d936f2e98a27acd331455e17d71e691ed48b3f925aad516d019a9344e562e99b.jpeg`;
-const KIT_FLOAT = `${IMG}/450ca9ca5cfe3f0e88db0ba161549722ad65480ff21b93bbdd3914fcf93b6721.jpeg`;
+const KIT_FLOAT = `${IMG}/37ac0d4ae6519c08342a503de50d200c9426a72856f54348742d0687ab2b052b.jpeg`;
 const KID_MARKERS = `${IMG}/d45dc3bc2f12b602504796f2efa3732142652eca7c4c1f92eb84de175725abb5.jpeg`;
 
 const TESTIMONIALS = [
@@ -128,7 +128,7 @@ export default function Home() {
               <TiltCard className="group" max={8}>
                 <img
                   src={KIT_FLOAT}
-                  alt="מלאני הלבנה מוקפת בטושים אקריליים מרחפים"
+                  alt="בובת חד־קרן לבנה מוקפת בטושים אקריליים מרחפים"
                   loading="lazy"
                   data-testid="kit-image"
                   className="aspect-[4/5] w-full object-cover [mask-image:radial-gradient(ellipse_at_center,black_58%,transparent_82%)] transition-transform duration-700 group-hover:scale-105"
