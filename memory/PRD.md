@@ -56,6 +56,8 @@ See /app/design_guidelines.json — ACTIVE dark "neon markers" theme (2026-10-04
 
 - Palette v3 + depth + fonts (2026-10-04): user said too pink → tokens now fox-orange primary (#FF7A1A), electric blue (#3D7BFF) ambient, cyan (#2FD8FF), lime (#D4FF4A); bg navy-black (#06070C). DepthBackground: nebula orbs, 2 parallax star-dust SVG layers, perspective grid, vignette. ScrollMarker hides (fades scale) when superhero band or footer fills >30% viewport (data-marker-visible attr); stays visible over the scroll-paint story per user. Kit section back to a photo (Melanie + floating markers, generated) — KitScene.tsx removed. Fonts: Secular One (headings), IBM Plex Sans Hebrew (body), Space Grotesk (logo). iteration_5 all pass.
 
+- Melanie 3D in products (2026-10-05): Product.model (optional GLB url) added to backend seed/schema; `ModelViewer.tsx` (wraps FoxModel with url/interactive props) renders in ProductCard (non-interactive, pointer-events none so Link works), ProductPage (interactive rotate) and home shelf. Kit photo now unicorn + floating markers (no Melanie); small photo = kid painting Dani the dino. iteration_6 all pass. For future models: add `model: '/models/<id>.glb'` to the product and drop the GLB in frontend/public/models (decimate STL with trimesh+fast-simplification, Y-up, height 1).
+
 ## Backlog
 - P0: real Meshy image-to-3D once MESHY_API_KEY provided
 - P1: 3D models for the other 8 dolls (user can upload STL/GLB per product) + paintable viewer on product pages; download/share painted Melanie snapshot; admin orders dashboard; email confirmations (Resend); auto-delete uploaded photos after 14 days (cron)

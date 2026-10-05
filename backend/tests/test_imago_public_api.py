@@ -90,6 +90,21 @@ def test_products_filter_and_single_product(session):
     assert melanie["price"] == 119
 
 
+def test_products_model_field_only_on_melanie(session):
+    """Catalog module: 'melanie' exposes model GLB path; others have null model."""
+    res = session.get(f"{API_URL}/products", timeout=30)
+    assert res.status_code == 200
+    products = {p["id"]: p for p in res.json()}
+    assert products["melanie"].get("model") == "/models/melanie.glb"
+    for pid, p in products.items():
+        if pid == "melanie":
+            continue
+        assert p.get("model") in (None, ""), f"product {pid} should not have a model, got {p.get('model')}"
+
+    melanie = session.get(f"{API_URL}/products/melanie", timeout=30).json()
+    assert melanie.get("model") == "/models/melanie.glb"
+
+
 def test_product_missing_returns_404(session):
     """Catalog module: missing product should return 404 + clear detail."""
     res = session.get(f"{API_URL}/products/not-a-real-product", timeout=30)
